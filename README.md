@@ -18,7 +18,7 @@ storage.js  負責將blockly的xml資料儲存起來的功能
   
 原理：
 在客戶端瀏覽器網址列輸入 http://macrobyte.local/blockly/demos/code/  
-連覽器會從macrobyte 下載blockly的頁面以及相關的javascript到瀏覽器
+連覽器會從macrobyte 下載blockly的頁面以及相關的javascript到瀏覽器  
 macrobyte的畫面中有下載按鈕以及上傳按鈕  
 下載按鈕會使用網頁錨點#last  
 這個錨點會啟動下載機制將最後編輯的blockly xml資料下載到瀏覽器  
