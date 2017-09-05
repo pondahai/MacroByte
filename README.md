@@ -22,8 +22,8 @@ storage.js  負責將blockly的xml資料儲存起來的功能
 macrobyte的畫面中有下載按鈕以及上傳按鈕  
 下載按鈕會使用網頁錨點#last  
 這個錨點會啟動下載機制將最後編輯的blockly xml資料下載到瀏覽器  
-上傳按鈕有兩個功能
-一個是藉由ajax上傳機制 傳送xml到 /www/cgi-bin/storage
+上傳按鈕有兩個功能  
+一個是藉由ajax上傳機制 傳送xml到 /www/cgi-bin/storage  
 功能是將現在瀏覽器中的blockly xml資料上傳到macrobyte  
 並且存放在/www/save/last檔案中  
 而舊的last檔案會另存成last.old  
