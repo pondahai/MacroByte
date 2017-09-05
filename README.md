@@ -1,4 +1,5 @@
 # 7688duo_blockly  
+<<<<<<< HEAD
 ![pic/投影片2.JPG](pic/投影片2.JPG)
 
 storageXXXX/storage 放在 /www/cgi-bin/  
@@ -34,3 +35,7 @@ blockly中的javscript程式會以POST方法
 而runPython程式會將收到的程式碼放在/root/  
 並取名為pythonCode.py  
 然後呼叫python執行這個pythonCode.py  
+=======
+![pic/投影片2.JPG](pic/投影片2.JPG)  
+將blockly程式碼直上7688內執行  
+>>>>>>> origin/master
