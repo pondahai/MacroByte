@@ -573,13 +573,6 @@ Code.uploadScript = function() {
 	Code.post('/cgi-bin/runPython', {pythonCode: code});
 	//alert(code);
   BlocklyStorage.link(Code.workspace);
-  // 不能同時上傳，因此錯開時間
-  // window.setTimeout(function() {
-  //   var xml = Blockly.Xml.workspaceToDom(Code.workspace);
-  //   var data = Blockly.Xml.domToText(xml);
-  //   console.log(data);
-  //   Code.post('/cgi-bin/storage', {xml: data});
-  // },10000);
 };
 
 /**

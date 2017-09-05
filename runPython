@@ -2,10 +2,12 @@
 import cgi
 import cgitb
 import os
-
+from os.path import expanduser
 cgitb.enable()
+home = expanduser("~")
+filePath = home+'/pythonCode.py' 
 form = cgi.FieldStorage()
-f = open('/root/pythonCode.py','w')
+f = open(filePath,'w')
 #for i in form:
 f.write(form["pythonCode"].value)
 f.close()
