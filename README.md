@@ -28,9 +28,9 @@ macrobyte的畫面中有下載按鈕以及上傳按鈕
 並且存放在/www/save/last檔案中  
 而舊的last檔案會另存成last.old  
   
-這個last錨點( http://macrobyte.local/blockly/demos/code/#last) 是Blockly內部原生機制在處理  
-在/www/cgi-bin/storage 這裡只是收到Blockly處理過的結果，以cgi的方式送來  
-原本Blockly是利用這個機制處理Blockly雲端存檔的需求，在#之後是接一組號碼，然後後台把號碼對應的xml傳給用戶端  
+這個last錨點( http://macrobyte.local/blockly/demos/code/#last) 是Blockly內部原生機制在處理  
+在/www/cgi-bin/storage 這裡只是收到Blockly處理過的結果，以cgi的方式送來  
+原本Blockly是利用這個機制處理Blockly雲端存檔的需求，在#之後是接一組號碼，然後後台把號碼對應的xml傳給用戶端  
 這裡把它改成存檔機制  
   
 上傳按鈕另一個功能是執行上傳的python程式  
