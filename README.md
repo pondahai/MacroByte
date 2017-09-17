@@ -1,8 +1,9 @@
 # MacroByte 
 ![pic/投影片2.JPG](pic/投影片2.JPG)
 
-storageXXXX/storage 放在 /www/cgi-bin/  
-runPyuthon 放在 /www/cgi-bin/  
+首先7688DUO要改名稱為「macrobyte」  
+storageXXXX/storage 放在 /www/cgi-bin/  
+runPyuthon 放在 /www/cgi-bin/  
 blockly 放在 /www/  
 在/www/ 建立 save/ 資料夾  
 MBdisplay.py 放在 /root/
