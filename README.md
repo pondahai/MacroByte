@@ -1,4 +1,4 @@
-# 7688duo_blockly  
+# MacroByte 
 ![pic/投影片2.JPG](pic/投影片2.JPG)
 
 storageXXXX/storage 放在 /www/cgi-bin/  
@@ -12,8 +12,8 @@ websocket_server.py 放在 /root/
 pip install pymata  
   
 blockly客製化的功能分別放在  
-index.html  負責blockly的主畫面以及相關按鈕與錨點的連結  
-code.js  客製化功能的javascript程式所在  
+index.html  負責blockly的主畫面以及相關按鈕  
+code.js  客製化功能的javascript程式所在與錨點的連結  
 storage.js  負責將blockly的xml資料儲存起來的功能  
   
 原理：
@@ -26,9 +26,11 @@ macrobyte的畫面中有下載按鈕以及上傳按鈕
 一個是藉由ajax上傳機制 傳送xml到 /www/cgi-bin/storage  
 功能是將現在瀏覽器中的blockly xml資料上傳到macrobyte  
 並且存放在/www/save/last檔案中  
-而舊的last檔案會另存成last.old  
+而舊的last檔案會另存成last.old  
   
-上傳按鈕另一個功能是執行上傳的python程式  
+這個last錨點( http://macrobyte.local/blockly/demos/code/#last)是Blockly內部處理的機制  
+  
+上傳按鈕另一個功能是執行上傳的python程式  
 blockly中的javscript程式會以POST方法  
 將記憶體中的程式碼上傳給 /www/cgi-bin/runPython  
 而runPython程式會將收到的程式碼放在/root/  
