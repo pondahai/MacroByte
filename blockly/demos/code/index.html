@@ -17,6 +17,7 @@
 <!--
   <script src="https://www.google.com/jsapi"></script>
     -->
+    <!--改用本地jquery-->
   <script src="jquery-3.2.1.min.js"></script>
   <script src="storage.js"></script>
   <script src="../../blockly_compressed.js"></script>
@@ -28,6 +29,24 @@
   <script src="../../dart_compressed.js"></script>
   <script src="code.js"></script>
   <script>
+    Blockly.Blocks['websocket_'] = {
+      init: function() {
+        this.appendDummyInput()
+            .appendField("Websocket Server");
+        this.appendDummyInput()
+            .appendField("message_received")
+            .appendField(new Blockly.FieldVariable("client"), "client")
+            .appendField(new Blockly.FieldVariable("server"), "server")
+            .appendField(new Blockly.FieldVariable("message"), "message");
+        this.appendStatementInput("message_received")
+            .setCheck(null);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setColour(330);
+     this.setTooltip("");
+     this.setHelpUrl("");
+      }
+    };
   Blockly.Blocks['websocket_server'] = {
   init: function() {
     this.appendDummyInput()
@@ -37,6 +56,21 @@
     this.setColour(330);
     this.setTooltip('websocket server');
     this.setHelpUrl('');
+  }
+};
+Blockly.Blocks['sleep'] = {
+  init: function() {
+    this.appendValueInput("seconds")
+        .setCheck(null)
+        .appendField("sleep");
+    this.appendDummyInput()
+        .appendField("secs");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(195);
+ this.setTooltip("");
+ this.setHelpUrl("");
   }
 };
 Blockly.Blocks['message_received'] = {
@@ -288,10 +322,9 @@ Blockly.Blocks['mt7688_pinmax'] = {
 <body>
 	
 
-<table width="100%" height="100%">
-	<tr width="100%" height="100%">	  	  
-	  <td width="80%" height="100%">
-  	<table width="100%" height="100%">   
+<table >
+	<tr >	  	  
+  	  <table width="100%" height="80%">   
     	<tr >
 			<td >
 		<!--		
@@ -307,10 +340,10 @@ Blockly.Blocks['mt7688_pinmax'] = {
         <select id="languageMenu"></select>
       </td>
     </tr>
-    <tr>
-      <td colspan=2>
-        <table width="100%">
-          <tr id="tabRow" height="1em">
+        <tr>
+          <td colspan=2>
+            <table width="100%">
+              <tr id="tabRow" height="1em">
             <td id="tab_blocks" class="tabon">...</td>
             <td class="tabmin">&nbsp;</td>
             <td id="tab_python" class="taboff">Python</td>
@@ -346,17 +379,17 @@ Blockly.Blocks['mt7688_pinmax'] = {
                 -->
             </td>
           </tr>
-        </table>
-      </td>
-    </tr>
-    <tr>
-      <td height="99%" colspan=2 id="content_area">
-      </td>
-    </tr>	
-  </table>
-</td>
-<td>
-	<table>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td height="99%" colspan=2 id="content_area">
+          </td>
+        </tr>	
+      </table>
+  </tr>
+  <tr>
+	    <table width="100%">
 		<tr>
 			<td>
 			<br>
@@ -373,15 +406,14 @@ Blockly.Blocks['mt7688_pinmax'] = {
 	  </td>
 	  </tr>
 	  <tr>
-		  <td>
+		  <td >
 			  <div class="scroll-box">
 		  <div id="log"></div>
 	  </div>
 	  </td>
 	  </tr>
 	</table>
-</td>
-</tr>
+  </tr>
 </table>
   <!--<div id="blocklyDiv" style="height: 400px"></div>-->
   <div id="content_blocks" class="content"></div>
@@ -393,15 +425,19 @@ Blockly.Blocks['mt7688_pinmax'] = {
   <textarea id="content_xml" class="content" wrap="off"></textarea>
 
   <xml id="toolbox" style="display: none">
-  <category name="MacroByte" colour="#a5a55b">
-    <block type="websocket_server"></block>
-	  <block type="message_received">
-      <field name="client">client</field>
-      <field name="server">server</field>
-      <field name="message">message</field>
-    </block>
-    <block type="server_send_message_to_all"></block>
+  <category name="System" colour="#a5a55b">
     <block type="macrobyte_init"></block>
+    <block type="websocket_"></block>
+    <block type="server_send_message_to_all"></block>
+    <block type="sleep">
+        <value name="seconds">
+        <shadow  type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <category name="GPIO" colour="#a5a55b">
     <block type="set_pin_mode">
       <field name="mode">OUTPUT</field>
       <field name="type">DIGITAL</field>
@@ -412,6 +448,8 @@ Blockly.Blocks['mt7688_pinmax'] = {
     <block type="read_pin">
       <field name="type">digital</field>
     </block>
+  </category>
+  <category name="Tone" colour="#a5a55b">
     <block type="play_tone">
       <field name="cmd">TONE_TONE</field>
       <value name="pin">
@@ -430,11 +468,23 @@ Blockly.Blocks['mt7688_pinmax'] = {
         </shadow>
       </value>
     </block>
+  </category>
+  <category name="Servo" colour="#a5a55b">
     <block type="servo_config"></block>
     <block type="servo_set"></block>
+  </category>
+<!--    
+  <category name="MacroByte" colour="#a5a55b">
+    <block type="websocket_server"></block>
+	  <block type="message_received">
+      <field name="client">client</field>
+      <field name="server">server</field>
+      <field name="message">message</field>
+    </block>
     <block type="display_clear"></block>
     <block type="plot"></block>
   </category>
+  -->
     <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
@@ -737,6 +787,8 @@ Blockly.Blocks['mt7688_pinmax'] = {
 
 <script>
     var ws;
+        
+    if(ws == undefined) setInterval(init, 1000);
     
     function init() {
 		if (ws != undefined) return;

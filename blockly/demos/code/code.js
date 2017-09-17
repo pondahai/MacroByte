@@ -625,6 +625,28 @@ Code.post = function(path, params, method) {
 /**
  *
  */
+Blockly.Python['websocket_'] = function(block) {
+  Blockly.Python.definitions_.import_websocket_server = "from websocket_server import WebsocketServer";
+  Blockly.Python.definitions_.import_thread = "import thread";
+  var variable_client = Blockly.Python.variableDB_.getName(block.getFieldValue('client'), Blockly.Variables.NAME_TYPE);
+  var variable_server = Blockly.Python.variableDB_.getName(block.getFieldValue('server'), Blockly.Variables.NAME_TYPE);
+  var variable_message = Blockly.Python.variableDB_.getName(block.getFieldValue('message'), Blockly.Variables.NAME_TYPE);
+  var statements_message_received = Blockly.Python.statementToCode(block, 'message_received');
+  // TODO: Assemble Python into code variable.
+  var code = '';
+  code += 'def message_received('+variable_client+', '+variable_server+', '+variable_message+'):\n';
+  if (statements_message_received === ""){
+  	code += '  pass';
+  }
+  code += statements_message_received+'\n';
+  code += 'server = WebsocketServer(8008,host=\'0.0.0.0\')\n';
+  code += 'server.set_fn_message_received(message_received)\n';
+  code += 'try:\n';
+  code += '  thread.start_new_thread(server.run_forever,())\n';
+  code += 'except:\n';
+  code += '  pass\n';
+  return code;
+};
 Blockly.Python['websocket_server'] = function(block) {
   Blockly.Python.definitions_.import_websocket_server = "from websocket_server import WebsocketServer";
   Blockly.Python.definitions_.import_thread = "import thread";
@@ -662,14 +684,21 @@ Blockly.Python['server_send_message_to_all'] = function(block) {
 Blockly.Python['macrobyte_init'] = function(block) {
 //  Blockly.Python.definitions_.import_pyfirmata = "from pyfirmata import Arduino, util";
   Blockly.Python.definitions_.import_pymata = "from PyMata.pymata import PyMata";
-  Blockly.Python.definitions_.import_MBdisplay = "import MBdisplay";
+//  Blockly.Python.definitions_.import_MBdisplay = "import MBdisplay";
   // TODO: Assemble Python into code variable.
   var code = 'board = PyMata(\'/dev/ttyS0\')\n';
   code += 'board.reset()\n';
   code += 'board.i2c_config(0, board.DIGITAL, 2, 3)\n';
-  code += 'MBdisplay.board=board\n';
-  code += 'MBdisplay.display_init()\n';
-  code += 'MBdisplay.display_buffer()\n';
+//  code += 'MBdisplay.board=board\n';
+//  code += 'MBdisplay.display_init()\n';
+//  code += 'MBdisplay.display_buffer()\n';
+  return code;
+};
+Blockly.Python['sleep'] = function(block) {
+  Blockly.Python.definitions_.import_time = "import time";
+  var value_seconds = Blockly.Python.valueToCode(block, 'seconds', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = 'time.sleep('+value_seconds+')\n';
   return code;
 };
 Blockly.Python['set_pin_mode'] = function(block) {
@@ -721,7 +750,7 @@ Blockly.Python['play_tone'] = function(block) {
 };
 Blockly.Python['display_clear'] = function(block) {
   // TODO: Assemble Python into code variable.
-  var code = 'MBdisplay.display_clear()\n';
+  // var code = 'MBdisplay.display_clear()\n';
   return code;
 };
 Blockly.Python['plot'] = function(block) {
@@ -729,7 +758,7 @@ Blockly.Python['plot'] = function(block) {
   var value_y = Blockly.Python.valueToCode(block, 'y', Blockly.Python.ORDER_ATOMIC);
   var value_c = Blockly.Python.valueToCode(block, 'c', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
-  var code = 'MBdisplay.plotDot('+value_x+','+value_y+','+value_c+')\n';
+  // var code = 'MBdisplay.plotDot('+value_x+','+value_y+','+value_c+')\n';
   return code;
 };
 Blockly.Python['gpio'] = function(block) {
