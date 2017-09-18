@@ -36,8 +36,8 @@ os.system("echo 1 > /sys/class/gpio/gpio3/value")
 
 
 proc = subprocess.Popen(['python','-u','/root/pythonCode.py'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-server.send_message_to_all('python is running.')
+server.send_message_to_all('python is running.\n')
 while proc.poll() is None:
   out = proc.stdout.readline()
   server.send_message_to_all(out)
-server.send_message_to_all('process stop.')
+server.send_message_to_all('process stop.\n')

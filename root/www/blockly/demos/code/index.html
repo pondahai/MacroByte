@@ -527,7 +527,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
       <field name="cmd">TONE_TONE</field>
       <value name="pin">
         <shadow  type="math_number">
-          <field name="NUM">5</field>
+          <field name="NUM">9</field>
         </shadow>
       </value>
       <value name="frequency">
@@ -893,6 +893,8 @@ Blockly.Blocks['mt7688_pinmax'] = {
 
 <script>
     var ws;
+    var wsStatus;
+    var wsErrorStatus;
         
     if(ws == undefined) setInterval(init, 1000);
     
@@ -904,6 +906,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
       // Set event handlers.
       ws.onopen = function() {
         output("onopen\n");
+        wsStatus = "open";
       };
       
       ws.onmessage = function(e) {
@@ -912,14 +915,19 @@ Blockly.Blocks['mt7688_pinmax'] = {
       };
       
       ws.onclose = function() {
-        output("onclose\n");
+        if(wsStatus != "close") output("onclose\n");
         ws = undefined;
+        wsStatus = "close";
       };
 
       ws.onerror = function(e) {
-        output("onerror\n");
-        console.log(e)
+        if(wsErrorStatus != e.code) {
+          //output("onerror\n");
+          output("error: " + e.code +"\n");
+          console.log(e)
+        }
         ws = undefined;
+        wsErrorStatus = e.code;
       };
 
     }
