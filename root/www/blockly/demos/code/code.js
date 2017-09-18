@@ -688,7 +688,7 @@ Blockly.Python['macrobyte_init'] = function(block) {
   // TODO: Assemble Python into code variable.
   var code = 'board = PyMata(\'/dev/ttyS0\')\n';
   code += 'board.reset()\n';
-  code += 'board.i2c_config(0, board.DIGITAL, 2, 3)\n';
+//  code += 'board.i2c_config(0, board.DIGITAL, 2, 3)\n';
 //  code += 'MBdisplay.board=board\n';
 //  code += 'MBdisplay.display_init()\n';
 //  code += 'MBdisplay.display_buffer()\n';
@@ -746,6 +746,20 @@ Blockly.Python['play_tone'] = function(block) {
   // TODO: Assemble Python into code variable.
   var code = 'board.play_tone('+value_pin+',board.'+dropdown_command+','+value_frequency+','+value_duration+')\n';
   //var code = '\n';
+  return code;
+};
+Blockly.Python['i2c_init'] = function(block) {
+  // TODO: Assemble Python into code variable.
+  var code = '';
+  code += 'board.i2c_config(0, board.DIGITAL, 2, 3)\n';
+  return code;
+};
+Blockly.Python['i2c_write'] = function(block) {
+  var value_addr = Blockly.Python.valueToCode(block, 'addr', Blockly.Python.ORDER_ATOMIC);
+  var value_data = Blockly.Python.valueToCode(block, 'data', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = '';
+  code += 'board.i2c_write('+value_addr+','+value_data+')\n';
   return code;
 };
 Blockly.Python['display_clear'] = function(block) {
