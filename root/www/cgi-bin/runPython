@@ -3,22 +3,25 @@ import cgi
 import cgitb
 import os
 from os.path import expanduser
-cgitb.enable()
-home = expanduser("~")
-filePath = home+'/pythonCode.py' 
-form = cgi.FieldStorage()
-f = open(filePath,'w')
-#for i in form:
-f.write(form["pythonCode"].value)
-f.close()
+import subprocess
 
-if not os.path.isdir("/sys/class/gpio/gpio3"):
-  os.system("echo 3 > /sys/class/gpio/export")
-os.system("echo 'out' > /sys/class/gpio/gpio3/direction")
-os.system("echo 0 > /sys/class/gpio/gpio3/value")
-os.system("echo 1 > /sys/class/gpio/gpio3/value")
-os.system("kill `pgrep -f pythonCode`")
-os.system("python /root/pythonCode.py&")
+cgitb.enable()
+form = cgi.FieldStorage()
+for k in form.keys():
+  if k == 'pythonCode':
+    home = expanduser("~")
+    filePath = home+'/pythonCode.py' 
+    f = open(filePath,'w')
+    #for i in form:
+    f.write(form["pythonCode"].value)
+    f.close()
+
+proc = subprocess.Popen(['pgrep','-f','monitor.py'],stdout=subprocess.PIPE)
+proc.wait()
+proc = subprocess.Popen(['kill',proc.stdout.read().rstrip('\n')])
+proc.wait()
+
+os.system("python /www/cgi-bin/monitor.py&")
 
 print "Content-Type: text/html"
 print "Location: /blockly/demos/code/"
@@ -32,3 +35,4 @@ print '  <body>'
 print '    Redirecting... <a href="/blockly/demos/code/">Click here if you are not redirected</a>'
 print '  </body>'
 print '</html>'
+

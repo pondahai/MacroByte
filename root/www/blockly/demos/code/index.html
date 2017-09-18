@@ -9,10 +9,31 @@
 	  .scroll-box {
 	      background: #f4f4f4;
 	      border: 2px solid rgba(0, 0, 0, 0.1);
-	      height: 400px; /* maximum height of the box, feel free to change this! */
+	      height: auto; /* maximum height of the box, feel free to change this! */
+        min-height: 100% !important;
 	      padding: 15px;
 	      overflow-y: scroll;
 	  }
+    textarea#log {
+    	width:100%;
+      height:100px;
+    	box-sizing:border-box;
+    	display:block;
+    	max-width:100%;
+      max-height:100px;
+    	line-height:8;
+    	border-radius:3px;
+    	border:1px solid #F7E98D;
+    	font:13px Tahoma, cursive;
+    	transition:box-shadow 0.5s ease;
+    	box-shadow:0 4px 6px rgba(0,0,0,0.1);
+    	font-smoothing:subpixel-antialiased;
+    	background:linear-gradient(#F9EFAF, #F7E98D);
+    	background:-o-linear-gradient(#F9EFAF, #F7E98D);
+    	background:-ms-linear-gradient(#F9EFAF, #F7E98D);
+    	background:-moz-linear-gradient(#F9EFAF, #F7E98D);
+    	background:-webkit-linear-gradient(#F9EFAF, #F7E98D);
+    }
 	  </style>
 <!--
   <script src="https://www.google.com/jsapi"></script>
@@ -104,7 +125,7 @@ Blockly.Blocks['server_send_message_to_all'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Macro Byte Init");
-    this.setPreviousStatement(true, null);
+    this.setPreviousStatement(false, null);
     this.setNextStatement(true, null);
     this.setColour(160);
     this.setTooltip('MacroBYTE Init.');
@@ -324,7 +345,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
 
 <table >
 	<tr >	  	  
-  	  <table width="100%" height="80%">   
+  	  <table width="100%" height="70%">   
     	<tr >
 			<td >
 		<!--		
@@ -391,25 +412,26 @@ Blockly.Blocks['mt7688_pinmax'] = {
   <tr>
 	    <table width="100%">
 		<tr>
-			<td>
-			<br>
+		<td>
+			<!--
+		  <br>
 		  <button onclick="init(); return false;">init</button>
+		  <button onclick="onCloseClick(); return false;">close</button>
+			-->
 	  </td>
 	  </tr>
 	  <tr>
-		  <td>
+		<td>
+			  <textarea id="log">
+        </textarea>
+	  </td>
+	  </tr>
+	  <tr>
+		<td >
 		  <form onsubmit="onSubmit(); return false;">
 			  <input type="text" id="input">
 			  <input type="submit" value="Send">
-			  <button onclick="onCloseClick(); return false;">close</button>
 		  </form>
-	  </td>
-	  </tr>
-	  <tr>
-		  <td >
-			  <div class="scroll-box">
-		  <div id="log"></div>
-	  </div>
 	  </td>
 	  </tr>
 	</table>
@@ -427,8 +449,10 @@ Blockly.Blocks['mt7688_pinmax'] = {
   <xml id="toolbox" style="display: none">
   <category name="System" colour="#a5a55b">
     <block type="macrobyte_init"></block>
+    <!--
     <block type="websocket_"></block>
     <block type="server_send_message_to_all"></block>
+    -->
     <block type="sleep">
         <value name="seconds">
         <shadow  type="math_number">
@@ -797,7 +821,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
 
       // Set event handlers.
       ws.onopen = function() {
-        output("onopen");
+        output("onopen\n");
       };
       
       ws.onmessage = function(e) {
@@ -806,12 +830,14 @@ Blockly.Blocks['mt7688_pinmax'] = {
       };
       
       ws.onclose = function() {
-        output("onclose");
+        output("onclose\n");
+        ws = undefined;
       };
 
       ws.onerror = function(e) {
-        output("onerror");
+        output("onerror\n");
         console.log(e)
+        ws = undefined;
       };
 
     }
@@ -827,14 +853,14 @@ Blockly.Blocks['mt7688_pinmax'] = {
     
     function onCloseClick() {
       ws.close();
-	  ws = undefined;
+	    ws = undefined;
     }
     
     function output(str) {
       var log = document.getElementById("log");
       var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
         replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
-       log.innerHTML = escaped + "<br>" + log.innerHTML;
+       log.innerHTML = escaped + "" + log.innerHTML;
     }	
 </script>  
 </body>
