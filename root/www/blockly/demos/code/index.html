@@ -266,6 +266,34 @@ Blockly.Blocks['i2c_write'] = {
  this.setHelpUrl("");
   }
 };
+Blockly.Blocks['sonar_config'] = {
+  init: function() {
+    this.appendValueInput("trigger")
+        .setCheck(null)
+        .appendField("sonar config trigger");
+    this.appendValueInput("echo")
+        .setCheck(null)
+        .appendField("echo");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+Blockly.Blocks['get_sonar_data'] = {
+  init: function() {
+    this.appendValueInput("trigger")
+        .setCheck(null)
+        .appendField("get sonar data from trigger");
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
 Blockly.Blocks['display_clear'] = {
   init: function() {
     this.appendDummyInput()
@@ -457,10 +485,11 @@ Blockly.Blocks['mt7688_pinmax'] = {
 	  </tr>
 	  <tr>
 		<td >
-		  <form onsubmit="onSubmit(); return false;">
-			  <input type="text" id="input">
-			  <input type="submit" value="Send">
-		  </form>
+      <button onclick="onSubmit(); return false;">Send</button>
+<!--		  <form onsubmit="onSubmit(); return false;"> -->
+			  <input type="text" id="input">  
+<!--			  <input type="submit" value="Send">  -->
+<!--		  </form>  -->
 	  </td>
 	  </tr>
 	</table>
@@ -578,6 +607,27 @@ Blockly.Blocks['mt7688_pinmax'] = {
         </shadow>
       </value>
     </block>
+  </category>
+  <category name="Sonar" colour="#a5a55b">
+    <block type="sonar_config">
+      <value name="trigger">
+        <shadow  type="math_number">
+          <field name="NUM">8</field>
+        </shadow>
+      </value>
+      <value name="echo">
+        <shadow  type="math_number">
+          <field name="NUM">7</field>
+        </shadow>
+      </value>
+    </block>    
+    <block type="get_sonar_data">
+      <value name="trigger">
+        <shadow  type="math_number">
+          <field name="NUM">8</field>
+        </shadow>
+      </value>
+    </block>    
   </category>
 <!--    
   <category name="MacroByte" colour="#a5a55b">

@@ -762,6 +762,21 @@ Blockly.Python['i2c_write'] = function(block) {
   code += 'board.i2c_write('+value_addr+','+value_data+')\n';
   return code;
 };
+Blockly.Python['sonar_config'] = function(block) {
+  var value_trigger = Blockly.Python.valueToCode(block, 'trigger', Blockly.Python.ORDER_ATOMIC);
+  var value_echo = Blockly.Python.valueToCode(block, 'echo', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = '';
+  code += 'board.sonar_config('+value_trigger+','+value_echo+')\n';
+  return code;
+};
+Blockly.Python['get_sonar_data'] = function(block) {
+  var value_trigger = Blockly.Python.valueToCode(block, 'trigger', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = 'board.get_sonar_data()['+value_trigger+'][1]\n';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.Python.ORDER_NONE];
+};
 Blockly.Python['display_clear'] = function(block) {
   // TODO: Assemble Python into code variable.
   // var code = 'MBdisplay.display_clear()\n';
