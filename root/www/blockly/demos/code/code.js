@@ -354,7 +354,7 @@ Code.renderContent = function() {
   }
 };
 /**
- *  
+ *
  */
 // function getFileFromServer(url, doneCallback) {
 //     var xhr;
@@ -404,7 +404,7 @@ Code.init = function() {
   // format (eg. `<category name="%{BKY_CATLOGIC}">`).
   // These message keys need to be defined in `Blockly.Msg` in order to
   // be decoded by the library. Therefore, we'll use the `MSG` dictionary that's
-  // been defined for each language to import each category name message 
+  // been defined for each language to import each category name message
   // into `Blockly.Msg`.
   // TODO: Clean up the message files so this is done explicitly instead of
   // through this for-loop.
@@ -449,7 +449,7 @@ Code.init = function() {
   //     }
   // });
   Code.loadBlocks('');
-  
+
 
   if ('BlocklyStorage' in window) {
     // Hook a save function onto unload.
@@ -487,7 +487,7 @@ Code.init = function() {
 
   // Lazy-load the syntax-highlighting.
   window.setTimeout(Code.importPrettify, 1);
-  
+
 };
 
 /**
@@ -563,7 +563,7 @@ Code.runJS = function() {
 Code.downloadScript = function() {
   window.location.replace('http://macrobyte.local/blockly/demos/code/#last');
   window.location.reload();
-  
+
 };
 /**
  *   dahai 上傳程式碼，原本要在這裡同時上傳xml
@@ -680,7 +680,7 @@ Blockly.Python['server_send_message_to_all'] = function(block) {
   // TODO: Assemble Python into code variable.
   var code = 'server.send_message_to_all('+value_message+')\n';
   return code;
-}; 
+};
 Blockly.Python['macrobyte_init'] = function(block) {
 //  Blockly.Python.definitions_.import_pyfirmata = "from pyfirmata import Arduino, util";
   Blockly.Python.definitions_.import_pymata = "from PyMata.pymata import PyMata";
@@ -724,6 +724,63 @@ Blockly.Python['read_pin'] = function(block) {
   var code = 'board.'+dropdown_type+'_read('+value_pin+')';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['servo_setup'] = function(block) {
+  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
+  switch (value_pin) {
+    case '1':
+      value_pin = 14;
+      break;
+    case '2':
+      value_pin = 15;
+      break;
+    case '3':
+      value_pin = 16;
+      break;
+    case '4':
+      value_pin = 17;
+      break;
+    case '5':
+      value_pin = 4;
+      break;
+    case '6':
+      value_pin = 7;
+      break;
+    default:
+      break;
+  }
+  // TODO: Assemble Python into code variable.
+  var code = 'board.servo_config('+value_pin+')\n';
+  return code;
+};
+Blockly.Python['servo_rotate'] = function(block) {
+  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
+  var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
+  switch (value_pin) {
+    case '1':
+      value_pin = 14;
+      break;
+    case '2':
+      value_pin = 15;
+      break;
+    case '3':
+      value_pin = 16;
+      break;
+    case '4':
+      value_pin = 17;
+      break;
+    case '5':
+      value_pin = 4;
+      break;
+    case '6':
+      value_pin = 7;
+      break;
+    default:
+      break;
+  }
+  // TODO: Assemble Python into code variable.
+  var code = 'board.analog_write('+value_pin+','+value_value+')\n';
+  return code;
 };
 Blockly.Python['servo_config'] = function(block) {
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
@@ -791,7 +848,7 @@ Blockly.Python['plot'] = function(block) {
   return code;
 };
 Blockly.Python['gpio'] = function(block) {
-  Blockly.Python.definitions_.import_os = "import os";	
+  Blockly.Python.definitions_.import_os = "import os";
   var value_port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
   var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
@@ -801,7 +858,7 @@ Blockly.Python['gpio'] = function(block) {
   return code;
 };
 Blockly.Python['mt7688_pinmax'] = function(block) {
-  Blockly.Python.definitions_.import_os = "import os";	
+  Blockly.Python.definitions_.import_os = "import os";
   var dropdown_i2c = block.getFieldValue('i2c');
   var dropdown_uart0 = block.getFieldValue('uart0');
   var dropdown_uart1 = block.getFieldValue('uart1');
@@ -816,18 +873,18 @@ Blockly.Python['mt7688_pinmax'] = function(block) {
   var dropdown_wled = block.getFieldValue('wled');
   // TODO: Assemble Python into code variable.
   var code = 'os.system(\'mt7688_pinmux set i2c '+dropdown_i2c+'\')\n';
-  code += 'os.system(\'mt7688_pinmux set uart0 '+dropdown_uart0+'\')\n'; 
-  code += 'os.system(\'mt7688_pinmux set uart1 '+dropdown_uart1+'\')\n'; 
-  code += 'os.system(\'mt7688_pinmux set uart2 '+dropdown_uart2+'\')\n'; 
-  code += 'os.system(\'mt7688_pinmux set pwm0 '+dropdown_pwm0+'\')\n'; 
-  code += 'os.system(\'mt7688_pinmux set pwm1 '+dropdown_pwm1+'\')\n'; 
-  code += 'os.system(\'mt7688_pinmux set refclk '+dropdown_refclk+'\')\n'; 
-  code += 'os.system(\'mt7688_pinmux set spi_s '+dropdown_spi_s+'\')\n'; 
-  code += 'os.system(\'mt7688_pinmux set spi_cs1 '+dropdown_spi_cs1+'\')\n'; 
-  code += 'os.system(\'mt7688_pinmux set i2s '+dropdown_i2s+'\')\n'; 
-  code += 'os.system(\'mt7688_pinmux set ephy '+dropdown_ephy+'\')\n'; 
+  code += 'os.system(\'mt7688_pinmux set uart0 '+dropdown_uart0+'\')\n';
+  code += 'os.system(\'mt7688_pinmux set uart1 '+dropdown_uart1+'\')\n';
+  code += 'os.system(\'mt7688_pinmux set uart2 '+dropdown_uart2+'\')\n';
+  code += 'os.system(\'mt7688_pinmux set pwm0 '+dropdown_pwm0+'\')\n';
+  code += 'os.system(\'mt7688_pinmux set pwm1 '+dropdown_pwm1+'\')\n';
+  code += 'os.system(\'mt7688_pinmux set refclk '+dropdown_refclk+'\')\n';
+  code += 'os.system(\'mt7688_pinmux set spi_s '+dropdown_spi_s+'\')\n';
+  code += 'os.system(\'mt7688_pinmux set spi_cs1 '+dropdown_spi_cs1+'\')\n';
+  code += 'os.system(\'mt7688_pinmux set i2s '+dropdown_i2s+'\')\n';
+  code += 'os.system(\'mt7688_pinmux set ephy '+dropdown_ephy+'\')\n';
   code += 'os.system(\'mt7688_pinmux set wled '+dropdown_wled+'\')\n';
-  code += 'os.system(\'sleep 1\')\n'; 
+  code += 'os.system(\'sleep 1\')\n';
   return code;
 };
 
