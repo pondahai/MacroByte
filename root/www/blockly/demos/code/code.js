@@ -683,6 +683,7 @@ Blockly.Python['server_send_message_to_all'] = function(block) {
 };
 Blockly.Python['macrobyte_init'] = function(block) {
 //  Blockly.Python.definitions_.import_pyfirmata = "from pyfirmata import Arduino, util";
+  Blockly.Python.definitions_.import_future_division = "from __future__ import division";
   Blockly.Python.definitions_.import_pymata = "from PyMata.pymata import PyMata";
 //  Blockly.Python.definitions_.import_MBdisplay = "import MBdisplay";
   // TODO: Assemble Python into code variable.
@@ -726,62 +727,22 @@ Blockly.Python['read_pin'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 Blockly.Python['servo_setup'] = function(block) {
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
-  switch (value_pin) {
-    case '1':
-      value_pin = 14;
-      break;
-    case '2':
-      value_pin = 15;
-      break;
-    case '3':
-      value_pin = 16;
-      break;
-    case '4':
-      value_pin = 17;
-      break;
-    case '5':
-      value_pin = 4;
-      break;
-    case '6':
-      value_pin = 7;
-      break;
-    default:
-      break;
-  }
+  var dropdown_pin = block.getFieldValue('pin');
   // TODO: Assemble Python into code variable.
-  var code = 'board.servo_config('+value_pin+')\n';
+  var code = '';
+  code += 'board.servo_config('+dropdown_pin+')\n';
   return code;
 };
+
 Blockly.Python['servo_rotate'] = function(block) {
-  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
+  var dropdown_pin = block.getFieldValue('pin');
   var value_value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
-  switch (value_pin) {
-    case '1':
-      value_pin = 14;
-      break;
-    case '2':
-      value_pin = 15;
-      break;
-    case '3':
-      value_pin = 16;
-      break;
-    case '4':
-      value_pin = 17;
-      break;
-    case '5':
-      value_pin = 4;
-      break;
-    case '6':
-      value_pin = 7;
-      break;
-    default:
-      break;
-  }
   // TODO: Assemble Python into code variable.
-  var code = 'board.analog_write('+value_pin+','+value_value+')\n';
+  var code = '';
+  code += 'board.analog_write('+dropdown_pin+','+value_value+')\n';
   return code;
 };
+
 Blockly.Python['servo_config'] = function(block) {
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
@@ -801,7 +762,7 @@ Blockly.Python['play_tone'] = function(block) {
   var value_frequency = Blockly.Python.valueToCode(block, 'frequency', Blockly.Python.ORDER_ATOMIC);
   var value_duration = Blockly.Python.valueToCode(block, 'duration', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
-  var code = 'board.play_tone('+value_pin+',board.'+dropdown_command+','+value_frequency+','+value_duration+')\n';
+  var code = 'board.play_tone('+value_pin+',board.'+dropdown_command+',int('+value_frequency+'),int('+value_duration+'))\n';
   //var code = '\n';
   return code;
 };
@@ -830,9 +791,13 @@ Blockly.Python['sonar_config'] = function(block) {
 Blockly.Python['get_sonar_data'] = function(block) {
   var value_trigger = Blockly.Python.valueToCode(block, 'trigger', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
-  var code = 'board.get_sonar_data()['+value_trigger+'][1]\n';
+  // var code = '';
+  // code += 'board.get_sonar_data()['+value_trigger+'][1][0]';
   // TODO: Change ORDER_NONE to the correct strength.
-  return [code, Blockly.Python.ORDER_NONE];
+  //return [code, Blockly.Python.ORDER_NONE];
+  var a = '';
+  a = Blockly.Python.provideFunction_("convert_sonar_data", ["def " + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + "(echo_pin):", "  result = board.get_sonar_data()[echo_pin]" , "  if isinstance(result[1],list):" , "    return result[1][0]" , "  else:" , "    return result[1]"]);
+  return [a + "(" + value_trigger +  ")", Blockly.Python.ORDER_FUNCTION_CALL]
 };
 Blockly.Python['display_clear'] = function(block) {
   // TODO: Assemble Python into code variable.
