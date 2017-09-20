@@ -8,7 +8,7 @@ from base64 import b64encode
 from hashlib import sha1
 import logging
 
-if sys.version_info[0] < 3:/Users/michael/Documents/MacroByte/root/www/cgi-bin/monitor.py
+if sys.version_info[0] < 3:
     from SocketServer import ThreadingMixIn, TCPServer, StreamRequestHandler
 else:
     from socketserver import ThreadingMixIn, TCPServer, StreamRequestHandler

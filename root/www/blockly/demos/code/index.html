@@ -217,25 +217,20 @@ Blockly.Blocks['play_tone'] = {
 Blockly.Blocks['servo_setup'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("using");
-    this.appendValueInput("pin")
-        .setCheck(null)
-        .appendField("servo");
-    this.setInputsInline(true);
+        .appendField("using servo")
+        .appendField(new Blockly.FieldDropdown([["1","14"], ["2","15"], ["3","16"], ["4","17"], ["5","4"], ["6","7"]]), "pin");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(512);
-    this.setTooltip('');
-    this.setHelpUrl('');
+ this.setTooltip("");
+ this.setHelpUrl("");
   }
 };
 Blockly.Blocks['servo_rotate'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("move");
-    this.appendValueInput("pin")
-        .setCheck(null)
-        .appendField("servo");
+        .appendField("move servo")
+        .appendField(new Blockly.FieldDropdown([["1","14"], ["2","15"], ["3","16"], ["4","17"], ["5","4"], ["6","7"]]), "pin");
     this.appendValueInput("value")
         .setCheck(null)
         .appendField("to");
@@ -245,8 +240,8 @@ Blockly.Blocks['servo_rotate'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(512);
-    this.setTooltip('');
-    this.setHelpUrl('');
+ this.setTooltip("");
+ this.setHelpUrl("");
   }
 };
 Blockly.Blocks['servo_config'] = {
