@@ -127,7 +127,7 @@ Blockly.Blocks['server_send_message_to_all'] = {
         .appendField("Macro Byte Init");
     this.setPreviousStatement(false, null);
     this.setNextStatement(true, null);
-    this.setColour(160);
+    this.setColour(512);
     this.setTooltip('MacroBYTE Init.');
     this.setHelpUrl('');
   }
@@ -135,13 +135,14 @@ Blockly.Blocks['server_send_message_to_all'] = {
 Blockly.Blocks['set_pin_mode'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("set_pin_mode")
-        .appendField("pin");
+        .appendField("make pin");
     this.appendValueInput("pin")
         .setCheck(null);
+        this.appendDummyInput()
+            .appendField("as a");
     this.appendDummyInput()
-        .appendField(new Blockly.FieldDropdown([["INPUT","INPUT"], ["OUTPUT","OUTPUT"], ["PWM","PWM"]]), "mode")
-        .appendField(new Blockly.FieldDropdown([["ANALOG","ANALOG"], ["DIGITAL","DIGITAL"]]), "type");
+        .appendField(new Blockly.FieldDropdown([["ANALOG","ANALOG"], ["DIGITAL","DIGITAL"]]), "type")
+        .appendField(new Blockly.FieldDropdown([["INPUT","INPUT"], ["OUTPUT","OUTPUT"], ["PWM","PWM"]]), "mode");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -156,10 +157,10 @@ Blockly.Blocks['write_pin'] = {
         .appendField(new Blockly.FieldDropdown([["digital","digital"], ["analog","analog"]]), "type");
     this.appendValueInput("pin")
         .setCheck(null)
-        .appendField("write pin");
+        .appendField("write to pin");
     this.appendValueInput("value")
         .setCheck(null)
-        .appendField("value");
+        .appendField("with value");
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
@@ -174,7 +175,7 @@ Blockly.Blocks['read_pin'] = {
         .appendField(new Blockly.FieldDropdown([["digital","digital"], ["analog","analog"]]), "type");
     this.appendValueInput("pin")
         .setCheck(null)
-        .appendField("read pin");
+        .appendField("read on pin");
     this.setInputsInline(true);
     this.setOutput(true, null);
     this.setColour(230);
@@ -200,6 +201,41 @@ Blockly.Blocks['play_tone'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(210);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+Blockly.Blocks['servo_setup'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("using");
+    this.appendValueInput("pin")
+        .setCheck(null)
+        .appendField("servo");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(512);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+Blockly.Blocks['servo_rotate'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("move");
+    this.appendValueInput("pin")
+        .setCheck(null)
+        .appendField("servo");
+    this.appendValueInput("value")
+        .setCheck(null)
+        .appendField("to");
+    this.appendDummyInput()
+        .appendField("degrees");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(512);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -398,21 +434,21 @@ Blockly.Blocks['mt7688_pinmax'] = {
   </script>
 </head>
 <body>
-	
+
 
 <table >
-	<tr >	  	  
-  	  <table width="100%" height="70%">   
+	<tr >
+  	  <table width="100%" height="70%">
     	<tr >
 			<td >
-		<!--		
+		<!--
       	<td style="background-image:url(logo.png);background-repeat:no-repeat;background-size:250px 42px;" width="250" height="42">
 			<h1></h1>
 		-->
 				  <h1 style="text-shadow: 2px 2px #ffffff;">Macro:
           			Byte
           		  Demo
-			  </h1> 
+			  </h1>
       		</td>
       <td class="farSide">
         <select id="languageMenu"></select>
@@ -435,7 +471,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
             <td class="tabmin">&nbsp;</td>
             <td id="tab_dart" class="taboff">Dart</td>
             <td class="tabmin">&nbsp;</td>
-			-->	
+			-->
             <td id="tab_xml" class="taboff">XML</td>
             <td class="tabmax">
               <button id="downloadScriptButton" class="notext quaternary" title="...">
@@ -463,7 +499,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
         <tr>
           <td height="99%" colspan=2 id="content_area">
           </td>
-        </tr>	
+        </tr>
       </table>
   </tr>
   <tr>
@@ -487,7 +523,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
 		<td >
       <button onclick="onSubmit(); return false;">Send</button>
 <!--		  <form onsubmit="onSubmit(); return false;"> -->
-			  <input type="text" id="input">  
+			  <input type="text" id="input">
 <!--			  <input type="submit" value="Send">  -->
 <!--		  </form>  -->
 	  </td>
@@ -505,7 +541,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
   <textarea id="content_xml" class="content" wrap="off"></textarea>
 
   <xml id="toolbox" style="display: none">
-  <category name="System" colour="#a5a55b">
+  <category name="System" colour="#000000">
     <block type="macrobyte_init"></block>
     <!--
     <block type="websocket_"></block>
@@ -571,6 +607,27 @@ Blockly.Blocks['mt7688_pinmax'] = {
       </value>
     </block>
   </category>
+  <category name="mServo" colour="#000000">
+    <block type="servo_setup">
+      <value name="pin">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="servo_rotate">
+      <value name="pin">
+        <shadow  type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="value">
+        <shadow  type="math_number">
+          <field name="NUM">180</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
   <category name="Servo" colour="#a5a55b">
     <block type="servo_config">
       <value name="pin">
@@ -620,16 +677,16 @@ Blockly.Blocks['mt7688_pinmax'] = {
           <field name="NUM">7</field>
         </shadow>
       </value>
-    </block>    
+    </block>
     <block type="get_sonar_data">
       <value name="trigger">
         <shadow  type="math_number">
           <field name="NUM">8</field>
         </shadow>
       </value>
-    </block>    
+    </block>
   </category>
-<!--    
+<!--
   <category name="MacroByte" colour="#a5a55b">
     <block type="websocket_server"></block>
 	  <block type="message_received">
@@ -684,7 +741,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
     <block type="graph_set_y" deletable="true" x="100" y="100">
       <value name="VALUE">
       </value>
-    </block>    	
+    </block>
       <block type="math_arithmetic">
         <value name="A">
           <shadow type="math_number">
@@ -945,9 +1002,9 @@ Blockly.Blocks['mt7688_pinmax'] = {
     var ws;
     var wsStatus;
     var wsErrorStatus;
-        
+
     if(ws == undefined) setInterval(init, 1000);
-    
+
     function init() {
 		if (ws != undefined) return;
       // Connect to Web Socket
@@ -958,12 +1015,12 @@ Blockly.Blocks['mt7688_pinmax'] = {
         output("onopen\n");
         wsStatus = "open";
       };
-      
+
       ws.onmessage = function(e) {
         // e.data contains received string.
         output("onmessage: " + e.data);
       };
-      
+
       ws.onclose = function() {
         if(wsStatus != "close") output("onclose\n");
         ws = undefined;
@@ -981,7 +1038,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
       };
 
     }
-    
+
     function onSubmit() {
       var input = document.getElementById("input");
       // You can send message to the Web Socket using ws.send.
@@ -990,18 +1047,18 @@ Blockly.Blocks['mt7688_pinmax'] = {
       input.value = "";
       input.focus();
     }
-    
+
     function onCloseClick() {
       ws.close();
 	    ws = undefined;
     }
-    
+
     function output(str) {
       var log = document.getElementById("log");
       var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
         replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
        log.innerHTML = escaped + "" + log.innerHTML;
-    }	
-</script>  
+    }
+</script>
 </body>
 </html>
