@@ -695,6 +695,12 @@ Blockly.Python['macrobyte_init'] = function(block) {
 //  code += 'MBdisplay.display_buffer()\n';
   return code;
 };
+Blockly.Python['start_streaming'] = function (block) {
+  Blockly.Python.definitions_.import_os = "import os";
+  var port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
+  var code = 'os.system("mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+port+' -w /www/webcam\" &")'
+  return code;
+}
 Blockly.Python['sleep'] = function(block) {
   Blockly.Python.definitions_.import_time = "import time";
   var value_seconds = Blockly.Python.valueToCode(block, 'seconds', Blockly.Python.ORDER_ATOMIC);
