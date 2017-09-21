@@ -110,7 +110,7 @@ BlocklyStorage.link = function(opt_workspace) {
   var data = Blockly.Xml.domToText(xml);
   BlocklyStorage.makeRequest_('/cgi-bin/storage', 'xml', data, workspace);
   //
-  var filename = document.getElementById('filename').value;
+  var filename = document.getElementById('projectname').value;
   var blob = new Blob([data], { type: "text/plain;charset=utf-8" });
   saveAs(blob, filename + ".xml");
   // dahai

@@ -569,10 +569,29 @@ Code.downloadScript = function() {
   fileSelector.setAttribute('name', 'files[]');
   fileSelector.click();
 
-  
+  fileSelector.addEventListener('change', handleFileSelect, false);
   
 };
+function handleFileSelect(evt) {
+   var files = evt.target.files; // FileList object
 
+   var file = files[0];
+   // 
+   var reader = new FileReader();
+   reader.onloadend = function(evt) {
+         if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+           //console.log(evt.target);
+           Code.workspace.clear();
+           var xml = Blockly.Xml.textToDom(evt.target.result);
+           Blockly.Xml.domToWorkspace(xml, Code.workspace);
+           
+         }
+       };
+
+   reader.readAsText(file);
+   var projectName = file.name.substr(0, file.name.lastIndexOf('.')) || file.name;
+   document.getElementById("projectname").setAttribute("value", projectName);
+};
 /**
  *   dahai 上傳程式碼，以及上傳xml
  */
