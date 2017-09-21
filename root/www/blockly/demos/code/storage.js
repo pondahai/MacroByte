@@ -174,11 +174,11 @@ BlocklyStorage.handleRequest_ = function() {
       } else if (BlocklyStorage.httpRequest_.name == 'key') {
         if (!data.length) {
           BlocklyStorage.alert(BlocklyStorage.HASH_ERROR.replace('%1',
-              window.location.hash));
+              window.location.hash));            
         } else {
           BlocklyStorage.loadXml_(data, BlocklyStorage.httpRequest_.workspace);
         }
-      }
+      } 
       BlocklyStorage.monitorChanges_(BlocklyStorage.httpRequest_.workspace);
     }
     BlocklyStorage.httpRequest_ = null;

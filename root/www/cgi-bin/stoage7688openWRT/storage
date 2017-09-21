@@ -1,8 +1,13 @@
 #! /usr/bin/python
 
+# This code receive from BlocklyStorage.link()
+
 import cgi
-import os
 import cgitb
+import os
+
+
+
 cgitb.enable()
 
 print "Content-type: text/plain"
@@ -20,6 +25,4 @@ for k in f.keys():
     elif k == 'key' and f.getfirst(k) == 'last':
         with open('/www/save/last', 'r') as fin:
             print fin.read()
-    elif k == "key" and f.getfirst(k) == "stop":
-        os.system("kill `pgrep -f pythonCode`")
 

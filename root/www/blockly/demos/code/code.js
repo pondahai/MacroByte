@@ -566,12 +566,13 @@ Code.downloadScript = function() {
 
 };
 /**
- *   dahai 上傳程式碼，原本要在這裡同時上傳xml
+ *   dahai 上傳程式碼，以及上傳xml
  */
 Code.uploadScript = function() {
 	var code = Blockly.Python.workspaceToCode(Code.workspace);
 	Code.post('/cgi-bin/runPython', {pythonCode: code});
 	//alert(code);
+  // save xml at the same time
   BlocklyStorage.link(Code.workspace);
 };
 
@@ -592,6 +593,7 @@ Code.discard = function() {
 /**
  *   dahai 上傳副程式
  */
+
 //function post(path, params, method) {
 Code.post = function(path, params, method) {
     method = method || "post"; // Set method to post by default if not specified.

@@ -1,4 +1,7 @@
-#!/usr/bin/python
+#! /usr/bin/python
+
+# This code receive from Code.post()
+
 import cgi
 import cgitb
 import os
@@ -6,15 +9,23 @@ from os.path import expanduser
 import subprocess
 
 cgitb.enable()
-form = cgi.FieldStorage()
-for k in form.keys():
+
+print "Content-type: text/plain"
+print
+
+print "debug"
+f = cgi.FieldStorage()
+print f
+for k in f.keys():
   if k == 'pythonCode':
     home = expanduser("~")
     filePath = home+'/pythonCode.py' 
-    f = open(filePath,'w')
+    fo = open(filePath,'w')
     #for i in form:
-    f.write(form["pythonCode"].value)
-    f.close()
+    fo.write(f.getfirst(k))
+  elif k == "key" and f.getfirst(k) == "stop":
+    os.system("kill `pgrep -f pythonCode`")
+  fo.close()
 
 proc = subprocess.Popen(['pgrep','-f','monitor.py'],stdout=subprocess.PIPE)
 proc.wait()
@@ -23,16 +34,4 @@ proc.wait()
 
 os.system("python /www/cgi-bin/monitor.py&")
 
-print "Content-Type: text/html"
-print "Location: /blockly/demos/code/"
-print
-print '<html>'
-print '  <head>'
-print '    <meta http-equiv="refresh" content="0;url=/blockly/demos/code/" />'
-print '    <title>You are going to be redirected</title>'
-print '  </head>' 
-print '  <body>'
-print '    Redirecting... <a href="/blockly/demos/code/">Click here if you are not redirected</a>'
-print '  </body>'
-print '</html>'
 
