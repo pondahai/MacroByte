@@ -133,7 +133,7 @@ Blockly.Blocks['server_send_message_to_all'] = {
     this.setHelpUrl('');
   }
 };
-  Blockly.Blocks['macrobyte_init'] = {
+Blockly.Blocks['macrobyte_init'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Mecha Byte Init");
@@ -152,6 +152,55 @@ Blockly.Blocks['start_streaming'] = {
         .setCheck(null)
         .appendField("port");
     this.setInputsInline(true);
+  }
+};
+Blockly.Blocks['car_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MechaCar init with");
+    this.appendDummyInput()
+        .appendField("DC1")
+        .appendField(new Blockly.FieldDropdown([["A","A"], ["B","B"]]), "port1")
+        .appendField("as forward and");
+    this.appendDummyInput()
+        .appendField("DC4")
+        .appendField(new Blockly.FieldDropdown([["A","A"], ["B","B"]]), "port4")
+        .appendField("as forward");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(512);
+    this.setTooltip('MechaCar Init.');
+    this.setHelpUrl('');
+  }
+};
+Blockly.Blocks['car_forward'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MechaCar forward");
+    this.appendValueInput("speed")
+        .setCheck(null)
+        .appendField("with speed");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setInputsInline(true);
+    this.setColour(512);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+Blockly.Blocks['car_backward'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MechaCar backward");
+    this.appendValueInput("speed")
+        .setCheck(null)
+        .appendField("with speed");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setInputsInline(true);
+    this.setColour(512);
+    this.setTooltip('');
+    this.setHelpUrl('');
   }
 };
 Blockly.Blocks['set_pin_mode'] = {
@@ -310,7 +359,6 @@ Blockly.Blocks['dc_spin'] = {
     this.appendDummyInput()
         .appendField("run with");
     this.appendDummyInput()
-        .appendField("")
         .appendField(new Blockly.FieldDropdown([["A","A"], ["B","B"]]), "port");
     this.appendValueInput("value")
         .setCheck(null)
@@ -604,6 +652,21 @@ Blockly.Blocks['mt7688_pinmax'] = {
       <value name="port">
         <shadow type="math_number">
           <field name="NUM">8080</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="car_init" colour="#000000"></block>
+    <block type="car_forward" colour='#000000'>
+      <value name="speed">
+        <shadow type="math_number">
+          <field name="NUM">255</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="car_backward" colour='#000000'>
+      <value name="speed">
+        <shadow type="math_number">
+          <field name="NUM">255</field>
         </shadow>
       </value>
     </block>

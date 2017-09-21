@@ -703,6 +703,50 @@ Blockly.Python['start_streaming'] = function (block) {
   var code = 'os.system("mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+port+' -w /www/webcam\" &")';
   return code;
 };
+var fwPin = [13,12,6,5];
+Blockly.Python['car_init'] = function(block) {
+  var dropdown_pin1 = block.getFieldValue('port1');
+  var dropdown_pin4 = block.getFieldValue('port4');
+  // TODO: Assemble Python into code variable.
+  var code = 'board.set_pin_mode(13,board.OUTPUT,board.ANALOG)\n';
+  code += 'board.set_pin_mode(12,board.OUTPUT,board.ANALOG)\n';
+  code += 'board.set_pin_mode(6,board.OUTPUT,board.ANALOG)\n';
+  code += 'board.set_pin_mode(5,board.OUTPUT,board.ANALOG)\n';
+
+  if(dropdown_pin1=="A"){
+    fwPin[0] = 13;
+    fwPin[1] = 12;
+  }else{
+    fwPin[0] = 12;
+    fwPin[1] = 13;
+  }
+  if(dropdown_pin4=="A"){
+    fwPin[2] = 6;
+    fwPin[3] = 5;
+  }else{
+    fwPin[2] = 5;
+    fwPin[3] = 6;
+  }
+  return code;
+};
+Blockly.Python['car_forward'] = function(block) {
+  var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = 'board.digital_write('+fwPin[1]+', 0)\n';
+  code += 'board.digital_write('+fwPin[3]+', 0)\n';
+  code += 'board.analog_write('+fwPin[0]+', '+speed+')\n';
+  code += 'board.analog_write('+fwPin[2]+', '+speed+')\n';
+  return code;
+};
+Blockly.Python['car_backward'] = function(block) {
+  var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = 'board.digital_write('+fwPin[0]+', 0)\n';
+  code += 'board.digital_write('+fwPin[2]+', 0)\n';
+  code += 'board.analog_write('+fwPin[1]+', '+speed+')\n';
+  code += 'board.analog_write('+fwPin[3]+', '+speed+')\n';
+  return code;
+};
 Blockly.Python['sleep'] = function(block) {
   Blockly.Python.definitions_.import_time = "import time";
   var value_seconds = Blockly.Python.valueToCode(block, 'seconds', Blockly.Python.ORDER_ATOMIC);
