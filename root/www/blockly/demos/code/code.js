@@ -698,9 +698,9 @@ Blockly.Python['macrobyte_init'] = function(block) {
 Blockly.Python['start_streaming'] = function (block) {
   Blockly.Python.definitions_.import_os = "import os";
   var port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
-  var code = 'os.system("mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+port+' -w /www/webcam\" &")'
+  var code = 'os.system("mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+port+' -w /www/webcam\" &")';
   return code;
-}
+};
 Blockly.Python['sleep'] = function(block) {
   Blockly.Python.definitions_.import_time = "import time";
   var value_seconds = Blockly.Python.valueToCode(block, 'seconds', Blockly.Python.ORDER_ATOMIC);
@@ -762,6 +762,42 @@ Blockly.Python['servo_set'] = function(block) {
   var code = 'board.analog_write('+value_pin+','+value_value+')\n';
   return code;
 };
+
+Blockly.Python['dc_setup'] = function(block) {
+  var dropdown_pin = block.getFieldValue('channel');
+  // TODO: Assemble Python into code variable.
+  var code = 'board.set_pin_mode('+dropdown_pin+',board.OUTPUT,board.ANALOG)\n';
+  var other_pin = (parseInt(dropdown_pin)-1);
+  if(other_pin==8){
+    code += 'board.set_pin_mode('+other_pin+',board.OUTPUT,board.DIGITAL)\n';
+  }else{
+    code += 'board.set_pin_mode('+other_pin+',board.OUTPUT,board.ANALOG)\n';
+  }
+  return code;
+};
+Blockly.Python['dc_spin'] = function(block) {
+  var dropdown_pin = block.getFieldValue('channel');
+  var dropdown_port = block.getFieldValue('port');
+  var value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var pin_a = parseInt(dropdown_pin);
+  var pin_b = pin_a - 1;
+  var code = '';
+  if(dropdown_port == "A"){
+    code += 'board.digital_write('+pin_b+', 0)\n'
+    code += 'board.analog_write('+pin_a+', '+value+')\n';
+  }else{
+    code += 'board.digital_write('+pin_a+', 0)\n'
+    if(pin_b==8){
+      value = ((value < 128) ? 0 : 255);
+      code += 'board.analog_write('+pin_b+', '+value+')\n';
+    }else{
+      code += 'board.analog_write('+pin_b+', '+value+')\n';
+    }
+  }
+  return code;
+};
+
 Blockly.Python['play_tone'] = function(block) {
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
   var dropdown_command = block.getFieldValue('cmd');
