@@ -561,10 +561,18 @@ Code.runJS = function() {
  *   dahai 下載程式碼，download the last xml
  */
 Code.downloadScript = function() {
-  window.location.replace('http://macrobyte.local/blockly/demos/code/#last');
-  window.location.reload();
+  //window.location.replace('http://macrobyte.local/blockly/demos/code/#last');
+  //window.location.reload();
+  var fileSelector = document.createElement('input');
+  fileSelector.setAttribute('type', 'file');
+  fileSelector.setAttribute('id', 'fileselect');
+  fileSelector.setAttribute('name', 'files[]');
+  fileSelector.click();
 
+  
+  
 };
+
 /**
  *   dahai 上傳程式碼，以及上傳xml
  */

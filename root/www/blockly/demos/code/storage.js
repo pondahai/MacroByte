@@ -97,6 +97,7 @@ BlocklyStorage.restoreBlocks = function(opt_workspace) {
   }
 };
 
+
 /**
  * Save blocks to database and return a link containing key to XML.
  * @param {Blockly.WorkspaceSvg=} opt_workspace Workspace.
@@ -108,7 +109,10 @@ BlocklyStorage.link = function(opt_workspace) {
   var xml = Blockly.Xml.workspaceToDom(workspace);
   var data = Blockly.Xml.domToText(xml);
   BlocklyStorage.makeRequest_('/cgi-bin/storage', 'xml', data, workspace);
-  
+  //
+  var filename = document.getElementById('filename').value;
+  var blob = new Blob([data], { type: "text/plain;charset=utf-8" });
+  saveAs(blob, filename + ".xml");
   // dahai
   // console.log(data);
   // Code.post('/cgi-bin/storage', {xml: data});
@@ -169,8 +173,8 @@ BlocklyStorage.handleRequest_ = function() {
       var data = BlocklyStorage.httpRequest_.responseText.trim();
       if (BlocklyStorage.httpRequest_.name == 'xml') {
         window.location.hash = data;
-        BlocklyStorage.alert(BlocklyStorage.LINK_ALERT.replace('%1',
-            window.location.href));
+        //BlocklyStorage.alert(BlocklyStorage.LINK_ALERT.replace('%1',
+        //    window.location.href));
       } else if (BlocklyStorage.httpRequest_.name == 'key') {
         if (!data.length) {
           BlocklyStorage.alert(BlocklyStorage.HASH_ERROR.replace('%1',
