@@ -590,7 +590,7 @@ function handleFileSelect(evt) {
 
    reader.readAsText(file);
    var projectName = file.name.substr(0, file.name.lastIndexOf('.')) || file.name;
-   document.getElementById("projectname").setAttribute("value", projectName);
+   document.getElementById("projectname").value = projectName;
 };
 /**
  *   dahai 上傳程式碼，以及上傳xml
@@ -743,10 +743,10 @@ Blockly.Python['car_init'] = function(block) {
   var dropdown_pin1 = block.getFieldValue('port1');
   var dropdown_pin4 = block.getFieldValue('port4');
   // TODO: Assemble Python into code variable.
-  var code = 'board.set_pin_mode(13,board.OUTPUT,board.ANALOG)\n';
-  code += 'board.set_pin_mode(12,board.OUTPUT,board.ANALOG)\n';
-  code += 'board.set_pin_mode(6,board.OUTPUT,board.ANALOG)\n';
-  code += 'board.set_pin_mode(5,board.OUTPUT,board.ANALOG)\n';
+  var code = 'board.set_pin_mode(12,board.PWM,board.DIGITAL)\n';
+  code += 'board.set_pin_mode(13,board.PWM,board.DIGITAL)\n';
+  code += 'board.set_pin_mode(6,board.PWM,board.DIGITAL)\n';
+  code += 'board.set_pin_mode(5,board.PWM,board.DIGITAL)\n';
 
   if(dropdown_pin1=="A"){
     fwPin[0] = 13;
@@ -767,8 +767,9 @@ Blockly.Python['car_init'] = function(block) {
 Blockly.Python['car_forward'] = function(block) {
   var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
-  var code = 'board.digital_write('+fwPin[1]+', 0)\n';
-  code += 'board.digital_write('+fwPin[3]+', 0)\n';
+  var code = ''; 
+  code += 'board.analog_write('+fwPin[1]+', 0)\n';
+  code += 'board.analog_write('+fwPin[3]+', 0)\n';
   code += 'board.analog_write('+fwPin[0]+', '+speed+')\n';
   code += 'board.analog_write('+fwPin[2]+', '+speed+')\n';
   return code;
@@ -776,8 +777,9 @@ Blockly.Python['car_forward'] = function(block) {
 Blockly.Python['car_backward'] = function(block) {
   var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
-  var code = 'board.digital_write('+fwPin[0]+', 0)\n';
-  code += 'board.digital_write('+fwPin[2]+', 0)\n';
+  var code = ''; 
+  code += 'board.analog_write('+fwPin[0]+', 0)\n';
+  code += 'board.analog_write('+fwPin[2]+', 0)\n';
   code += 'board.analog_write('+fwPin[1]+', '+speed+')\n';
   code += 'board.analog_write('+fwPin[3]+', '+speed+')\n';
   return code;
@@ -922,6 +924,7 @@ Blockly.Python['get_sonar_data'] = function(block) {
   a = Blockly.Python.provideFunction_("convert_sonar_data", ["def " + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + "(echo_pin):", "  result = board.get_sonar_data()[echo_pin]" , "  if isinstance(result[1],list):" , "    return result[1][0]" , "  else:" , "    return result[1]"]);
   return [a + "(" + value_trigger +  ")", Blockly.Python.ORDER_FUNCTION_CALL]
 };
+/*
 Blockly.Python['display_clear'] = function(block) {
   // TODO: Assemble Python into code variable.
   // var code = 'MBdisplay.display_clear()\n';
@@ -975,7 +978,7 @@ Blockly.Python['mt7688_pinmax'] = function(block) {
   code += 'os.system(\'sleep 1\')\n';
   return code;
 };
-
+*/
 // Load the Code demo's language strings.
 document.write('<script src="msg/' + Code.LANG + '.js"></script>\n');
 // Load Blockly's language strings.

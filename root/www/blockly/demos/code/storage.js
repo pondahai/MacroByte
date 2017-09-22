@@ -116,7 +116,7 @@ BlocklyStorage.link = function(opt_workspace) {
     document.getElementById('projectname').value = filename;
   }
   var blob = new Blob([data], { type: "text/plain;charset=utf-8" });
-  console.log(saveAs(blob, filename + ".xml"));
+  console.log(saveAs(blob, filename + ".mbp"));
   
   // dahai
   // console.log(data);
