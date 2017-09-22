@@ -134,6 +134,21 @@ Blockly.Blocks['server_send_message_to_all'] = {
     this.setHelpUrl('');
   }
 };
+Blockly.Blocks['mechabyte_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Mecha:Byte Init");
+    this.appendValueInput("port")
+        .setCheck(null)
+        .appendField(new Blockly.FieldCheckbox("TRUE"), "streaming_switch")
+        .appendField("start video streaming on port");
+    this.setInputsInline(false);
+    this.setNextStatement(true, null);
+    this.setColour(512);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
 Blockly.Blocks['macrobyte_init'] = {
   init: function() {
     this.appendDummyInput()
@@ -547,8 +562,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
       	<td style="background-image:url(logo.png);background-repeat:no-repeat;background-size:250px 42px;" width="250" height="42">
 			<h1></h1>
 		-->
-				  <h1 style="text-shadow: 2px 2px #ffffff;">Mecha:
-          			BYTE
+				  <h1 style="text-shadow: 2px 2px #ffffff;">Mecha:BYTE
           		  Project Name:<input type="text" id="projectname">
 			  </h1>
       		</td>
@@ -644,11 +658,18 @@ Blockly.Blocks['mt7688_pinmax'] = {
 
   <xml id="toolbox" style="display: none">
   <category name="System" colour="#000000">
-    <block type="macrobyte_init"></block>
+    <block type="mechabyte_init">
+      <value name="port">
+        <shadow type="math_number">
+          <field name="NUM">8080</field>
+        </shadow>
+      </value>
+    </block>
     <!--
     <block type="websocket_"></block>
     <block type="server_send_message_to_all"></block>
     -->
+      <!--
     <block type="start_streaming" colour='#000000'>
       <value name="port">
         <shadow type="math_number">
@@ -656,6 +677,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
         </shadow>
       </value>
     </block>
+        -->
     <block type="car_init" colour="#000000"></block>
     <block type="car_forward" colour='#000000'>
       <value name="speed">

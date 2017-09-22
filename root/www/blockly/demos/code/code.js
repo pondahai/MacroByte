@@ -710,26 +710,34 @@ Blockly.Python['server_send_message_to_all'] = function(block) {
   var code = 'server.send_message_to_all('+value_message+')\n';
   return code;
 };
-Blockly.Python['macrobyte_init'] = function(block) {
+Blockly.Python['mechabyte_init'] = function(block) {
 //  Blockly.Python.definitions_.import_pyfirmata = "from pyfirmata import Arduino, util";
   Blockly.Python.definitions_.import_future_division = "from __future__ import division";
   Blockly.Python.definitions_.import_pymata = "from PyMata.pymata import PyMata";
+  var checkbox_streaming_switch = block.getFieldValue('streaming_switch') == 'TRUE';
+  var value_port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
 //  Blockly.Python.definitions_.import_MBdisplay = "import MBdisplay";
   // TODO: Assemble Python into code variable.
   var code = 'board = PyMata(\'/dev/ttyS0\')\n';
   code += 'board.reset()\n';
+  if(checkbox_streaming_switch == true){
+    Blockly.Python.definitions_.import_os = "import os"; 
+    code += 'os.system(\'mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+value_port+' -w /www/webcam\" &\')\n';
+  }
 //  code += 'board.i2c_config(0, board.DIGITAL, 2, 3)\n';
 //  code += 'MBdisplay.board=board\n';
 //  code += 'MBdisplay.display_init()\n';
 //  code += 'MBdisplay.display_buffer()\n';
   return code;
 };
+/*
 Blockly.Python['start_streaming'] = function (block) {
   Blockly.Python.definitions_.import_os = "import os";
   var port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
   var code = 'os.system("mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+port+' -w /www/webcam\" &")';
   return code;
 };
+*/
 var fwPin = [13,12,6,5];
 Blockly.Python['car_init'] = function(block) {
   var dropdown_pin1 = block.getFieldValue('port1');

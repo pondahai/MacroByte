@@ -109,10 +109,15 @@ BlocklyStorage.link = function(opt_workspace) {
   var xml = Blockly.Xml.workspaceToDom(workspace);
   var data = Blockly.Xml.domToText(xml);
   BlocklyStorage.makeRequest_('/cgi-bin/storage', 'xml', data, workspace);
-  //
+  // write to local (FileSaver.js)
   var filename = document.getElementById('projectname').value;
+  if (filename == ""){
+    filename = prompt("Please enter your project name", "project");
+    document.getElementById('projectname').value = filename;
+  }
   var blob = new Blob([data], { type: "text/plain;charset=utf-8" });
-  saveAs(blob, filename + ".xml");
+  console.log(saveAs(blob, filename + ".xml"));
+  
   // dahai
   // console.log(data);
   // Code.post('/cgi-bin/storage', {xml: data});
