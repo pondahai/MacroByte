@@ -611,6 +611,7 @@ Code.discard = function() {
   if (count < 2 ||
       window.confirm(Blockly.Msg.DELETE_ALL_BLOCKS.replace('%1', count))) {
     Code.workspace.clear();
+		document.getElementById("projectname").value = '';
     if (window.location.hash) {
       window.location.hash = '';
     }
@@ -909,35 +910,46 @@ Blockly.Python['servo_set'] = function(block) {
 Blockly.Python['dc_setup'] = function(block) {
   var dropdown_pin = block.getFieldValue('channel');
   // TODO: Assemble Python into code variable.
-  var code = 'board.set_pin_mode('+dropdown_pin+',board.OUTPUT,board.ANALOG)\n';
-  var other_pin = (parseInt(dropdown_pin)-1);
-  if(other_pin==8){
-    code += 'board.set_pin_mode('+other_pin+',board.OUTPUT,board.DIGITAL)\n';
-  }else{
-    code += 'board.set_pin_mode('+other_pin+',board.OUTPUT,board.ANALOG)\n';
-  }
+  // var code = 'board.set_pin_mode('+dropdown_pin+',board.OUTPUT,board.ANALOG)\n';
+  // var other_pin = (parseInt(dropdown_pin)-1);
+  // if(other_pin==8){
+  //   code += 'board.set_pin_mode('+other_pin+',board.OUTPUT,board.DIGITAL)\n';
+  // }else{
+  //   code += 'board.set_pin_mode('+other_pin+',board.OUTPUT,board.ANALOG)\n';
+  // }
+	var code = '';
+	code += 'board.set_pin_mode('+dropdown_pin+',board.PWM,board.DIGITAL)\n';
+	var other_pin = (parseInt(dropdown_pin)-1);
+	code += 'board.set_pin_mode('+other_pin+',board.PWM,board.DIGITAL)\n';
   return code;
 };
 Blockly.Python['dc_spin'] = function(block) {
   var dropdown_pin = block.getFieldValue('channel');
-  var dropdown_port = block.getFieldValue('port');
+  var dropdown_polarity = block.getFieldValue('polarity');
   var value = Blockly.Python.valueToCode(block, 'value', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
   var pin_a = parseInt(dropdown_pin);
   var pin_b = pin_a - 1;
   var code = '';
-  if(dropdown_port == "A"){
-    code += 'board.digital_write('+pin_b+', 0)\n'
-    code += 'board.analog_write('+pin_a+', '+value+')\n';
-  }else{
-    code += 'board.digital_write('+pin_a+', 0)\n'
-    if(pin_b==8){
-      value = ((value < 128) ? 0 : 255);
-      code += 'board.analog_write('+pin_b+', '+value+')\n';
-    }else{
-      code += 'board.analog_write('+pin_b+', '+value+')\n';
-    }
-  }
+  // if(dropdown_polarity == "A"){
+  //   code += 'board.digital_write('+pin_b+', 0)\n'
+  //   code += 'board.analog_write('+pin_a+', '+value+')\n';
+  // }else{
+  //   code += 'board.digital_write('+pin_a+', 0)\n'
+  //   if(pin_b==8){
+  //     value = ((value < 128) ? 0 : 255);
+  //     code += 'board.analog_write('+pin_b+', '+value+')\n';
+  //   }else{
+  //     code += 'board.analog_write('+pin_b+', '+value+')\n';
+  //   }
+  // }
+	if(dropdown_polarity == "A"){
+		code += 'board.analog_write('+pin_b+', 0)\n';
+		code += 'board.analog_write('+pin_a+', '+value+')\n'
+	}else{
+		code += 'board.analog_write('+pin_a+', 0)\n';
+		code += 'board.analog_write('+pin_b+', '+value+')\n'
+	}
   return code;
 };
 
