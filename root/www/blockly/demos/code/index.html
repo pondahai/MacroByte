@@ -34,7 +34,7 @@
     	background:-moz-linear-gradient(#F9EFAF, #F7E98D);
     	background:-webkit-linear-gradient(#F9EFAF, #F7E98D);
     }
-    
+
     .projectname {
         font-size:24px;
     }
@@ -175,8 +175,8 @@ Blockly.Blocks['car_init'] = {
     this.appendDummyInput()
         .appendField("MechaCar init with");
     this.appendDummyInput()
-        .appendField("DC1")
-        .appendField(new Blockly.FieldDropdown([["A","A"], ["B","B"]]), "port1")
+        .appendField("DC2")
+        .appendField(new Blockly.FieldDropdown([["A","A"], ["B","B"]]), "port2")
         .appendField("as forward and");
     this.appendDummyInput()
         .appendField("DC4")
@@ -214,6 +214,82 @@ Blockly.Blocks['car_backward'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setInputsInline(true);
+    this.setColour(512);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+Blockly.Blocks['car_spin_left'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MechaCar turn left");
+    this.appendValueInput("speed")
+        .setCheck(null)
+        .appendField("with speed");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setInputsInline(true);
+    this.setColour(512);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+Blockly.Blocks['car_spin_right'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MechaCar turn right");
+    this.appendValueInput("speed")
+        .setCheck(null)
+        .appendField("with speed");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setInputsInline(true);
+    this.setColour(512);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+Blockly.Blocks['car_stop'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("MechaCar stop");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setInputsInline(true);
+    this.setColour(512);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+Blockly.Blocks['car_pid'] = {
+  init: function() {
+    //this.appendDummyInput()
+        //.appendField("MechaCar settle");
+    this.appendValueInput("measure")
+        .setCheck(null)
+        .appendField("MechaCar now at")
+        .setAlign(Blockly.ALIGN_RIGHT);
+    this.appendValueInput("distance")
+        .setCheck(null)
+        .appendField("and settles at")
+        .setAlign(Blockly.ALIGN_RIGHT);
+    this.appendDummyInput()
+        .appendField("using PID control");
+    this.appendValueInput("kp")
+        .setCheck(null)
+        .appendField("with Kp")
+        .setAlign(Blockly.ALIGN_RIGHT);
+    this.appendValueInput("ki")
+        .setCheck(null)
+        .appendField("Ki")
+        .setAlign(Blockly.ALIGN_RIGHT);;
+    this.appendValueInput("kd")
+        .setCheck(null)
+        .appendField("Kd")
+        .setAlign(Blockly.ALIGN_RIGHT);;
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setInputsInline(false);
     this.setColour(512);
     this.setTooltip('');
     this.setHelpUrl('');
@@ -681,20 +757,6 @@ Blockly.Blocks['mt7688_pinmax'] = {
     </block>
         -->
     <block type="car_init" colour="#000000"></block>
-    <block type="car_forward" colour='#000000'>
-      <value name="speed">
-        <shadow type="math_number">
-          <field name="NUM">255</field>
-        </shadow>
-      </value>
-    </block>
-    <block type="car_backward" colour='#000000'>
-      <value name="speed">
-        <shadow type="math_number">
-          <field name="NUM">255</field>
-        </shadow>
-      </value>
-    </block>
     <block type="sleep">
       <value name="seconds">
         <shadow  type="math_number">
@@ -788,6 +850,52 @@ Blockly.Blocks['mt7688_pinmax'] = {
       <value name="value">
         <shadow type="math_number">
           <field name="NUM">255</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="car_forward" colour='#000000'>
+      <value name="speed">
+        <shadow type="math_number">
+          <field name="NUM">255</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="car_backward" colour='#000000'>
+      <value name="speed">
+        <shadow type="math_number">
+          <field name="NUM">255</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="car_spin_left" colour='#000000'>
+      <value name="speed">
+        <shadow type="math_number">
+          <field name="NUM">255</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="car_spin_right" colour='#000000'>
+      <value name="speed">
+        <shadow type="math_number">
+          <field name="NUM">255</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="car_stop" colour="#000000"></block>
+    <block type="car_pid" colour='#000000'>
+      <value name="kp">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="ki">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="kd">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
         </shadow>
       </value>
     </block>

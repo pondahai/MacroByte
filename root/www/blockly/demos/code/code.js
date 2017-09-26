@@ -570,13 +570,13 @@ Code.downloadScript = function() {
   fileSelector.click();
 
   fileSelector.addEventListener('change', handleFileSelect, false);
-  
+
 };
 function handleFileSelect(evt) {
    var files = evt.target.files; // FileList object
 
    var file = files[0];
-   // 
+   //
    var reader = new FileReader();
    reader.onloadend = function(evt) {
          if (evt.target.readyState == FileReader.DONE) { // DONE == 2
@@ -584,7 +584,7 @@ function handleFileSelect(evt) {
            Code.workspace.clear();
            var xml = Blockly.Xml.textToDom(evt.target.result);
            Blockly.Xml.domToWorkspace(xml, Code.workspace);
-           
+
          }
        };
 
@@ -721,7 +721,7 @@ Blockly.Python['mechabyte_init'] = function(block) {
   var code = 'board = PyMata(\'/dev/ttyS0\')\n';
   code += 'board.reset()\n';
   if(checkbox_streaming_switch == true){
-    Blockly.Python.definitions_.import_os = "import os"; 
+    Blockly.Python.definitions_.import_os = "import os";
     code += 'os.system(\'mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+value_port+' -w /www/webcam\" &\')\n';
   }
 //  code += 'board.i2c_config(0, board.DIGITAL, 2, 3)\n';
@@ -738,22 +738,22 @@ Blockly.Python['start_streaming'] = function (block) {
   return code;
 };
 */
-var fwPin = [13,12,6,5];
+var fwPin = [11,10,6,5];
 Blockly.Python['car_init'] = function(block) {
-  var dropdown_pin1 = block.getFieldValue('port1');
+  var dropdown_pin2 = block.getFieldValue('port2');
   var dropdown_pin4 = block.getFieldValue('port4');
   // TODO: Assemble Python into code variable.
-  var code = 'board.set_pin_mode(12,board.PWM,board.DIGITAL)\n';
-  code += 'board.set_pin_mode(13,board.PWM,board.DIGITAL)\n';
+  var code = 'board.set_pin_mode(10,board.PWM,board.DIGITAL)\n';
+  code += 'board.set_pin_mode(11,board.PWM,board.DIGITAL)\n';
   code += 'board.set_pin_mode(6,board.PWM,board.DIGITAL)\n';
   code += 'board.set_pin_mode(5,board.PWM,board.DIGITAL)\n';
 
-  if(dropdown_pin1=="A"){
-    fwPin[0] = 13;
-    fwPin[1] = 12;
+  if(dropdown_pin2=="A"){
+    fwPin[0] = 11;
+    fwPin[1] = 10;
   }else{
-    fwPin[0] = 12;
-    fwPin[1] = 13;
+    fwPin[0] = 10;
+    fwPin[1] = 11;
   }
   if(dropdown_pin4=="A"){
     fwPin[2] = 6;
@@ -767,7 +767,7 @@ Blockly.Python['car_init'] = function(block) {
 Blockly.Python['car_forward'] = function(block) {
   var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
-  var code = ''; 
+  var code = '';
   code += 'board.analog_write('+fwPin[1]+', 0)\n';
   code += 'board.analog_write('+fwPin[3]+', 0)\n';
   code += 'board.analog_write('+fwPin[0]+', '+speed+')\n';
@@ -777,12 +777,72 @@ Blockly.Python['car_forward'] = function(block) {
 Blockly.Python['car_backward'] = function(block) {
   var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
   // TODO: Assemble Python into code variable.
-  var code = ''; 
+  var code = '';
   code += 'board.analog_write('+fwPin[0]+', 0)\n';
   code += 'board.analog_write('+fwPin[2]+', 0)\n';
   code += 'board.analog_write('+fwPin[1]+', '+speed+')\n';
   code += 'board.analog_write('+fwPin[3]+', '+speed+')\n';
   return code;
+};
+Blockly.Python['car_spin_left'] = function(block) {
+  var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = '';
+  code += 'board.analog_write('+fwPin[1]+', 0)\n';
+  code += 'board.analog_write('+fwPin[2]+', 0)\n';
+  code += 'board.analog_write('+fwPin[0]+', '+speed+')\n';
+  code += 'board.analog_write('+fwPin[3]+', '+speed+')\n';
+  return code;
+};
+Blockly.Python['car_spin_right'] = function(block) {
+  var speed = Blockly.Python.valueToCode(block, 'speed', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = '';
+  code += 'board.analog_write('+fwPin[0]+', 0)\n';
+  code += 'board.analog_write('+fwPin[3]+', 0)\n';
+  code += 'board.analog_write('+fwPin[1]+', '+speed+')\n';
+  code += 'board.analog_write('+fwPin[2]+', '+speed+')\n';
+  return code;
+};
+Blockly.Python['car_stop'] = function(block) {
+  // TODO: Assemble Python into code variable.
+  var code = '';
+  code += 'board.analog_write('+fwPin[0]+', 0)\n';
+  code += 'board.analog_write('+fwPin[3]+', 0)\n';
+  code += 'board.analog_write('+fwPin[1]+', 0)\n';
+  code += 'board.analog_write('+fwPin[2]+', 0)\n';
+  return code;
+};
+var pid_i = 0;
+var pid_pre_d = -1;
+Blockly.Python['car_pid'] = function(block) {
+  var distance = parseFloat(Blockly.Python.valueToCode(block, 'distance', Blockly.Python.ORDER_ATOMIC));
+  var measure = parseFloat(Blockly.Python.valueToCode(block, 'measure', Blockly.Python.ORDER_ATOMIC));
+  var kp = parseFloat(Blockly.Python.valueToCode(block, 'kp', Blockly.Python.ORDER_ATOMIC));
+  var ki = parseFloat(Blockly.Python.valueToCode(block, 'ki', Blockly.Python.ORDER_ATOMIC));
+  var kd = parseFloat(Blockly.Python.valueToCode(block, 'kd', Blockly.Python.ORDER_ATOMIC));
+  var err = measure-distance;
+  pid_i += err;
+  if(pid_pre_d == -1){
+    pid_pre_d = measure;
+    return '';
+  }else{
+    var cmd = Math.round(kp*err+ki*pid_i+kd*(pid_pre_d - measure));
+    var code = '';
+    if(cmd > 0){
+      code += 'board.analog_write('+fwPin[1]+', 0)\n';
+      code += 'board.analog_write('+fwPin[3]+', 0)\n';
+      code += 'board.analog_write('+fwPin[0]+', '+Math.min(cmd, 255)+')\n';
+      code += 'board.analog_write('+fwPin[2]+', '+Math.min(cmd, 255)+')\n';
+    }else{
+      cmd *= -1;
+      code += 'board.analog_write('+fwPin[0]+', 0)\n';
+      code += 'board.analog_write('+fwPin[2]+', 0)\n';
+      code += 'board.analog_write('+fwPin[1]+', '+Math.min(cmd, 255)+')\n';
+      code += 'board.analog_write('+fwPin[3]+', '+Math.min(cmd, 255)+')\n';
+    }
+    return code;
+  }
 };
 Blockly.Python['sleep'] = function(block) {
   Blockly.Python.definitions_.import_time = "import time";
