@@ -144,7 +144,7 @@ Blockly.Blocks['mechabyte_init'] = {
         .appendField("start video streaming on port");
     this.setInputsInline(false);
     this.setNextStatement(true, null);
-    this.setColour(512);
+    this.setColour(95);
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -309,7 +309,7 @@ Blockly.Blocks['set_pin_mode'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(75);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -327,7 +327,7 @@ Blockly.Blocks['write_pin'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(75);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -341,7 +341,7 @@ Blockly.Blocks['read_pin'] = {
         .appendField("read on pin");
     this.setInputsInline(true);
     this.setOutput(true, null);
-    this.setColour(230);
+    this.setColour(75);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -363,7 +363,7 @@ Blockly.Blocks['play_tone'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(210);
+    this.setColour(60);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -408,7 +408,7 @@ Blockly.Blocks['servo_config'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(20);
+    this.setColour(35);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -426,7 +426,7 @@ Blockly.Blocks['servo_set'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(20);
+    this.setColour(35);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -503,7 +503,7 @@ Blockly.Blocks['sonar_config'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(0);
+    this.setColour(270);
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -515,7 +515,7 @@ Blockly.Blocks['get_sonar_data'] = {
         .appendField("get sonar data from trigger");
     this.setInputsInline(true);
     this.setOutput(true, null);
-    this.setColour(0);
+    this.setColour(270);
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -735,7 +735,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
   <textarea id="content_xml" class="content" wrap="off"></textarea>
 
   <xml id="toolbox" style="display: none">
-  <category name="System" colour="#000000">
+  <category name="System" colour="#7BA65C">
     <block type="mechabyte_init">
       <value name="port">
         <shadow type="math_number">
@@ -756,7 +756,6 @@ Blockly.Blocks['mt7688_pinmax'] = {
       </value>
     </block>
         -->
-    <block type="car_init" colour="#000000"></block>
     <block type="sleep">
       <value name="seconds">
         <shadow  type="math_number">
@@ -765,61 +764,9 @@ Blockly.Blocks['mt7688_pinmax'] = {
       </value>
     </block>
   </category>
-  <category name="GPIO" colour="#a5a55b">
-    <block type="set_pin_mode">
-      <value name="pin">
-        <shadow  type="math_number">
-          <field name="NUM">13</field>
-        </shadow>
-      </value>
-      <field name="mode">OUTPUT</field>
-      <field name="type">DIGITAL</field>
-    </block>
-    <block type="write_pin">
-      <value name="pin">
-        <shadow  type="math_number">
-          <field name="NUM">13</field>
-        </shadow>
-      </value>
-      <value name="value">
-        <shadow  type="math_number">
-          <field name="NUM">0</field>
-        </shadow>
-      </value>
-      <field name="type">digital</field>
-    </block>
-    <block type="read_pin">
-      <value name="pin">
-        <shadow  type="math_number">
-          <field name="NUM">13</field>
-        </shadow>
-      </value>
-      <field name="type">digital</field>
-    </block>
-  </category>
-  <category name="Tone" colour="#a5a55b">
-    <block type="play_tone">
-      <field name="cmd">TONE_TONE</field>
-      <value name="pin">
-        <shadow  type="math_number">
-          <field name="NUM">9</field>
-        </shadow>
-      </value>
-      <value name="frequency">
-        <shadow  type="math_number">
-          <field name="NUM">455</field>
-        </shadow>
-      </value>
-      <value name="duration">
-        <shadow  type="math_number">
-          <field name="NUM">800</field>
-        </shadow>
-      </value>
-    </block>
-  </category>
-  <category name="mServo" colour="#000000">
-    <block type="servo_setup">
-    </block>
+  <category name="MechaCar" colour="#000000">
+    <block type="car_init" colour="#000000"></block>
+    <block type="servo_setup"></block>
     <block type="servo_rotate">
       <value name="value">
         <shadow  type="math_number">
@@ -827,8 +774,6 @@ Blockly.Blocks['mt7688_pinmax'] = {
         </shadow>
       </value>
     </block>
-  </category>
-  <category name="mDC" colour="#000000">
     <block type="dc_setup">
       <value name="channel">
         <shadow type="math_number">
@@ -900,7 +845,39 @@ Blockly.Blocks['mt7688_pinmax'] = {
       </value>
     </block>
   </category>
-  <category name="Servo" colour="#a5a55b">
+  <category name="GPIO" colour="#94a65c">
+    <block type="set_pin_mode">
+      <value name="pin">
+        <shadow  type="math_number">
+          <field name="NUM">13</field>
+        </shadow>
+      </value>
+      <field name="mode">OUTPUT</field>
+      <field name="type">DIGITAL</field>
+    </block>
+    <block type="write_pin">
+      <value name="pin">
+        <shadow  type="math_number">
+          <field name="NUM">13</field>
+        </shadow>
+      </value>
+      <value name="value">
+        <shadow  type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <field name="type">digital</field>
+    </block>
+    <block type="read_pin">
+      <value name="pin">
+        <shadow  type="math_number">
+          <field name="NUM">13</field>
+        </shadow>
+      </value>
+      <field name="type">digital</field>
+    </block>
+  </category>
+  <category name="Servo" colour="#a6875c">
     <block type="servo_config">
       <value name="pin">
         <shadow  type="math_number">
@@ -921,7 +898,27 @@ Blockly.Blocks['mt7688_pinmax'] = {
       </value>
     </block>
   </category>
-  <category name="i2c" colour="#a5a55b">
+  <category name="Tone" colour="#a5a55b">
+    <block type="play_tone">
+      <field name="cmd">TONE_TONE</field>
+      <value name="pin">
+        <shadow  type="math_number">
+          <field name="NUM">9</field>
+        </shadow>
+      </value>
+      <value name="frequency">
+        <shadow  type="math_number">
+          <field name="NUM">455</field>
+        </shadow>
+      </value>
+      <value name="duration">
+        <shadow  type="math_number">
+          <field name="NUM">800</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <category name="i2c" colour="#a65c94">
     <block type="i2c_init">
     </block>
     <block type="i2c_write">
@@ -937,7 +934,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
       </value>
     </block>
   </category>
-  <category name="Sonar" colour="#a5a55b">
+  <category name="Sonar" colour="#815ca6">
     <block type="sonar_config">
       <value name="trigger">
         <shadow  type="math_number">
