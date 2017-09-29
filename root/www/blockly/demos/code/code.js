@@ -724,6 +724,13 @@ Blockly.Python['mechabyte_init'] = function(block) {
   if(checkbox_streaming_switch == true){
     Blockly.Python.definitions_.import_os = "import os";
     code += 'os.system(\'mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+value_port+' -w /www/webcam\" &\')\n';
+//		code += 'os.popen(\'mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+value_port+' -w /www/webcam\" \').read()\n';
+//		Blockly.Python.definitions_.import_subprocess = "import subprocess";
+//		code += 'proc = subprocess.Popen(["mjpg_streamer","-i","input_uvc.so -d /dev/video0 -r 320x240 -f 25","-o","utput_http.so -p '+value_port+' -w /www/webcam\"],stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True)\n';
+//		code += '(out, err) = proc.communicate()\n';
+//		code += 'print out\n';
+//		code += 'output = subprocess.check_output(\'mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+value_port+' -w /www/webcam\" \')\n';
+//		code += 'print output\n';
   }
 //  code += 'board.i2c_config(0, board.DIGITAL, 2, 3)\n';
 //  code += 'MBdisplay.board=board\n';
