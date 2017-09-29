@@ -1267,6 +1267,12 @@ Blockly.Blocks['mt7688_pinmax'] = {
   </xml>
 
 <script>
+  $(document).keyup(function (e) {
+      if ($(".input:focus") && (e.keyCode === 13)) {
+        onSubmit();
+      }
+   });
+     
     var ws;
     var wsStatus;
     var wsErrorStatus;
@@ -1310,8 +1316,9 @@ Blockly.Blocks['mt7688_pinmax'] = {
     function onSubmit() {
       var input = document.getElementById("input");
       // You can send message to the Web Socket using ws.send.
-      ws.send(input.value);
-      output("send: " + input.value);
+      newline = input.value + "\n";
+      ws.send(newline);
+      output("send: " + newline);
       input.value = "";
       input.focus();
     }

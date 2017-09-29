@@ -13,7 +13,7 @@ def process_run(subprocess,server):
   server.send_message_to_all('process stop.')
   
 def message_received(client, server, message):
-  pass
+  server.send_message_to_all(message)
 server = WebsocketServer(8008,host='0.0.0.0')
 server.set_fn_message_received(message_received)
 try:
