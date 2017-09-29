@@ -709,8 +709,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
 	  </tr>
 	  <tr>
 		<td>
-			  <textarea id="log">
-        </textarea>
+			  <textarea id="log"></textarea>
 	  </td>
 	  </tr>
 	  <tr>
@@ -1326,7 +1325,8 @@ Blockly.Blocks['mt7688_pinmax'] = {
       var log = document.getElementById("log");
       var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
         replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
-       log.innerHTML = escaped + "" + log.innerHTML;
+       log.innerHTML = log.innerHTML + "" + escaped;
+       log.scrollTop = log.scrollHeight
     }
 </script>
 </body>
