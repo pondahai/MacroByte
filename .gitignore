@@ -17,3 +17,6 @@ root/www/cgi-bin/.DS_Store
 root/www/cgi-bin/stoage7688openWRT/.DS_Store
 root/www/cgi-bin/storageRaspberry/.DS_Store
 root/www/save/.DS_Store
+.DS_Store
+root/www/.DS_Store
+root/www/blockly/.DS_Store
