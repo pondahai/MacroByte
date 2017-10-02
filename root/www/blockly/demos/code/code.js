@@ -459,7 +459,7 @@ Code.init = function() {
 
   Code.tabClick(Code.selected);
 
-  Code.bindClick('downloadScriptButton', Code.downloadScript);
+  Code.bindClick('folderButton', Code.importScript);
   Code.bindClick('uploadScriptButton', Code.uploadScript);
   Code.bindClick('trashButton',
       function() {Code.discard(); Code.renderContent();});
@@ -533,6 +533,8 @@ Code.initLanguage = function() {
   document.getElementById('linkButton').title = MSG['linkTooltip'];
   // document.getElementById('runButton').title = MSG['runTooltip'];
   document.getElementById('trashButton').title = MSG['trashTooltip'];
+  document.getElementById('uploadScriptButton').title = MSG['uploadTooltip'];
+  document.getElementById('folderButton').title = MSG['folderTooltip'];
 };
 
 /**
@@ -560,7 +562,7 @@ Code.runJS = function() {
 /**
  *   dahai 下載程式碼，download the last xml
  */
-Code.downloadScript = function() {
+Code.importScript = function() {
   //window.location.replace('http://macrobyte.local/blockly/demos/code/#last');
   //window.location.reload();
   var fileSelector = document.createElement('input');
