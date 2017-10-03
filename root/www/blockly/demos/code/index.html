@@ -1274,43 +1274,60 @@ Blockly.Blocks['mt7688_pinmax'] = {
   </xml>
 
 <script>
+  var lastkey=0;
   $(document).keydown(function (e) {
       if ($(".input:focus") && (e.keyCode === 13)) {
         onSubmit();
       }
       if ($(".input:focus") && (e.keyCode === 37)) {
-	      newline = "KEY_LEFT_PRESS\n";
-	      ws.send(newline);
+	      newkey = "KEY_LEFT_PRESS\n";
+        if (lastkey != newkey) {
+	        ws.send(newkey);
+          lastkey = newkey;
+        }
       }
       if ($(".input:focus") && (e.keyCode === 38)) {
-	      newline = "KEY_UP_PRESS\n";
-	      ws.send(newline);
+	      if (lastkey != newkey) {
+  	      newkey = "KEY_UP_PRESS\n";
+  	      ws.send(newkey);
+          lastkey = newkey;
+	      }
       }
       if ($(".input:focus") && (e.keyCode === 39)) {
-	      newline = "KEY_RIGHT_PRESS\n";
-	      ws.send(newline);
+	      if (lastkey != newkey) {
+  	      newkey = "KEY_RIGHT_PRESS\n";
+  	      ws.send(newkey);
+          lastkey = newkey;
+	      }
       }
       if ($(".input:focus") && (e.keyCode === 40)) {
-	      newline = "KEY_DOWN_PRESS\n";
-	      ws.send(newline);
+	      if (lastkey != newkey) {
+  	      newkey = "KEY_DOWN_PRESS\n";
+  	      ws.send(newkey);
+          lastkey = newkey;
+	      }
       }
    });
    $(document).keyup(function (e) {
      if ($(".input:focus") && (e.keyCode === 37)) {
-      newline = "KEY_LEFT_UP\n";
-      ws.send(newline);
+      newkey = "KEY_LEFT_UP\n";
+      ws.send(newkey);
+      lastkey = 0;
      }
      if ($(".input:focus") && (e.keyCode === 38)) {
-      newline = "KEY_UP_UP\n";
-      ws.send(newline);
+      newkey = "KEY_UP_UP\n";
+      ws.send(newkey);
+      lastkey = 0;
      }
      if ($(".input:focus") && (e.keyCode === 39)) {
-      newline = "KEY_RIGHT_UP\n";
-      ws.send(newline);
+      newkey = "KEY_RIGHT_UP\n";
+      ws.send(newkey);
+      lastkey = 0;
      }
      if ($(".input:focus") && (e.keyCode === 40)) {
-      newline = "KEY_DOWN_UP\n";
-      ws.send(newline);
+      newkey = "KEY_DOWN_UP\n";
+      ws.send(newkey);
+      lastkey = 0;
      }
    });
 
