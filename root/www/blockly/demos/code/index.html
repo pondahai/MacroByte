@@ -993,7 +993,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
       <block type="controls_whileUntil">
         <value name="BOOL">
           <shadow type="logic_boolean">
-            <field name="BOOL">true</field>
+            <field name="BOOL">TRUE</field>
           </shadow>
         </value>
       </block>
@@ -1312,7 +1312,9 @@ Blockly.Blocks['mt7688_pinmax'] = {
           ws.send("\n");
         }
       });
-      
+      nipple.on('end', function (evt,data) {
+				ws.send("\n");
+			});
   }).on('removed', function (evt, nipple) {
       nipple.off('start move end dir plain');
   });
