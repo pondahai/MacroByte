@@ -108,16 +108,23 @@ BlocklyStorage.link = function(opt_workspace) {
   var workspace = opt_workspace || Blockly.getMainWorkspace();
   var xml = Blockly.Xml.workspaceToDom(workspace);
   var data = Blockly.Xml.domToText(xml);
+	// upload
   BlocklyStorage.makeRequest_('/cgi-bin/storage', 'xml', data, workspace);
-  // write to local (FileSaver.js)
+  // check project name
   var filename = document.getElementById('projectname').value;
   if (filename == ""){
     filename = prompt("Please enter your project name", "project");
     document.getElementById('projectname').value = filename;
   }
-  var blob = new Blob([data], { type: "text/plain;charset=utf-8" });
-  console.log(saveAs(blob, filename + ".mbp"));
-  
+	// upload project name to meta
+	// 加這一行 handleRequest會回報name:xml status = 0 ，但是0不是http status code，可能是不能密集呼叫
+	//BlocklyStorage.makeRequest_('/cgi-bin/storage', 'meta', document.getElementById('projectname').value, workspace);
+	// write to local (FileSaver.js)
+  console.log(filename);
+  if (filename != ""){
+    var blob = new Blob([data], { type: "text/plain;charset=utf-8" });
+    console.log(saveAs(blob, filename + ".mbp"));
+  }  
   // dahai
   // console.log(data);
   // Code.post('/cgi-bin/storage', {xml: data});
@@ -171,7 +178,8 @@ BlocklyStorage.makeRequest_ = function(url, name, content, workspace) {
  */
 BlocklyStorage.handleRequest_ = function() {
   if (BlocklyStorage.httpRequest_.readyState == 4) {
-    if (BlocklyStorage.httpRequest_.status != 200) {
+		console.log(BlocklyStorage.httpRequest_);
+    if (BlocklyStorage.httpRequest_.status != 200 ) {
       BlocklyStorage.alert(BlocklyStorage.HTTPREQUEST_ERROR + '\n' +
           'httpRequest_.status: ' + BlocklyStorage.httpRequest_.status);
     } else {

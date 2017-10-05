@@ -7,8 +7,11 @@
 code.uploadScript() -> code.post() ... cgi-bin/runPython
 
 原生blockly上傳機制使用 XMLHttpRequest POST方法 傳輸內容需要編碼 經測試後不適用在程式碼上傳
+link()裡面用到saveAS()做本地儲存
 ---- code.js ----            ------------------------ storage.js -------------------------
 init()(bindClick())    ---> BlocklyStorage.link()        ----> BlocklyStorage.makeRequest_() ... cgi-bin/storage
-uploadScript() _________/                                  /
+uploadScript() _________/            \_ saveAS()           /
 loadBlocks()   ----------> BlocklyStorage.retrieveXml() __/
 
+載入本地程式碼
+folderButton ---> importBlock ....> handleFileSelect

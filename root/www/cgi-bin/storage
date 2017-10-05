@@ -8,18 +8,33 @@ cgitb.enable()
 print "Content-type: text/plain"
 print
 
-os.system("cp /www/save/last /www/save/last.old")
+
 f = cgi.FieldStorage()
 
-for k in f.keys():
-    if k == 'xml':
-        print "last"
-        file = open('/www/save/last','w')
-        file.write(f.getfirst(k))
-        file.close()
-    elif k == 'key' and f.getfirst(k) == 'last':
-        with open('/www/save/last', 'r') as fin:
-            print fin.read()
-    elif k == "key" and f.getfirst(k) == "stop":
-        os.system("kill `pgrep -f pythonCode`")
+#print f
 
+for k in f.keys():
+  if k == 'xml':
+        #print "last"
+    # save xml
+    # xml = xml_content
+    os.system("cp /www/save/last /www/save/last.old")
+    file = open('/www/save/last','w')
+    file.write(f.getfirst(k))
+    file.close()
+  #elif k == 'key' and f.getfirst(k) == 'last':
+  elif k == 'key':
+    # load
+    # key = file_name
+    path_file = '/www/save/' + f.getfirst(k)
+    if os.path.isfile(path_file):
+      with open(path_file, 'r') as fin:
+        print fin.read()
+    #with open('/www/save/last', 'r') as fin:
+    #  print fin.read()
+  elif k == 'meta':
+    # save meta
+    # meta = meta_content
+    file = open('/www/save/meta','w')
+    file.write(f.getfirst(k))
+    file.close()

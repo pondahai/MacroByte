@@ -459,7 +459,7 @@ Code.init = function() {
 
   Code.tabClick(Code.selected);
 
-  Code.bindClick('folderButton', Code.importScript);
+  Code.bindClick('folderButton', Code.importBlock);
   Code.bindClick('uploadScriptButton', Code.uploadScript);
   Code.bindClick('trashButton',
       function() {Code.discard(); Code.renderContent();});
@@ -560,9 +560,9 @@ Code.runJS = function() {
 
 
 /**
- *   dahai 下載程式碼，download the last xml
+ *   dahai 載入本地程式碼，download the last xml
  */
-Code.importScript = function() {
+Code.importBlock = function() {
   //window.location.replace('http://macrobyte.local/blockly/demos/code/#last');
   //window.location.reload();
   var fileSelector = document.createElement('input');
@@ -725,7 +725,10 @@ Blockly.Python['mechabyte_init'] = function(block) {
   code += 'board.reset()\n';
   if(checkbox_streaming_switch == true){
     Blockly.Python.definitions_.import_os = "import os";
-    code += 'os.system(\'mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+value_port+' -w /www/webcam\" &\')\n';
+    Blockly.Python.definitions_.import_threading = "import threading";
+//    code += 'os.system(\'mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+value_port+' -w /www/webcam\" -b\')\n';
+		code += 't_system = threading.Thread(target=os.system,args=(\"mjpg_streamer -i \'input_uvc.so -d /dev/video0 -r 320x240 -f 25\' -o \'output_http.so -p 8080 -w /www/webcam\' \",))\n';
+		code += 't_system.start()\n';
 //		code += 'os.popen(\'mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+value_port+' -w /www/webcam\" \').read()\n';
 //		Blockly.Python.definitions_.import_subprocess = "import subprocess";
 //		code += 'proc = subprocess.Popen(["mjpg_streamer","-i","input_uvc.so -d /dev/video0 -r 320x240 -f 25","-o","utput_http.so -p '+value_port+' -w /www/webcam\"],stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True)\n';

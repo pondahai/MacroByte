@@ -724,6 +724,8 @@ Blockly.Blocks['mt7688_pinmax'] = {
 			  <input type="text" id="input">
 <!--			  <input type="submit" value="Send">  -->
 <!--		  </form>  -->
+        <button onclick="return !window.open('http://'+window.location.hostname+':'+document.getElementById('webcam_port').value, 'WebCam', 'width=500,height=500')">Open WebCam Window</button>        
+        port:<input type="text" id="webcam_port" value="8080">
 	  </td>
 	  </tr>
 	</table>
@@ -1285,7 +1287,15 @@ Blockly.Blocks['mt7688_pinmax'] = {
     color: 'black'
   };
   var joystick;
+	var message_send='';
   var manager = nipplejs.create(options);
+	var ws_message_sender_timer = window.setInterval(ws_message_sender,300);
+	function ws_message_sender(){
+		if (message_send != ''){
+			ws.send(message_send);
+			message_send = '';
+		}
+	}
   manager.on('added', function (evt, nipple) {
       nipple.on('start move end dir plain', function (evt) {
           // DO EVERYTHING
@@ -1306,19 +1316,22 @@ Blockly.Blocks['mt7688_pinmax'] = {
       nipple.on('move', function (evt,data) {
         //console.log(data.distance);
         if (data.distance > 10){
-          ws.send(joystick);
-          sleep(300);
+          //ws.send(joystick);
+          message_send = joystick;
         }else{
+					message_send = '';
           ws.send("\n");
         }
       });
       nipple.on('end', function (evt,data) {
+				message_send = '';
 				ws.send("\n");
 			});
   }).on('removed', function (evt, nipple) {
       nipple.off('start move end dir plain');
   });
-  var lastkey=0;
+  var lastkey='';
+	var newkey='';
   $(document).keydown(function (e) {
       if ($(".input:focus") && (e.keyCode === 13)) {
         onSubmit();
