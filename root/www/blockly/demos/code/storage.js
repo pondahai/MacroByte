@@ -170,6 +170,9 @@ BlocklyStorage.makeRequest_ = function(url, name, content, workspace) {
       'application/x-www-form-urlencoded');
   BlocklyStorage.httpRequest_.send(name + '=' + encodeURIComponent(content));
   BlocklyStorage.httpRequest_.workspace = workspace;
+  // loader
+  document.getElementById("loader").style.display = "block";
+  
 };
 
 /**
@@ -179,6 +182,8 @@ BlocklyStorage.makeRequest_ = function(url, name, content, workspace) {
 BlocklyStorage.handleRequest_ = function() {
   if (BlocklyStorage.httpRequest_.readyState == 4) {
 		console.log(BlocklyStorage.httpRequest_);
+    // loader
+    document.getElementById("loader").style.display = "none";
     if (BlocklyStorage.httpRequest_.status != 200 ) {
       BlocklyStorage.alert(BlocklyStorage.HTTPREQUEST_ERROR + '\n' +
           'httpRequest_.status: ' + BlocklyStorage.httpRequest_.status);

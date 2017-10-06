@@ -18,21 +18,26 @@ f = cgi.FieldStorage()
 print f
 for k in f.keys():
   if k == 'pythonCode':
+    # load up and run
     home = expanduser("~")
     filePath = home+'/pythonCode.py' 
     fo = open(filePath,'w')
     #for i in form:
     fo.write(f.getfirst(k))
-  elif k == "key" and f.getfirst(k) == "stop":
+    fo.close()
+    #
+    os.system('kill -9 `pgrep -f mjpg_streamer`')
+    proc = subprocess.Popen(['pgrep','-f','monitor.py'],stdout=subprocess.PIPE)
+    proc.wait()
+    proc = subprocess.Popen(['kill','-9',proc.stdout.read().rstrip('\n')])
+    proc.wait()
+    os.system("python /www/cgi-bin/monitor.py&")
+  elif k == "action" and f.getfirst(k) == "stop":
     os.system("kill -9 `pgrep -f pythonCode`")
-  fo.close()
-
-os.system('kill -9 `pgrep -f mjpg_streamer`')
-proc = subprocess.Popen(['pgrep','-f','monitor.py'],stdout=subprocess.PIPE)
-proc.wait()
-proc = subprocess.Popen(['kill','-9',proc.stdout.read().rstrip('\n')])
-proc.wait()
-
-os.system("python /www/cgi-bin/monitor.py&")
+  elif k == "action" and f.getfirst(k) == "stop_stream":
+    os.system('kill -9 `pgrep -f mjpg_streamer`')
+  elif k == "action" and f.getfirst(k) == "start_stream":
+    os.system("mjpg_streamer -i 'input_uvc.so -d /dev/video0 -r 320x240 -f 25' -o 'output_http.so -p 8080 -w /www/webcam' &")
+    
 
 

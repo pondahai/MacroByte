@@ -6,6 +6,10 @@
   <title>Macro:Byte</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    .button_stop {
+      background: #f40000;
+      color: #ffffff;
+    }
 	  .scroll-box {
 	      background: #f4f4f4;
 	      border: 2px solid rgba(0, 0, 0, 0.1);
@@ -46,6 +50,53 @@
         left: 80%;
         font-size:48px;
     }
+    /* Center the loader */
+    #loader {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      width: 150px;
+      height: 150px;
+      margin: -75px 0 0 -75px;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #3498db;
+      width: 120px;
+      height: 120px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Add animation to "page content" */
+    .animate-bottom {
+      position: relative;
+      -webkit-animation-name: animatebottom;
+      -webkit-animation-duration: 1s;
+      animation-name: animatebottom;
+      animation-duration: 1s
+    }
+
+    @-webkit-keyframes animatebottom {
+      from { bottom:-100px; opacity:0 } 
+      to { bottom:0px; opacity:1 }
+    }
+
+    @keyframes animatebottom { 
+      from{ bottom:-100px; opacity:0 } 
+      to{ bottom:0; opacity:1 }
+    }
+
 	  </style>
 <!--
   <script src="https://www.google.com/jsapi"></script>
@@ -64,6 +115,7 @@
   <script src="FileSaver.js"></script>
   <script src="nipplejs.min.js"></script>
   <script>
+    /*
     Blockly.Blocks['websocket_'] = {
       init: function() {
         this.appendDummyInput()
@@ -93,6 +145,7 @@
     this.setHelpUrl('');
   }
 };
+    */
 Blockly.Blocks['sleep'] = {
   init: function() {
     this.appendValueInput("seconds")
@@ -108,6 +161,7 @@ Blockly.Blocks['sleep'] = {
  this.setHelpUrl("");
   }
 };
+/*
 Blockly.Blocks['message_received'] = {
   init: function() {
     this.appendDummyInput()
@@ -135,19 +189,16 @@ Blockly.Blocks['server_send_message_to_all'] = {
     this.setHelpUrl('');
   }
 };
+*/
 Blockly.Blocks['mechabyte_init'] = {
   init: function() {
     this.appendDummyInput()
         .appendField("Mecha:Byte Init");
-    this.appendValueInput("port")
-        .setCheck(null)
-        .appendField(new Blockly.FieldCheckbox("TRUE"), "streaming_switch")
-        .appendField("start video streaming on port");
-    this.setInputsInline(false);
+    this.setPreviousStatement(false, null);
     this.setNextStatement(true, null);
     this.setColour(95);
- this.setTooltip("");
- this.setHelpUrl("");
+    this.setTooltip("");
+    this.setHelpUrl("");
   }
 };
 Blockly.Blocks['macrobyte_init'] = {
@@ -628,6 +679,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
 </head>
 <body>
 
+<div id="loader"></div>
 
 <table >
 	<tr >
@@ -724,8 +776,11 @@ Blockly.Blocks['mt7688_pinmax'] = {
 			  <input type="text" id="input">
 <!--			  <input type="submit" value="Send">  -->
 <!--		  </form>  -->
+        <button id="start_stream">Start Stream</button>
         <button onclick="return !window.open('http://'+window.location.hostname+':'+document.getElementById('webcam_port').value, 'WebCam', 'width=500,height=500')">Open WebCam Window</button>        
-        port:<input type="text" id="webcam_port" value="8080">
+        port:<input type="text" id="webcam_port" value="8080" disabled>
+        <button id="stop_stream">Stop Stream</button>
+        <button id="stop_program" class="button_stop">STOP Program</button>
 	  </td>
 	  </tr>
 	</table>
@@ -743,26 +798,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
 
   <xml id="toolbox" style="display: none">
   <category name="System" colour="#7BA65C">
-    <block type="mechabyte_init">
-      <value name="port">
-        <shadow type="math_number">
-          <field name="NUM">8080</field>
-        </shadow>
-      </value>
-    </block>
-    <!--
-    <block type="websocket_"></block>
-    <block type="server_send_message_to_all"></block>
-    -->
-      <!--
-    <block type="start_streaming" colour='#000000'>
-      <value name="port">
-        <shadow type="math_number">
-          <field name="NUM">8080</field>
-        </shadow>
-      </value>
-    </block>
-        -->
+    <block type="mechabyte_init"></block>
     <block type="sleep">
       <value name="seconds">
         <shadow  type="math_number">
@@ -1296,6 +1332,9 @@ Blockly.Blocks['mt7688_pinmax'] = {
 			message_send = '';
 		}
 	}
+  // loader
+  document.getElementById("loader").style.display = "none";
+  
   manager.on('added', function (evt, nipple) {
       nipple.on('start move end dir plain', function (evt) {
           // DO EVERYTHING

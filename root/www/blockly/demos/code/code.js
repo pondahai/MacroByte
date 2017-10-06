@@ -464,6 +464,9 @@ Code.init = function() {
   Code.bindClick('trashButton',
       function() {Code.discard(); Code.renderContent();});
   // Code.bindClick('runButton', Code.runJS);
+  Code.bindClick('start_stream', Code.startStream);
+  Code.bindClick('stop_stream', Code.stopStream);
+  Code.bindClick('stop_program', Code.stopProgram);
   // Disable the link button if page isn't backed by App Engine storage.
   var linkButton = document.getElementById('linkButton');
   if ('BlocklyStorage' in window) {
@@ -558,7 +561,22 @@ Code.runJS = function() {
   }
 };
 
-
+/**
+ *
+ *
+ */
+Code.startStream = function() {
+  var workspace =  Blockly.getMainWorkspace();
+  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'start_stream', workspace);  
+}
+Code.stopStream = function() {
+  var workspace =  Blockly.getMainWorkspace();
+  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'stop_stream', workspace);  
+}
+Code.stopProgram = function() {
+  var workspace =  Blockly.getMainWorkspace();
+  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'stop', workspace);  
+}
 /**
  *   dahai 載入本地程式碼，download the last xml
  */
@@ -717,18 +735,21 @@ Blockly.Python['mechabyte_init'] = function(block) {
 //  Blockly.Python.definitions_.import_pyfirmata = "from pyfirmata import Arduino, util";
   Blockly.Python.definitions_.import_future_division = "from __future__ import division";
   Blockly.Python.definitions_.import_pymata = "from PyMata.pymata import PyMata";
-  var checkbox_streaming_switch = block.getFieldValue('streaming_switch') == 'TRUE';
-  var value_port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
+//  var checkbox_streaming_switch = block.getFieldValue('streaming_switch') == 'TRUE';
+//  var value_port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
 //  Blockly.Python.definitions_.import_MBdisplay = "import MBdisplay";
   // TODO: Assemble Python into code variable.
   var code = 'board = PyMata(\'/dev/ttyS0\')\n';
   code += 'board.reset()\n';
-  if(checkbox_streaming_switch == true){
-    Blockly.Python.definitions_.import_os = "import os";
-    Blockly.Python.definitions_.import_threading = "import threading";
+//  if(checkbox_streaming_switch == true){
+//    Blockly.Python.definitions_.import_os = "import os";
+//    Blockly.Python.definitions_.import_threading = "import threading";
 //    code += 'os.system(\'mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+value_port+' -w /www/webcam\" -b\')\n';
-		code += 't_system = threading.Thread(target=os.system,args=(\"mjpg_streamer -i \'input_uvc.so -d /dev/video0 -r 320x240 -f 25\' -o \'output_http.so -p 8080 -w /www/webcam\' \",))\n';
-		code += 't_system.start()\n';
+
+//		code += 't_system = threading.Thread(target=os.system,args=(\"mjpg_streamer -i \'input_uvc.so -d /dev/video0 -r 320x240 -f 25\' -o \'output_http.so -p 8080 -w /www/webcam\' \",))\n';
+//		code += 't_system.start()\n';
+    
+    
 //		code += 'os.popen(\'mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+value_port+' -w /www/webcam\" \').read()\n';
 //		Blockly.Python.definitions_.import_subprocess = "import subprocess";
 //		code += 'proc = subprocess.Popen(["mjpg_streamer","-i","input_uvc.so -d /dev/video0 -r 320x240 -f 25","-o","utput_http.so -p '+value_port+' -w /www/webcam\"],stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True)\n';
@@ -736,7 +757,9 @@ Blockly.Python['mechabyte_init'] = function(block) {
 //		code += 'print out\n';
 //		code += 'output = subprocess.check_output(\'mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+value_port+' -w /www/webcam\" \')\n';
 //		code += 'print output\n';
-  }
+
+//  }
+
 //  code += 'board.i2c_config(0, board.DIGITAL, 2, 3)\n';
 //  code += 'MBdisplay.board=board\n';
 //  code += 'MBdisplay.display_init()\n';
