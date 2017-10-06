@@ -606,16 +606,18 @@ function handleFileSelect(evt) {
    reader.onloadend = function(evt) {
          if (evt.target.readyState == FileReader.DONE) { // DONE == 2
            //console.log(evt.target);
-           Code.workspace.clear();
-           var xml = Blockly.Xml.textToDom(evt.target.result);
-           Blockly.Xml.domToWorkspace(xml, Code.workspace);
-
+           BlocklyStorage.loadXml_(evt.target.result, Code.workspace);
+           //Code.workspace.clear();
+           //var xml = Blockly.Xml.textToDom(evt.target.result);
+           //Blockly.Xml.domToWorkspace(xml, Code.workspace);
+           
+           var projectName = file.name.substr(0, file.name.lastIndexOf('.')) || file.name;
+           document.getElementById("projectname").value = projectName;
+           BlocklyStorage.monitorChanges_(Code.workspace);
          }
        };
 
    reader.readAsText(file);
-   var projectName = file.name.substr(0, file.name.lastIndexOf('.')) || file.name;
-   document.getElementById("projectname").value = projectName;
 };
 /**
  *   dahai 上傳程式碼，以及上傳xml

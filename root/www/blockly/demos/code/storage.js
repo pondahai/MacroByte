@@ -200,7 +200,9 @@ BlocklyStorage.handleRequest_ = function() {
         } else {
           BlocklyStorage.loadXml_(data, BlocklyStorage.httpRequest_.workspace);
         }
-      } 
+      } else if (BlocklyStorage.httpRequest_.name == 'action') {
+        output(data + '\n');
+      }
       BlocklyStorage.monitorChanges_(BlocklyStorage.httpRequest_.workspace);
     }
     BlocklyStorage.httpRequest_ = null;
@@ -221,6 +223,7 @@ BlocklyStorage.monitorChanges_ = function(workspace) {
     var xmlDom = Blockly.Xml.workspaceToDom(workspace);
     var xmlText = Blockly.Xml.domToText(xmlDom);
     if (startXmlText != xmlText) {
+      console.log("change() is happening");
       window.location.hash = '';
       workspace.removeChangeListener(bindData);
     }
