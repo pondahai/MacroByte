@@ -466,6 +466,7 @@ Code.init = function() {
   // Code.bindClick('runButton', Code.runJS);
   Code.bindClick('start_stream', Code.startStream);
   Code.bindClick('stop_stream', Code.stopStream);
+  Code.bindClick('run_program', Code.runProgram);
   Code.bindClick('stop_program', Code.stopProgram);
   // Disable the link button if page isn't backed by App Engine storage.
   var linkButton = document.getElementById('linkButton');
@@ -572,6 +573,10 @@ Code.startStream = function() {
 Code.stopStream = function() {
   var workspace =  Blockly.getMainWorkspace();
   BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'stop_stream', workspace);  
+}
+Code.runProgram = function() {
+  var workspace =  Blockly.getMainWorkspace();
+  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'run', workspace);  
 }
 Code.stopProgram = function() {
   var workspace =  Blockly.getMainWorkspace();

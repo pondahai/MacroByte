@@ -6,6 +6,10 @@
   <title>Macro:Byte</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    .button_run {
+      background: #0000f4;
+      color: #ffffff;
+    }
     .button_stop {
       background: #f40000;
       color: #ffffff;
@@ -780,7 +784,8 @@ Blockly.Blocks['mt7688_pinmax'] = {
         <button onclick="return !window.open('http://'+window.location.hostname+':8080', 'WebCam', 'width=500,height=500')">Open WebCam Window</button>        
 <!--        port:<input type="text" id="webcam_port" value="8080" disabled> -->
         <button id="stop_stream">Stop Stream</button>
-        <button id="stop_program" class="button_stop">STOP Program</button>
+        <button id="run_program" class="button_run secondary">RUN</button>
+        <button id="stop_program" class="button_stop">STOP</button>
 	  </td>
 	  </tr>
 	</table>

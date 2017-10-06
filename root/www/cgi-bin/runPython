@@ -31,7 +31,15 @@ for k in f.keys():
     proc.wait()
     proc = subprocess.Popen(['kill','-9',proc.stdout.read().rstrip('\n')])
     proc.wait()
-    os.system("python /www/cgi-bin/monitor.py&")
+    os.system("python /www/cgi-bin/monitor.py &")
+  elif k == "action" and f.getfirst(k) == "run":
+    #
+    os.system('kill -9 `pgrep -f mjpg_streamer`')
+    proc = subprocess.Popen(['pgrep','-f','monitor.py'],stdout=subprocess.PIPE)
+    proc.wait()
+    proc = subprocess.Popen(['kill','-9',proc.stdout.read().rstrip('\n')])
+    proc.wait()
+    os.system("python /www/cgi-bin/monitor.py &")
   elif k == "action" and f.getfirst(k) == "stop":
     os.system("kill -9 `pgrep -f pythonCode`")
   elif k == "action" and f.getfirst(k) == "stop_stream":
