@@ -777,8 +777,8 @@ Blockly.Blocks['mt7688_pinmax'] = {
 <!--			  <input type="submit" value="Send">  -->
 <!--		  </form>  -->
         <button id="start_stream">Start Stream</button>
-        <button onclick="return !window.open('http://'+window.location.hostname+':'+document.getElementById('webcam_port').value, 'WebCam', 'width=500,height=500')">Open WebCam Window</button>        
-        port:<input type="text" id="webcam_port" value="8080" disabled>
+        <button onclick="return !window.open('http://'+window.location.hostname+':8080', 'WebCam', 'width=500,height=500')">Open WebCam Window</button>        
+<!--        port:<input type="text" id="webcam_port" value="8080" disabled> -->
         <button id="stop_stream">Stop Stream</button>
         <button id="stop_program" class="button_stop">STOP Program</button>
 	  </td>
