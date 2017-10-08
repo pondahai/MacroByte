@@ -172,7 +172,8 @@ BlocklyStorage.makeRequest_ = function(url, name, content, workspace) {
   BlocklyStorage.httpRequest_.workspace = workspace;
   // loader
   document.getElementById("loader").style.display = "block";
-  
+  // overlay
+  $("#overlay").show();
 };
 
 /**
@@ -184,6 +185,8 @@ BlocklyStorage.handleRequest_ = function() {
 		console.log(BlocklyStorage.httpRequest_);
     // loader
     document.getElementById("loader").style.display = "none";
+    // overlay
+    $("#overlay").hide();
     if (BlocklyStorage.httpRequest_.status != 200 ) {
       BlocklyStorage.alert(BlocklyStorage.HTTPREQUEST_ERROR + '\n' +
           'httpRequest_.status: ' + BlocklyStorage.httpRequest_.status);

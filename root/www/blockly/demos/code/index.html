@@ -6,6 +6,16 @@
   <title>Macro:Byte</title>
   <link rel="stylesheet" href="style.css">
   <style>
+    #overlay {
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 998;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+    }​
     .button_run {
       background: #0000f4;
       color: #ffffff;
@@ -70,6 +80,7 @@
       height: 120px;
       -webkit-animation: spin 2s linear infinite;
       animation: spin 2s linear infinite;
+      z-index: 999;
     }
 
     @-webkit-keyframes spin {
@@ -684,7 +695,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
 <body>
 
 <div id="loader"></div>
-
+<div id="overlay"></div>
 <table >
 	<tr >
   	  <table width="100%" height="70%">
@@ -1442,7 +1453,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
 		if (ws != undefined) return;
       // Connect to Web Socket
       ws = new WebSocket("ws://"+window.location.hostname+":8008");
-
+      //console.log(ws);
       // Set event handlers.
       ws.onopen = function() {
         output("onopen\n");
