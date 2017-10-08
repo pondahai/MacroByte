@@ -26,7 +26,7 @@ for k in f.keys():
     fo.write(f.getfirst(k))
     fo.close()
     #
-    os.system('kill -9 `pgrep -f mjpg_streamer`')
+    #os.system('kill -9 `pgrep -f mjpg_streamer`')
     proc = subprocess.Popen(['pgrep','-f','monitor.py'],stdout=subprocess.PIPE)
     proc.wait()
     proc = subprocess.Popen(['kill','-9',proc.stdout.read().rstrip('\n')])
@@ -34,7 +34,7 @@ for k in f.keys():
     os.system("python /www/cgi-bin/monitor.py &")
   elif k == "action" and f.getfirst(k) == "run":
     #
-    os.system('kill -9 `pgrep -f mjpg_streamer`')
+    #os.system('kill -9 `pgrep -f mjpg_streamer`')
     proc = subprocess.Popen(['pgrep','-f','monitor.py'],stdout=subprocess.PIPE)
     proc.wait()
     proc = subprocess.Popen(['kill','-9',proc.stdout.read().rstrip('\n')])
