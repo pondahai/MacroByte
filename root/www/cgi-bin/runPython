@@ -48,6 +48,9 @@ for k in f.keys():
   elif k == "action" and f.getfirst(k) == "start_stream":
     #os.system("mjpg_streamer -i 'input_uvc.so -d /dev/video0 -r 320x240 -f 25' -o 'output_http.so -p 8080 -w /www/webcam' &")
     proc = subprocess.Popen(["mjpg_streamer","-i","input_uvc.so -d /dev/video0 -r 320x240 -f 25","-o","output_http.so -p 8080 -w /www/webcam","-b"],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    out,err = proc.communicate()
+    print out
+    print err
     print "Video Stream Start."
 
 
