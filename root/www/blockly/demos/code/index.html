@@ -208,7 +208,7 @@ Blockly.Blocks['server_send_message_to_all'] = {
 Blockly.Blocks['mechabyte_init'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Mecha:Byte Init");
+        .appendField("mechaByte Init");
     this.setPreviousStatement(false, null);
     this.setNextStatement(true, null);
     this.setColour(95);
@@ -216,14 +216,15 @@ Blockly.Blocks['mechabyte_init'] = {
     this.setHelpUrl("");
   }
 };
+/*
 Blockly.Blocks['macrobyte_init'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("Mecha Byte Init");
+        .appendField("mecha Byte Init");
     this.setPreviousStatement(false, null);
     this.setNextStatement(true, null);
     this.setColour(512);
-    this.setTooltip('Mecha BYTE Init.');
+    this.setTooltip('mecha BYTE Init.');
     this.setHelpUrl('');
   }
 };
@@ -237,10 +238,11 @@ Blockly.Blocks['start_streaming'] = {
     this.setInputsInline(true);
   }
 };
+*/
 Blockly.Blocks['car_init'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("MechaCar init with");
+        .appendField("mechaCar init with");
     this.appendDummyInput()
         .appendField("DC2")
         .appendField(new Blockly.FieldDropdown([["A","A"], ["B","B"]]), "port2")
@@ -252,14 +254,14 @@ Blockly.Blocks['car_init'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(512);
-    this.setTooltip('MechaCar Init.');
+    this.setTooltip('mechaCar Init.');
     this.setHelpUrl('');
   }
 };
 Blockly.Blocks['car_forward'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("MechaCar forward");
+        .appendField("mechaCar forward");
     this.appendValueInput("speed")
         .setCheck(null)
         .appendField("with speed");
@@ -274,7 +276,7 @@ Blockly.Blocks['car_forward'] = {
 Blockly.Blocks['car_backward'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("MechaCar backward");
+        .appendField("mechaCar backward");
     this.appendValueInput("speed")
         .setCheck(null)
         .appendField("with speed");
@@ -289,7 +291,7 @@ Blockly.Blocks['car_backward'] = {
 Blockly.Blocks['car_spin_left'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("MechaCar turn left");
+        .appendField("mechaCar turn left");
     this.appendValueInput("speed")
         .setCheck(null)
         .appendField("with speed");
@@ -304,7 +306,7 @@ Blockly.Blocks['car_spin_left'] = {
 Blockly.Blocks['car_spin_right'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("MechaCar turn right");
+        .appendField("mechaCar turn right");
     this.appendValueInput("speed")
         .setCheck(null)
         .appendField("with speed");
@@ -319,7 +321,7 @@ Blockly.Blocks['car_spin_right'] = {
 Blockly.Blocks['car_stop'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("MechaCar stop");
+        .appendField("mechaCar stop");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setInputsInline(true);
@@ -334,7 +336,7 @@ Blockly.Blocks['car_pid'] = {
         //.appendField("MechaCar settle");
     this.appendValueInput("measure")
         .setCheck(null)
-        .appendField("MechaCar now at")
+        .appendField("mechaCar now at")
         .setAlign(Blockly.ALIGN_RIGHT);
     this.appendValueInput("distance")
         .setCheck(null)
@@ -708,7 +710,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
       	<td style="background-image:url(logo.png);background-repeat:no-repeat;background-size:250px 42px;" width="250" height="42">
 			<h1></h1>
 		-->
-				  <h1 style="text-shadow: 2px 2px #ffffff;">Mecha:BYTE
+				  <h1 style="text-shadow: 2px 2px #ffffff;">mechaBYTE
           		  Project Name:<input type="text" id="projectname">
 			  </h1>
       		</td>
@@ -823,7 +825,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
       </value>
     </block>
   </category>
-  <category name="MechaCar" colour="#000000">
+  <category name="mechaCar" colour="#000000">
     <block type="car_init" colour="#000000"></block>
     <block type="servo_setup"></block>
     <block type="servo_rotate">
