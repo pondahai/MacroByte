@@ -97,19 +97,14 @@ BlocklyStorage.restoreBlocks = function(opt_workspace) {
   }
 };
 
-
 /**
- * Save blocks to database and return a link containing key to XML.
- * @param {Blockly.WorkspaceSvg=} opt_workspace Workspace.
  *
- * dahai: 我放了一個storage在板子上的cgi-bin，負責接收ajax request
  */
-BlocklyStorage.link = function(opt_workspace) {
+BlocklyStorage.save = function(opt_workspace) {
   var workspace = opt_workspace || Blockly.getMainWorkspace();
   var xml = Blockly.Xml.workspaceToDom(workspace);
   var data = Blockly.Xml.domToText(xml);
-	// upload
-  BlocklyStorage.makeRequest_('/cgi-bin/storage', 'xml', data, workspace);
+  
   // check project name
   var filename = document.getElementById('projectname').value;
   if (filename == ""){
@@ -125,6 +120,21 @@ BlocklyStorage.link = function(opt_workspace) {
     var blob = new Blob([data], { type: "text/plain;charset=utf-8" });
     console.log(saveAs(blob, filename + ".mbp"));
   }  
+}
+
+/**
+ * Save blocks to database and return a link containing key to XML.
+ * @param {Blockly.WorkspaceSvg=} opt_workspace Workspace.
+ *
+ * dahai: 我放了一個storage在板子上的cgi-bin，負責接收ajax request
+ */
+BlocklyStorage.link = function(opt_workspace) {
+  var workspace = opt_workspace || Blockly.getMainWorkspace();
+  var xml = Blockly.Xml.workspaceToDom(workspace);
+  var data = Blockly.Xml.domToText(xml);
+	// upload xml
+  BlocklyStorage.makeRequest_('/cgi-bin/storage', 'xml', data, workspace);
+
   // dahai
   // console.log(data);
   // Code.post('/cgi-bin/storage', {xml: data});

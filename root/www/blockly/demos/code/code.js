@@ -469,16 +469,16 @@ Code.init = function() {
   Code.bindClick('run_program', Code.runProgram);
   Code.bindClick('stop_program', Code.stopProgram);
   // Disable the link button if page isn't backed by App Engine storage.
-  var linkButton = document.getElementById('linkButton');
+  var saveButton = document.getElementById('saveButton');
   if ('BlocklyStorage' in window) {
     BlocklyStorage['HTTPREQUEST_ERROR'] = MSG['httpRequestError'];
     BlocklyStorage['LINK_ALERT'] = MSG['linkAlert'];
     BlocklyStorage['HASH_ERROR'] = MSG['hashError'];
     BlocklyStorage['XML_ERROR'] = MSG['xmlError'];
-    Code.bindClick(linkButton,
-        function() {BlocklyStorage.link(Code.workspace);});
-  } else if (linkButton) {
-    linkButton.className = 'disabled';
+    Code.bindClick(saveButton,
+        function() {BlocklyStorage.save(Code.workspace);});
+  } else if (saveButton) {
+    Button.className = 'disabled';
   }
 
   for (var i = 0; i < Code.TABS_.length; i++) {
@@ -534,7 +534,7 @@ Code.initLanguage = function() {
   //document.getElementById('title').textContent = MSG['title'];
   document.getElementById('tab_blocks').textContent = MSG['blocks'];
 
-  document.getElementById('linkButton').title = MSG['linkTooltip'];
+  document.getElementById('saveButton').title = MSG['saveTooltip'];
   // document.getElementById('runButton').title = MSG['runTooltip'];
   document.getElementById('trashButton').title = MSG['trashTooltip'];
   document.getElementById('uploadScriptButton').title = MSG['uploadTooltip'];

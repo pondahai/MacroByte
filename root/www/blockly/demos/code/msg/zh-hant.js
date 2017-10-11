@@ -2,6 +2,7 @@ var MSG = {
   title: "程式碼",
   blocks: "積木",
   linkTooltip: "儲存積木組並提供連結。",
+  saveTooltip: "儲存積木",
   runTooltip: "於工作區中執行積木組所定義的程式。",
   badCode: "程式錯誤：\n%1",
   timeout: "超過最大執行數。",
@@ -20,5 +21,7 @@ var MSG = {
   linkAlert: "透過此連結分享您的積木組：\n\n%1",
   hashError: "對不起，「%1」並未對應任何已保存的程式。",
   xmlError: "未能載入您保存的檔案。或許它是由其他版本的Blockly創建？",
-  badXml: "解析 XML 時出現錯誤：\n%1\n\n選擇'確定'以放棄您的更改，或選擇'取消'以進一步編輯 XML。"
+  badXml: "解析 XML 時出現錯誤：\n%1\n\n選擇'確定'以放棄您的更改，或選擇'取消'以進一步編輯 XML。",
+  uploadTooltip: "上傳程式碼並執行",
+  folderTooltip: "匯入積木"
 };

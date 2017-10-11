@@ -10,7 +10,7 @@ code.uploadScript() -> code.post() ... cgi-bin/runPython
 link()裡面用到saveAS()做本地儲存
 ---- code.js ----            ------------------------ storage.js -------------------------
 init()(bindClick())    ---> BlocklyStorage.link()        ----> BlocklyStorage.makeRequest_() ... cgi-bin/storage ... handleRequest_() ---> monitorChanges_()
-uploadScript() _________/            \_ saveAS()           /                                                            \_loadXml_()
+uploadScript() _________/                                  /                                                            \_loadXml_()
 loadBlocks()   ----------> BlocklyStorage.retrieveXml() __/
                                                          /
 strtStream()   -----------------------------------------
@@ -18,9 +18,15 @@ stopStream()   ----------------------------------------/
 runProgram()   ---------------------------------------/
 stopProgram()  --------------------------------------/
 
+                             BlocklyStorage.save() ---> saveAs()
+              
 載入本地程式碼
 folderButton ---> importBlock() ....> handleFileSelect() ....> reader.onloadend() ---> monitorChanges_()
                                                                    \_loadXml_()
 在handleRequest_()裡面
 httpRequest_.name == 'xml' 代表xml資料上傳
 httpRequest_.name == 'key' 代表xml資料下載
+
+2017-10-11
+原本BlocklyStorage.link()是用來上傳xml，但我把本地存檔也放在這裡
+今天把本地存檔API獨立出來： BlocklyStorage.save()

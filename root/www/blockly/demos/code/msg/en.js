@@ -1,7 +1,8 @@
 var MSG = {
   title: "Code",
   blocks: "Blocks",
-  linkTooltip: "Save and link to blocks.",
+  linkTooltip: "Save and link to blocks",
+  saveTooltip: "Save blocks",
   runTooltip: "Run the program defined by the blocks in the workspace.",
   badCode: "Program error:\n%1",
   timeout: "Maximum execution iterations exceeded.",
