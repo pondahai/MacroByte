@@ -888,6 +888,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
       </value>
     </block>
     <block type="car_stop" colour="#000000"></block>
+    <!--
     <block type="car_pid" colour='#000000'>
       <value name="kp">
         <shadow type="math_number">
@@ -905,6 +906,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
         </shadow>
       </value>
     </block>
+    -->
   </category>
   <category name="GPIO" colour="#94a65c">
     <block type="set_pin_mode">
@@ -1458,17 +1460,17 @@ Blockly.Blocks['mt7688_pinmax'] = {
       //console.log(ws);
       // Set event handlers.
       ws.onopen = function() {
-        output("onopen\n");
+        output("onOpen\n");
         wsStatus = "open";
       };
 
       ws.onmessage = function(e) {
         // e.data contains received string.
-        output("onmessage: " + e.data);
+        output("onMessage: " + e.data);
       };
 
       ws.onclose = function() {
-        if(wsStatus != "close") output("onclose\n");
+        if(wsStatus != "close") output("onClose\n");
         ws = undefined;
         wsStatus = "close";
       };

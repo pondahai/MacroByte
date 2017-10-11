@@ -105,7 +105,7 @@ try:
 except:
   pass
 
-server.send_message_to_all('python is running.\n')  
+#server.send_message_to_all('python is running.\n')  
 i = 0  
 while proc.poll() is None:
 #  print i
@@ -161,5 +161,6 @@ while proc.poll() is None:
 #    proc.stdin.write(message_from_ws)
 #    proc.stdin.flush()
 #    message_from_ws = None
+
   
-server.send_message_to_all('process stop.\n')
+#server.send_message_to_all('process stop.\n')
