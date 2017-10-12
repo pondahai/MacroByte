@@ -568,19 +568,19 @@ Code.runJS = function() {
  */
 Code.startStream = function() {
   var workspace =  Blockly.getMainWorkspace();
-  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'start_stream', workspace);  
+  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'start_stream', workspace);
 }
 Code.stopStream = function() {
   var workspace =  Blockly.getMainWorkspace();
-  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'stop_stream', workspace);  
+  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'stop_stream', workspace);
 }
 Code.runProgram = function() {
   var workspace =  Blockly.getMainWorkspace();
-  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'run', workspace);  
+  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'run', workspace);
 }
 Code.stopProgram = function() {
   var workspace =  Blockly.getMainWorkspace();
-  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'stop', workspace);  
+  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'stop', workspace);
 }
 /**
  *   dahai 載入本地程式碼，download the last xml
@@ -610,7 +610,7 @@ function handleFileSelect(evt) {
            //Code.workspace.clear();
            //var xml = Blockly.Xml.textToDom(evt.target.result);
            //Blockly.Xml.domToWorkspace(xml, Code.workspace);
-           
+
            var projectName = file.name.substr(0, file.name.lastIndexOf('.')) || file.name;
            document.getElementById("projectname").value = projectName;
            BlocklyStorage.monitorChanges_(Code.workspace);
@@ -755,8 +755,8 @@ Blockly.Python['mechabyte_init'] = function(block) {
 
 //		code += 't_system = threading.Thread(target=os.system,args=(\"mjpg_streamer -i \'input_uvc.so -d /dev/video0 -r 320x240 -f 25\' -o \'output_http.so -p 8080 -w /www/webcam\' \",))\n';
 //		code += 't_system.start()\n';
-    
-    
+
+
 //		code += 'os.popen(\'mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+value_port+' -w /www/webcam\" \').read()\n';
 //		Blockly.Python.definitions_.import_subprocess = "import subprocess";
 //		code += 'proc = subprocess.Popen(["mjpg_streamer","-i","input_uvc.so -d /dev/video0 -r 320x240 -f 25","-o","utput_http.so -p '+value_port+' -w /www/webcam\"],stdout=subprocess.PIPE,stderr=subprocess.PIPE, shell=True)\n';
@@ -962,7 +962,11 @@ Blockly.Python['dc_setup'] = function(block) {
 	var code = '';
 	code += 'board.set_pin_mode('+dropdown_pin+',board.PWM,board.DIGITAL)\n';
 	var other_pin = (parseInt(dropdown_pin)-1);
-	code += 'board.set_pin_mode('+other_pin+',board.PWM,board.DIGITAL)\n';
+  if(other_pin==8 || other_pin==12){
+    code += 'board.set_pin_mode('+other_pin+',board.OUTPUT,board.DIGITAL)\n';
+  }else{
+	  code += 'board.set_pin_mode('+other_pin+',board.PWM,board.DIGITAL)\n';
+  }
   return code;
 };
 Blockly.Python['dc_spin'] = function(block) {
@@ -986,11 +990,23 @@ Blockly.Python['dc_spin'] = function(block) {
   //   }
   // }
 	if(dropdown_polarity == "A"){
-		code += 'board.analog_write('+pin_b+', 0)\n';
+    if(pin_b==8 || pin_b==12){
+      code += 'board.digital_write('+pin_b+', 0)\n';
+    }else{
+		  code += 'board.analog_write('+pin_b+', 0)\n';
+    }
 		code += 'board.analog_write('+pin_a+', '+value+')\n'
 	}else{
 		code += 'board.analog_write('+pin_a+', 0)\n';
-		code += 'board.analog_write('+pin_b+', '+value+')\n'
+    if(pin_b==8 || pin_b==12){
+      if(value > 127){
+        code += 'board.digital_write('+pin_b+', 1)\n'
+      }else{
+        code += 'board.digital_write('+pin_b+', 0)\n'
+      }
+    }else{
+		  code += 'board.analog_write('+pin_b+', '+value+')\n'
+    }
 	}
   return code;
 };
