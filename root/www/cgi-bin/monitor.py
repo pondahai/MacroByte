@@ -75,17 +75,18 @@ def stdin_process(server,proc):
     proc.stdin.flush()
     message_from_ws = None
 
+
 def stdout_process():
   global proc
   global server
-  while True:
+  while True :
     for out in iter(proc.stdout.readline,b''):
       server.send_message_to_all(out)
 
 def stderr_process():
   global proc
   global server
-  while True:
+  while True :
     for out in iter(proc.stderr.readline,b''):
       server.send_message_to_all(out)
 
@@ -97,13 +98,13 @@ try:
 except:
   pass
 
-print "processing stderr thread"
-try:
-  t_stderr = threading.Thread(target=stderr_process)
-  t_stderr.daemon = True
-  t_stderr.start()
-except:
-  pass
+#print "processing stderr thread"
+#try:
+#  t_stderr = threading.Thread(target=stderr_process)
+#  t_stderr.daemon = True
+#  t_stderr.start()
+#except:
+#  pass
 
 #server.send_message_to_all('python is running.\n')  
 i = 0  
