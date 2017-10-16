@@ -93,11 +93,11 @@ for k in f.keys():
     proc.wait()
     #print "{\"software_downloaded\":\"","1","\"}"
     
-    proc = subprocess.Popen(['unzip','-o','-d','/tmp','/master.zip'],stdout=subprocess.PIPE)
+    proc = subprocess.Popen(['unzip','-o','-d','/','/master.zip'],stdout=subprocess.PIPE)
     proc.wait()
     #print "{\"software_unzip\":\"","1","\"}"
 
-    proc = subprocess.Popen(['cp','-R','/tmp/MacroByte-master/root/www','/tmp'],stdout=subprocess.PIPE)
+    proc = subprocess.Popen(['cp','-R','/MacroByte-master/root/www','/'],stdout=subprocess.PIPE)
     proc.wait()
     #print "{\"software_mv_folder\":\"","1","\"}"
     
