@@ -88,6 +88,8 @@ for k in f.keys():
     print "{\"board_version\":\"",board_version,"\",\"now_version\":\"",now_version,"\"}"
   elif k == "action" and f.getfirst(k) == "software_update":
     #https://github.com/pondahai/MacroByte/archive/master.zip
+    proc = subprocess.Popen(['rm','/master.zip'],stdout=subprocess.PIPE)
+    proc.wait()
     
     proc = subprocess.Popen(['wget','https://github.com/pondahai/MacroByte/archive/master.zip','-P','/'],stdout=subprocess.PIPE)
     proc.wait()
