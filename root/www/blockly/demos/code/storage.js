@@ -239,6 +239,7 @@ BlocklyStorage.handleRequest_ = function() {
         if(typeof obj.board_version != "undefined") {
           //output(obj.version + '\n');
           document.getElementById('boardVersion').value = obj.board_version;
+					document.getElementById("version_string").innerHTML = 'v' + obj.board_version;
         }
         if(typeof obj.now_version != "undefined") {
           //output(obj.version + '\n');
