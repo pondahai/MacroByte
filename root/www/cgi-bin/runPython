@@ -7,6 +7,7 @@ import cgitb
 import os
 from os.path import expanduser
 import subprocess
+from distutils.version import StrictVersion
 
 cgitb.enable()
 
@@ -26,21 +27,46 @@ for k in f.keys():
     fo.write(f.getfirst(k))
     fo.close()
     #
+    if not os.path.isdir("/sys/class/gpio/gpio3"):
+      os.system("echo 3 > /sys/class/gpio/export")
+      os.system("echo 'out' > /sys/class/gpio/gpio3/direction")
+    os.system("echo 0 > /sys/class/gpio/gpio3/value")
+    os.system("echo 1 > /sys/class/gpio/gpio3/value")
     #os.system('kill -9 `pgrep -f mjpg_streamer`')
     proc = subprocess.Popen(['pgrep','-f','monitor.py'],stdout=subprocess.PIPE)
+    proc.wait()
+    proc = subprocess.Popen(['kill','-9',proc.stdout.read().rstrip('\n')])
+    proc.wait()
+    proc = subprocess.Popen(['pgrep','-f','pythonCode.py'],stdout=subprocess.PIPE)
     proc.wait()
     proc = subprocess.Popen(['kill','-9',proc.stdout.read().rstrip('\n')])
     proc.wait()
     os.system("python /www/cgi-bin/monitor.py &")
   elif k == "action" and f.getfirst(k) == "run":
     #
+    if not os.path.isdir("/sys/class/gpio/gpio3"):
+      os.system("echo 3 > /sys/class/gpio/export")
+      os.system("echo 'out' > /sys/class/gpio/gpio3/direction")
+    os.system("echo 0 > /sys/class/gpio/gpio3/value")
+    os.system("echo 1 > /sys/class/gpio/gpio3/value")
     #os.system('kill -9 `pgrep -f mjpg_streamer`')
     proc = subprocess.Popen(['pgrep','-f','monitor.py'],stdout=subprocess.PIPE)
     proc.wait()
     proc = subprocess.Popen(['kill','-9',proc.stdout.read().rstrip('\n')])
     proc.wait()
+    proc = subprocess.Popen(['pgrep','-f','pythonCode.py'],stdout=subprocess.PIPE)
+    proc.wait()
+    proc = subprocess.Popen(['kill','-9',proc.stdout.read().rstrip('\n')])
+    proc.wait()
     os.system("python /www/cgi-bin/monitor.py &")
   elif k == "action" and f.getfirst(k) == "stop":
+    #
+    if not os.path.isdir("/sys/class/gpio/gpio3"):
+      os.system("echo 3 > /sys/class/gpio/export")
+      os.system("echo 'out' > /sys/class/gpio/gpio3/direction")
+    os.system("echo 0 > /sys/class/gpio/gpio3/value")
+    os.system("echo 1 > /sys/class/gpio/gpio3/value")
+    #
     os.system("kill -9 `pgrep -f pythonCode`")
   elif k == "action" and f.getfirst(k) == "stop_stream":
     os.system('kill -9 `pgrep -f mjpg_streamer`')
@@ -52,5 +78,27 @@ for k in f.keys():
     print out
     print err
     print "Video Stream Start."
+  elif k == "action" and f.getfirst(k) == "check_verison":
+    proc = subprocess.Popen(['cat','/www/VERSION'],stdout=subprocess.PIPE)
+    proc.wait()
+    board_version = proc.stdout.read().rstrip('\n')
+    proc = subprocess.Popen(['curl','https://raw.githubusercontent.com/pondahai/MacroByte/master/root/www/VERSION'],stdout=subprocess.PIPE)
+    proc.wait()
+    now_version = proc.stdout.read().rstrip('\n')
+    print "{\"board_version\":\"",board_version,"\",\"now_version\":\"",now_version,"\"}"
+  elif k == "action" and f.getfirst(k) == "software_update":
+    #https://github.com/pondahai/MacroByte/archive/master.zip
+    
+    proc = subprocess.Popen(['wget','https://github.com/pondahai/MacroByte/archive/master.zip','-P','/'],stdout=subprocess.PIPE)
+    proc.wait()
+    #print "{\"software_downloaded\":\"","1","\"}"
+    
+    proc = subprocess.Popen(['unzip','-o','-d','/tmp','/master.zip'],stdout=subprocess.PIPE)
+    proc.wait()
+    #print "{\"software_unzip\":\"","1","\"}"
 
-
+    proc = subprocess.Popen(['cp','-R','/tmp/MacroByte-master/root/www','/tmp'],stdout=subprocess.PIPE)
+    proc.wait()
+    #print "{\"software_mv_folder\":\"","1","\"}"
+    
+    print "{\"software_update\":\"1\"}"

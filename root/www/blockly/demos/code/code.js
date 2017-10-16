@@ -468,6 +468,8 @@ Code.init = function() {
   Code.bindClick('stop_stream', Code.stopStream);
   Code.bindClick('run_program', Code.runProgram);
   Code.bindClick('stop_program', Code.stopProgram);
+  Code.bindClick('check_version', Code.checkVersion);
+  Code.bindClick('software_update', Code.softwareUpdate);
   // Disable the link button if page isn't backed by App Engine storage.
   var saveButton = document.getElementById('saveButton');
   if ('BlocklyStorage' in window) {
@@ -493,6 +495,42 @@ Code.init = function() {
   window.setTimeout(Code.importPrettify, 1);
 
 };
+
+/**
+ *
+ **/
+Code.checkVersion = function() {
+  var workspace =  Blockly.getMainWorkspace();
+  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'check_verison', workspace);
+}
+function cmpVersion(a, b) {
+    var i, cmp, len, re = /(\.0)+[^\.]*$/;
+    a = (a + '').replace(re, '').split('.');
+    b = (b + '').replace(re, '').split('.');
+    len = Math.min(a.length, b.length);
+    for( i = 0; i < len; i++ ) {
+        cmp = parseInt(a[i], 10) - parseInt(b[i], 10);
+        if( cmp !== 0 ) {
+            return cmp;
+        }
+    }
+    return a.length - b.length;
+}
+Code.softwareUpdate = function() {
+  var workspace =  Blockly.getMainWorkspace();
+	var board_version = document.getElementById('boardVersion').value;
+	var current_version = document.getElementById('currentVersion').value;
+	if (typeof board_version != "undefined" && typeof current_version != "undefined" && board_version != "" && current_version != ""){
+		if (cmpVersion(current_version,board_version) >= 0){
+			console.log('need update!');
+			BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'software_update', workspace);
+		}else{
+			console.log('no need for update');
+		}
+	}else{
+		console.log('version string undefined');
+	}
+}
 
 /**
  * Initialize the page language.
@@ -995,14 +1033,14 @@ Blockly.Python['dc_spin'] = function(block) {
     }else{
 		  code += 'board.analog_write('+pin_b+', 0)\n';
     }
-		code += 'board.analog_write('+pin_a+', '+value+')\n'
+		code += 'board.analog_write('+pin_a+', '+value+')\n';
 	}else{
 		code += 'board.analog_write('+pin_a+', 0)\n';
     if(pin_b==8 || pin_b==12){
-      if(value > 127){
-        code += 'board.digital_write('+pin_b+', 1)\n'
+      if(value > 0){
+        code += 'board.digital_write('+pin_b+', 1)\n';
       }else{
-        code += 'board.digital_write('+pin_b+', 0)\n'
+        code += 'board.digital_write('+pin_b+', 0)\n';
       }
     }else{
 		  code += 'board.analog_write('+pin_b+', '+value+')\n'

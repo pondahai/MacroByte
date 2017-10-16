@@ -41,11 +41,6 @@ try:
 except:
   pass
 
-if not os.path.isdir("/sys/class/gpio/gpio3"):
-  os.system("echo 3 > /sys/class/gpio/export")
-  os.system("echo 'out' > /sys/class/gpio/gpio3/direction")
-os.system("echo 0 > /sys/class/gpio/gpio3/value")
-os.system("echo 1 > /sys/class/gpio/gpio3/value")
 #os.system("kill `pgrep -f pythonCode`")
 #os.system("python /root/pythonCode.py&")
 

@@ -187,6 +187,22 @@ BlocklyStorage.makeRequest_ = function(url, name, content, workspace) {
 };
 
 /**
+ *
+ */
+BlocklyStorage.checkVersionStringForUpdateButton = function() {
+	var board_version = document.getElementById('boardVersion').value;
+	var current_version = document.getElementById('currentVersion').value;
+	console.log('board_version=' + board_version);
+	console.log('current_version=' + current_version);
+	if (typeof board_version != "undefined" && typeof current_version != "undefined" && board_version != "" && current_version != ""){
+		console.log('update button enable');
+		document.getElementById('software_update').disabled = false;
+	}else{
+		console.log('update button disable');
+		document.getElementById('software_update').disabled = true;
+	}
+}
+/**
  * Callback function for AJAX call.
  * @private
  */
@@ -213,8 +229,30 @@ BlocklyStorage.handleRequest_ = function() {
         } else {
           BlocklyStorage.loadXml_(data, BlocklyStorage.httpRequest_.workspace);
         }
+				BlocklyStorage.checkVersionStringForUpdateButton();
       } else if (BlocklyStorage.httpRequest_.name == 'action') {
-        output(data + '\n');
+        //output(data + '\n');
+        console.log('response of \'action\':' + data + '\n');
+        // if resurn is version
+        var obj = jQuery.parseJSON (data);
+        //console.log(obj);
+        if(typeof obj.board_version != "undefined") {
+          //output(obj.version + '\n');
+          document.getElementById('boardVersion').value = obj.board_version;
+        }
+        if(typeof obj.now_version != "undefined") {
+          //output(obj.version + '\n');
+          document.getElementById('currentVersion').value = obj.now_version;
+        }
+				BlocklyStorage.checkVersionStringForUpdateButton();
+				
+        if(typeof obj.software_update != "undefined") {
+          if (obj.software_update == "1"){
+          	console.log('update finish.');
+						window.setTimeout(function(){document.getElementById('check_version').click()}, 1000);
+						
+          }
+        }
       }
       BlocklyStorage.monitorChanges_(BlocklyStorage.httpRequest_.workspace);
     }
