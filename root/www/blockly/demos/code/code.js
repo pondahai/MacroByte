@@ -720,6 +720,7 @@ Code.post = function(path, params, method) {
 /**
  *
  */
+/*
 Blockly.Python['websocket_'] = function(block) {
   Blockly.Python.definitions_.import_websocket_server = "from websocket_server import WebsocketServer";
   Blockly.Python.definitions_.import_thread = "import thread";
@@ -776,8 +777,10 @@ Blockly.Python['server_send_message_to_all'] = function(block) {
   var code = 'server.send_message_to_all('+value_message+')\n';
   return code;
 };
+*/
 Blockly.Python['mechabyte_init'] = function(block) {
 //  Blockly.Python.definitions_.import_pyfirmata = "from pyfirmata import Arduino, util";
+  Blockly.Python.definitions_.import_future_print = "from __future__ import print_function";
   Blockly.Python.definitions_.import_future_division = "from __future__ import division";
   Blockly.Python.definitions_.import_pymata = "from PyMata.pymata import PyMata";
 //  var checkbox_streaming_switch = block.getFieldValue('streaming_switch') == 'TRUE';
@@ -816,6 +819,41 @@ Blockly.Python['start_streaming'] = function (block) {
   Blockly.Python.definitions_.import_os = "import os";
   var port = Blockly.Python.valueToCode(block, 'port', Blockly.Python.ORDER_ATOMIC);
   var code = 'os.system("mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 25\" -o \"output_http.so -p '+port+' -w /www/webcam\" &")';
+  return code;
+};
+*/
+Blockly.Python['sleep'] = function(block) {
+  Blockly.Python.definitions_.import_time = "import time";
+  var value_seconds = Blockly.Python.valueToCode(block, 'seconds', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = 'time.sleep('+value_seconds+')\n';
+  return code;
+};
+Blockly.Python['time()'] = function(block) {
+  Blockly.Python.definitions_.import_time = "import time";
+  // TODO: Assemble Python into code variable.
+  var code = 'time.time()';
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+Blockly.Python['thread_init'] = function(block) {
+  Blockly.Python.definitions_.import_threading = "import threading";
+	var value_thread_funciton = Blockly.Python.valueToCode(block, 'thread_funciton', Blockly.Python.ORDER_ATOMIC);
+	var thread_function_name = value_thread_funciton.replace(/\(/g,"").replace(/\)/g,"");
+  var code = '';
+  code += 't_'+thread_function_name+' = threading.Thread(target='+thread_function_name+')\n'
+  code += 't_'+thread_function_name+'.daemon = True\n'
+  code += 't_'+thread_function_name+'.start()\n'
+  return code;	
+}
+/*
+Blockly.Python['thread_funciton'] = function(block) {
+  var statements_thread_funciton = Blockly.Python.statementToCode(block, 'thread_funciton');
+  // TODO: Assemble Python into code variable.
+  var code = 'def thread_funciton():\n';
+  if (statements_thread_funciton === ""){
+  	code += '  pass';
+  }
+  code += statements_thread_funciton+'\n';
   return code;
 };
 */
@@ -925,13 +963,6 @@ Blockly.Python['car_pid'] = function(block) {
     return code;
   }
 };
-Blockly.Python['sleep'] = function(block) {
-  Blockly.Python.definitions_.import_time = "import time";
-  var value_seconds = Blockly.Python.valueToCode(block, 'seconds', Blockly.Python.ORDER_ATOMIC);
-  // TODO: Assemble Python into code variable.
-  var code = 'time.sleep('+value_seconds+')\n';
-  return code;
-};
 Blockly.Python['set_pin_mode'] = function(block) {
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
   var dropdown_mode = block.getFieldValue('mode');
@@ -986,7 +1017,6 @@ Blockly.Python['servo_set'] = function(block) {
   var code = 'board.analog_write('+value_pin+','+value_value+')\n';
   return code;
 };
-
 Blockly.Python['dc_setup'] = function(block) {
   var dropdown_pin = block.getFieldValue('channel');
   // TODO: Assemble Python into code variable.
@@ -1062,17 +1092,78 @@ Blockly.Python['play_tone'] = function(block) {
 Blockly.Python['i2c_init'] = function(block) {
   // TODO: Assemble Python into code variable.
   var code = '';
-  code += 'board.i2c_config(0, board.DIGITAL, 2, 3)\n';
+  code += 'board.i2c_config(0, board.DIGITAL, 3, 2)\n';
   return code;
 };
 Blockly.Python['i2c_write'] = function(block) {
   var value_addr = Blockly.Python.valueToCode(block, 'addr', Blockly.Python.ORDER_ATOMIC);
-  var value_data = Blockly.Python.valueToCode(block, 'data', Blockly.Python.ORDER_ATOMIC);
+//  var value_data = Blockly.Python.valueToCode(block, 'data', Blockly.Python.ORDER_ATOMIC);
+  var elements = new Array(block.itemCount_);
+  for (var i = 0; i < block.itemCount_; i++) {
+    elements[i] = Blockly.Python.valueToCode(block, 'ADD' + i,
+        Blockly.Python.ORDER_NONE) || 'None';
+      }
   // TODO: Assemble Python into code variable.
   var code = '';
-  code += 'board.i2c_write('+value_addr+','+value_data+')\n';
+  code += 'board.i2c_write('+value_addr+','+elements.join(', ')+')\n';
   return code;
 };
+Blockly.Python['parameters_create_with'] = function(block) {
+  // Create a list with any number of elements of any type.
+  var elements = new Array(block.itemCount_);
+  for (var i = 0; i < block.itemCount_; i++) {
+    elements[i] = Blockly.Python.valueToCode(block, 'ADD' + i,
+        Blockly.Python.ORDER_NONE) || 'None';
+  }
+  var code = '' + elements.join(', ') + '';
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+Blockly.Python['i2c_read'] = function(block) {
+  var value_addr = Blockly.Python.valueToCode(block, 'addr', Blockly.Python.ORDER_ATOMIC);
+  var value_reg = Blockly.Python.valueToCode(block, 'reg', Blockly.Python.ORDER_ATOMIC);
+  var value_num = Blockly.Python.valueToCode(block, 'num', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = '';
+  code += 'board.i2c_read('+value_addr+','+value_reg+','+value_num+',board.I2C_READ)\n';
+  return code;
+};
+Blockly.Python['i2c_get_read_data'] = function(block) {
+  var value_addr = Blockly.Python.valueToCode(block, 'addr', Blockly.Python.ORDER_ATOMIC);
+  // TODO: Assemble Python into code variable.
+  var code = '';
+  code += 'board.i2c_get_read_data('+value_addr+')';
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['gyro_init'] = function(block) {
+  // TODO: Assemble Python into code variable.
+  var code = '';
+  code += 'board.i2c_config(0, board.DIGITAL, 3, 2)\n';
+  return code;
+};
+Blockly.Python['gyro_read'] = function(block) {
+  var value_addr = '0x68';
+  var value_reg = '0x3b';
+  var value_num = '14';
+  // TODO: Assemble Python into code variable.
+  var code = '';
+  code += 'board.i2c_read('+value_addr+','+value_reg+','+value_num+',board.I2C_READ)\n';
+  return code;
+};
+Blockly.Python['gyro_get_read_data'] = function(block) {
+  var value_addr = '0x68';
+  // TODO: Assemble Python into code variable.
+  var code = '';
+  code += 'board.i2c_get_read_data('+value_addr+')';
+  return [code, Blockly.Python.ORDER_NONE];
+};
+Blockly.Python['convert_list_to_float'] = function(block) {
+  Blockly.Python.definitions_.import_struct = "import struct";
+  Blockly.Python.definitions_.import_array = "import array";
+  var value_input_list = Blockly.Python.valueToCode(block, 'input_list', Blockly.Python.ORDER_ATOMIC);
+  var code = '';
+  code += 'struct.unpack(\'f\',array.array(\'B\', '+value_input_list+'[-4:]).tostring())[0]';
+  return [code, Blockly.Python.ORDER_NONE];
+}
 Blockly.Python['sonar_config'] = function(block) {
   var value_trigger = Blockly.Python.valueToCode(block, 'trigger', Blockly.Python.ORDER_ATOMIC);
   var value_echo = Blockly.Python.valueToCode(block, 'echo', Blockly.Python.ORDER_ATOMIC);

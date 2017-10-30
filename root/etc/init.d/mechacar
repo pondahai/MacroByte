@@ -1,0 +1,11 @@
+#!/bin/sh /etc/rc.common
+
+START=90
+STOP=90
+
+start() {
+python /www/cgi-bin/monitor.py&
+}
+stop() {
+echo stop
+}

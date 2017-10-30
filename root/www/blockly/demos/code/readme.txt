@@ -30,3 +30,16 @@ httpRequest_.name == 'key' 代表xml資料下載
 2017-10-11
 原本BlocklyStorage.link()是用來上傳xml，但我把本地存檔也放在這裡
 今天把本地存檔API獨立出來： BlocklyStorage.save()
+
+2017-10-25
+Blockly數值欄位沒有支援0x語法
+今天修改blockly原始碼，加入「數字資料允許hex字串」
+python碼 數值的產生方式
+call graph如下 
+generator.js -> valueToCode -> blockToCode ...> python/math.js -> Blockly.Python['math_number'] = function(block)
+                                                                                                  ^___ 在這裡加入HEX字串判斷
+加入I2C讀寫積木																																																	
+加入參數欄位可擴展積木 "create parameter with" 修改自 "create list with
+避免終端機訊息太多拖垮網頁瀏覽器
+增加arduino資料夾擺放32u4端的firmata程式
+增加gyro積木                                                                                                 

@@ -161,6 +161,46 @@
   }
 };
     */
+		/*
+		Blockly.Blocks['message_received'] = {
+		  init: function() {
+		    this.appendDummyInput()
+		        .appendField("message_received")
+		        .appendField(new Blockly.FieldVariable("client"), "client")
+		        .appendField(new Blockly.FieldVariable("server"), "server")
+		        .appendField(new Blockly.FieldVariable("message"), "message");
+		    this.appendStatementInput("message_received")
+		        .setCheck(null);
+		    this.setColour(330);
+		    this.setTooltip('message_received');
+		    this.setHelpUrl('');
+		  }
+		};
+		Blockly.Blocks['server_send_message_to_all'] = {
+		  init: function() {
+		    this.appendValueInput("message")
+		        .setCheck(null)
+		        .appendField("server.send_message_to_all");
+		    this.setInputsInline(true);
+		    this.setPreviousStatement(true, null);
+		    this.setNextStatement(true, null);
+		    this.setColour(330);
+		    this.setTooltip('server.send_message_to_all');
+		    this.setHelpUrl('');
+		  }
+		};
+		*/
+Blockly.Blocks['mechabyte_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("mechaByte Init");
+    this.setPreviousStatement(false, null);
+    this.setNextStatement(true, null);
+    this.setColour(95);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
 Blockly.Blocks['sleep'] = {
   init: function() {
     this.appendValueInput("seconds")
@@ -176,46 +216,41 @@ Blockly.Blocks['sleep'] = {
  this.setHelpUrl("");
   }
 };
-/*
-Blockly.Blocks['message_received'] = {
+Blockly.Blocks['time()'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField("message_received")
-        .appendField(new Blockly.FieldVariable("client"), "client")
-        .appendField(new Blockly.FieldVariable("server"), "server")
-        .appendField(new Blockly.FieldVariable("message"), "message");
-    this.appendStatementInput("message_received")
-        .setCheck(null);
-    this.setColour(330);
-    this.setTooltip('message_received');
+        .appendField("time()");
+		this.setOutput(true, null);
+    this.setColour(95);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+Blockly.Blocks['thread_init'] = {
+  init: function() {        
+    this.appendValueInput("thread_funciton")
+        .setCheck(null)
+				.appendField("Thread Funciton = ");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(95);
+    this.setTooltip('Thread Init.');
     this.setHelpUrl('');
   }
 };
-Blockly.Blocks['server_send_message_to_all'] = {
+/*
+Blockly.Blocks['thread_funciton'] = {
   init: function() {
-    this.appendValueInput("message")
-        .setCheck(null)
-        .appendField("server.send_message_to_all");
-    this.setInputsInline(true);
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(330);
-    this.setTooltip('server.send_message_to_all');
+    this.appendDummyInput()
+        .appendField("thread")
+		this.appendStatementInput("thread_funciton")
+    		.setCheck(null);
+    this.setColour(95);
+    this.setTooltip('thread_funciton');
     this.setHelpUrl('');
   }
 };
 */
-Blockly.Blocks['mechabyte_init'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("mechaByte Init");
-    this.setPreviousStatement(false, null);
-    this.setNextStatement(true, null);
-    this.setColour(95);
-    this.setTooltip("");
-    this.setHelpUrl("");
-  }
-};
 /*
 Blockly.Blocks['macrobyte_init'] = {
   init: function() {
@@ -223,7 +258,7 @@ Blockly.Blocks['macrobyte_init'] = {
         .appendField("mecha Byte Init");
     this.setPreviousStatement(false, null);
     this.setNextStatement(true, null);
-    this.setColour(512);
+    this.setColour('#000000');
     this.setTooltip('mecha BYTE Init.');
     this.setHelpUrl('');
   }
@@ -253,7 +288,7 @@ Blockly.Blocks['car_init'] = {
         .appendField("as forward");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(512);
+    this.setColour('#000000');
     this.setTooltip('mechaCar Init.');
     this.setHelpUrl('');
   }
@@ -268,7 +303,7 @@ Blockly.Blocks['car_forward'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setInputsInline(true);
-    this.setColour(512);
+    this.setColour('#000000');
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -283,7 +318,7 @@ Blockly.Blocks['car_backward'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setInputsInline(true);
-    this.setColour(512);
+    this.setColour('#000000');
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -298,7 +333,7 @@ Blockly.Blocks['car_spin_left'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setInputsInline(true);
-    this.setColour(512);
+    this.setColour('#000000');
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -313,7 +348,7 @@ Blockly.Blocks['car_spin_right'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setInputsInline(true);
-    this.setColour(512);
+    this.setColour('#000000');
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -325,7 +360,7 @@ Blockly.Blocks['car_stop'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setInputsInline(true);
-    this.setColour(512);
+    this.setColour('#000000');
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -359,7 +394,7 @@ Blockly.Blocks['car_pid'] = {
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setInputsInline(false);
-    this.setColour(512);
+    this.setColour('#000000');
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -444,7 +479,7 @@ Blockly.Blocks['servo_setup'] = {
         .appendField(new Blockly.FieldDropdown([["1","14"], ["2","15"], ["3","16"], ["4","17"], ["5","4"], ["6","7"]]), "pin");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(512);
+    this.setColour('#000000');
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -462,7 +497,7 @@ Blockly.Blocks['servo_rotate'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(512);
+    this.setColour('#000000');
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -507,7 +542,7 @@ Blockly.Blocks['dc_setup'] = {
         .appendField(new Blockly.FieldDropdown([["1","13"], ["2","11"], ["3","9"], ["4","6"]]), "channel");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(512);
+    this.setColour('#000000');
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -527,7 +562,7 @@ Blockly.Blocks['dc_spin'] = {
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(512);
+    this.setColour('#000000');
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -550,13 +585,364 @@ Blockly.Blocks['i2c_write'] = {
     this.appendValueInput("addr")
         .setCheck(null)
         .appendField("addr");
-    this.appendValueInput("data")
-        .setCheck(null)
-        .appendField("data");
+//    this.appendValueInput("data")
+//        .setCheck(null)
+//        .appendField("data");
+        
+    this.appendDummyInput()
+        .appendField("data(s)");
+    this.itemCount_ = 2;
+    this.updateShape_();
+    this.setMutator(new Blockly.Mutator(['parameters_create_with_item']));
+
     this.setInputsInline(true);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(315);
+ this.setTooltip("");
+ this.setHelpUrl(""); 
+  },
+  
+  /**
+   * Create XML to represent list inputs.
+   * @return {!Element} XML storage element.
+   * @this Blockly.Block
+   */
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('items', this.itemCount_);
+    return container;
+  },
+  /**
+   * Parse XML to restore the list inputs.
+   * @param {!Element} xmlElement XML storage element.
+   * @this Blockly.Block
+   */
+  domToMutation: function(xmlElement) {
+    this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
+    this.updateShape_();
+  },
+  /**
+   * Populate the mutator's dialog with this block's components.
+   * @param {!Blockly.Workspace} workspace Mutator's workspace.
+   * @return {!Blockly.Block} Root block in mutator.
+   * @this Blockly.Block
+   */
+  decompose: function(workspace) {
+    var containerBlock = workspace.newBlock('parameters_create_with_container');
+    containerBlock.initSvg();
+    var connection = containerBlock.getInput('STACK').connection;
+    for (var i = 0; i < this.itemCount_; i++) {
+      var itemBlock = workspace.newBlock('parameters_create_with_item');
+      itemBlock.initSvg();
+      connection.connect(itemBlock.previousConnection);
+      connection = itemBlock.nextConnection;
+    }
+    return containerBlock;
+  },
+  /**
+   * Reconfigure this block based on the mutator dialog's components.
+   * @param {!Blockly.Block} containerBlock Root block in mutator.
+   * @this Blockly.Block
+   */
+  compose: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    // Count number of inputs.
+    var connections = [];
+    while (itemBlock) {
+      connections.push(itemBlock.valueConnection_);
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+    // Disconnect any children that don't belong.
+    for (var i = 0; i < this.itemCount_; i++) {
+      var connection = this.getInput('ADD' + i).connection.targetConnection;
+      if (connection && connections.indexOf(connection) == -1) {
+        connection.disconnect();
+      }
+    }
+    this.itemCount_ = connections.length;
+    this.updateShape_();
+    // Reconnect any child blocks.
+    for (var i = 0; i < this.itemCount_; i++) {
+      Blockly.Mutator.reconnect(connections[i], this, 'ADD' + i);
+    }
+  },
+  /**
+   * Store pointers to any connected child blocks.
+   * @param {!Blockly.Block} containerBlock Root block in mutator.
+   * @this Blockly.Block
+   */
+  saveConnections: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var i = 0;
+    while (itemBlock) {
+      var input = this.getInput('ADD' + i);
+      itemBlock.valueConnection_ = input && input.connection.targetConnection;
+      i++;
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+  },
+  /**
+   * Modify this block to have the correct number of inputs.
+   * @private
+   * @this Blockly.Block
+   */
+  updateShape_: function() {
+    if (this.itemCount_ && this.getInput('EMPTY')) {
+      this.removeInput('EMPTY');
+    } else if (!this.itemCount_ && !this.getInput('EMPTY')) {
+      this.appendDummyInput('EMPTY')
+          .appendField(Blockly.Msg.LISTS_CREATE_EMPTY_TITLE);
+    }
+    // Add new inputs.
+    for (var i = 0; i < this.itemCount_; i++) {
+      if (!this.getInput('ADD' + i)) {
+        var input = this.appendValueInput('ADD' + i);
+        if (i == 0) {
+          //input.appendField(MSG["PARAMETERS_CREATE_WITH_INPUT_WITH"]);
+        }
+      }
+    }
+    // Remove deleted inputs.
+    while (this.getInput('ADD' + i)) {
+      this.removeInput('ADD' + i);
+      i++;
+    }
+  }
+};
+
+
+Blockly.Blocks['parameters_create_with'] = {
+  /**
+   * Block for creating a parameter list with any number of elements of any type.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.setHelpUrl(Blockly.Msg.LISTS_CREATE_WITH_HELPURL);
+    this.setColour(Blockly.Blocks.lists.HUE);
+    this.itemCount_ = 2;
+    this.updateShape_();
+    this.setOutput(true, 'Array');
+    this.setMutator(new Blockly.Mutator(['parameters_create_with_item']));
+    this.setTooltip(Blockly.Msg.LISTS_CREATE_WITH_TOOLTIP);
+  },
+  /**
+   * Create XML to represent list inputs.
+   * @return {!Element} XML storage element.
+   * @this Blockly.Block
+   */
+  mutationToDom: function() {
+    var container = document.createElement('mutation');
+    container.setAttribute('items', this.itemCount_);
+    return container;
+  },
+  /**
+   * Parse XML to restore the list inputs.
+   * @param {!Element} xmlElement XML storage element.
+   * @this Blockly.Block
+   */
+  domToMutation: function(xmlElement) {
+    this.itemCount_ = parseInt(xmlElement.getAttribute('items'), 10);
+    this.updateShape_();
+  },
+  /**
+   * Populate the mutator's dialog with this block's components.
+   * @param {!Blockly.Workspace} workspace Mutator's workspace.
+   * @return {!Blockly.Block} Root block in mutator.
+   * @this Blockly.Block
+   */
+  decompose: function(workspace) {
+    var containerBlock = workspace.newBlock('parameters_create_with_container');
+    containerBlock.initSvg();
+    var connection = containerBlock.getInput('STACK').connection;
+    for (var i = 0; i < this.itemCount_; i++) {
+      var itemBlock = workspace.newBlock('parameters_create_with_item');
+      itemBlock.initSvg();
+      connection.connect(itemBlock.previousConnection);
+      connection = itemBlock.nextConnection;
+    }
+    return containerBlock;
+  },
+  /**
+   * Reconfigure this block based on the mutator dialog's components.
+   * @param {!Blockly.Block} containerBlock Root block in mutator.
+   * @this Blockly.Block
+   */
+  compose: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    // Count number of inputs.
+    var connections = [];
+    while (itemBlock) {
+      connections.push(itemBlock.valueConnection_);
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+    // Disconnect any children that don't belong.
+    for (var i = 0; i < this.itemCount_; i++) {
+      var connection = this.getInput('ADD' + i).connection.targetConnection;
+      if (connection && connections.indexOf(connection) == -1) {
+        connection.disconnect();
+      }
+    }
+    this.itemCount_ = connections.length;
+    this.updateShape_();
+    // Reconnect any child blocks.
+    for (var i = 0; i < this.itemCount_; i++) {
+      Blockly.Mutator.reconnect(connections[i], this, 'ADD' + i);
+    }
+  },
+  /**
+   * Store pointers to any connected child blocks.
+   * @param {!Blockly.Block} containerBlock Root block in mutator.
+   * @this Blockly.Block
+   */
+  saveConnections: function(containerBlock) {
+    var itemBlock = containerBlock.getInputTargetBlock('STACK');
+    var i = 0;
+    while (itemBlock) {
+      var input = this.getInput('ADD' + i);
+      itemBlock.valueConnection_ = input && input.connection.targetConnection;
+      i++;
+      itemBlock = itemBlock.nextConnection &&
+          itemBlock.nextConnection.targetBlock();
+    }
+  },
+  /**
+   * Modify this block to have the correct number of inputs.
+   * @private
+   * @this Blockly.Block
+   */
+  updateShape_: function() {
+    if (this.itemCount_ && this.getInput('EMPTY')) {
+      this.removeInput('EMPTY');
+    } else if (!this.itemCount_ && !this.getInput('EMPTY')) {
+      this.appendDummyInput('EMPTY')
+          .appendField(Blockly.Msg.LISTS_CREATE_EMPTY_TITLE);
+    }
+    // Add new inputs.
+    for (var i = 0; i < this.itemCount_; i++) {
+      if (!this.getInput('ADD' + i)) {
+        var input = this.appendValueInput('ADD' + i);
+        if (i == 0) {
+          input.appendField(MSG["PARAMETERS_CREATE_WITH_INPUT_WITH"]);
+        }
+      }
+    }
+    // Remove deleted inputs.
+    while (this.getInput('ADD' + i)) {
+      this.removeInput('ADD' + i);
+      i++;
+    }
+  }
+};
+Blockly.Blocks['parameters_create_with_container'] = {
+  /**
+   * Mutator block for parameter container.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.setColour(Blockly.Blocks.lists.HUE);
+    this.appendDummyInput()
+        .appendField(MSG["PARAMETERS_CREATE_WITH_CONTAINER_TITLE_ADD"]);
+    this.appendStatementInput('STACK');
+    this.setTooltip(Blockly.Msg.LISTS_CREATE_WITH_CONTAINER_TOOLTIP);
+    this.contextMenu = false;
+  }
+};
+Blockly.Blocks['parameters_create_with_item'] = {
+  /**
+   * Mutator block for adding items.
+   * @this Blockly.Block
+   */
+  init: function() {
+    this.setColour(Blockly.Blocks.lists.HUE);
+    this.appendDummyInput()
+        .appendField(Blockly.Msg.LISTS_CREATE_WITH_ITEM_TITLE);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(Blockly.Msg.LISTS_CREATE_WITH_ITEM_TOOLTIP);
+    this.contextMenu = false;
+  }
+};
+
+Blockly.Blocks['i2c_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("i2c read");
+    this.appendValueInput("addr")
+        .setCheck(null)
+        .appendField("addr");
+    this.appendValueInput("reg")
+        .setCheck(null)
+        .appendField("reg");
+    this.appendValueInput("num")
+        .setCheck(null)
+        .appendField("num");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(315);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+Blockly.Blocks['i2c_get_read_data'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("i2c get read");
+    this.appendValueInput("addr")
+        .setCheck(null)
+        .appendField("addr");
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(315);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+Blockly.Blocks['gyro_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Gyro Init. 2(SDA) 3(SCL)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour('#711c16');
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+Blockly.Blocks['gyro_read'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Gyro Read");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour('#711c16');
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+Blockly.Blocks['gyro_get_read_data'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Gyro Get Read");
+    this.setOutput(true, null);
+    this.setColour('#711c16');
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+Blockly.Blocks['convert_list_to_float'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("covert to float from");
+    this.appendValueInput("input_list")
+        .setCheck(null)
+        .appendField("input_list");
+    this.setOutput(true, null);
+    this.setColour('#711c16');
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -822,6 +1208,18 @@ Blockly.Blocks['mt7688_pinmax'] = {
   <textarea id="content_xml" class="content" wrap="off"></textarea>
 
   <xml id="toolbox" style="display: none">
+<!--
+  <category name="MacroByte" colour="#a5a55b">
+    <block type="websocket_server"></block>
+	  <block type="message_received">
+      <field name="client">client</field>
+      <field name="server">server</field>
+      <field name="message">message</field>
+    </block>
+    <block type="display_clear"></block>
+    <block type="plot"></block>
+  </category>
+  -->
   <category name="System" colour="#7BA65C">
     <block type="mechabyte_init"></block>
     <block type="sleep">
@@ -831,6 +1229,8 @@ Blockly.Blocks['mt7688_pinmax'] = {
         </shadow>
       </value>
     </block>
+    <block type="time()"></block>
+		<block type="thread_init"></block>
   </category>
   <category name="mechaCar" colour="#000000">
     <block type="car_init" colour="#000000"></block>
@@ -989,20 +1389,47 @@ Blockly.Blocks['mt7688_pinmax'] = {
     </block>
   </category>
   <category name="i2c" colour="#a65c94">
-    <block type="i2c_init">
-    </block>
+    <block type="i2c_init"></block>
     <block type="i2c_write">
       <value name="addr">
-        <shadow  type="text">
-          <field name="TEXT">0</field>
+        <shadow  type="math_number">
+          <field name="NUM">0x00</field>
         </shadow>
       </value>
       <value name="data">
-        <shadow  type="text">
-          <field name="TEXT">0</field>
+          
+      </value>
+    </block>
+    <block type="i2c_read">
+      <value name="addr">
+        <shadow  type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="reg">
+        <shadow  type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="num">
+        <shadow  type="math_number">
+          <field name="NUM">0</field>
         </shadow>
       </value>
     </block>
+    <block type="i2c_get_read_data">
+      <value name="addr">
+        <shadow  type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <category name="Gyro" colour="#711c16">
+    <block type="gyro_init"></block>
+    <block type="gyro_read"></block>
+    <block type="gyro_get_read_data"></block>
+    <block type="convert_list_to_float"></block>    
   </category>
   <category name="Sonar" colour="#815ca6">
     <block type="sonar_config">
@@ -1026,18 +1453,6 @@ Blockly.Blocks['mt7688_pinmax'] = {
     </block>
   </category>
   <sep></sep>
-<!--
-  <category name="MacroByte" colour="#a5a55b">
-    <block type="websocket_server"></block>
-	  <block type="message_received">
-      <field name="client">client</field>
-      <field name="server">server</field>
-      <field name="message">message</field>
-    </block>
-    <block type="display_clear"></block>
-    <block type="plot"></block>
-  </category>
-  -->
     <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
       <block type="controls_if"></block>
       <block type="logic_compare"></block>
@@ -1255,6 +1670,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
         <mutation items="0"></mutation>
       </block>
       <block type="lists_create_with"></block>
+      <block type="parameters_create_with"></block> 
       <block type="lists_repeat">
         <value name="NUM">
           <shadow type="math_number">
@@ -1467,6 +1883,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
       //console.log(ws);
       // Set event handlers.
       ws.onopen = function() {
+				output_clear();
         output("onOpen\n");
         wsStatus = "open";
       };
@@ -1511,11 +1928,18 @@ Blockly.Blocks['mt7688_pinmax'] = {
 
     function output(str) {
       var log = document.getElementById("log");
-      var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
-        replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
+      var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
+			if(log.innerHTML.length > 5000){
+				log.innerHTML = "";
+			}
+			//console.log(log.innerHTML.length);
        log.innerHTML = log.innerHTML + "" + escaped;
        log.scrollTop = log.scrollHeight
     }
+		function output_clear() {
+			var log = document.getElementById("log");
+			log.innerHTML = "";
+		}
 </script>
 </body>
 </html>

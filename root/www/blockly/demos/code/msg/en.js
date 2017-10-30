@@ -23,5 +23,7 @@ var MSG = {
   xmlError: "Could not load your saved file. Perhaps it was created with a different version of Blockly?",
   badXml: "Error parsing XML:\n%1\n\nSelect 'OK' to abandon your changes or 'Cancel' to further edit the XML.",
   uploadTooltip: "Upload and run script.",
-  folderTooltip: "Import script."
+  folderTooltip: "Import script.",
+	PARAMETERS_CREATE_WITH_INPUT_WITH: "create parameter with",
+	PARAMETERS_CREATE_WITH_CONTAINER_TITLE_ADD: "parameters"
 };
