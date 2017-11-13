@@ -46,6 +46,7 @@ generator.js -> valueToCode -> blockToCode ...> python/math.js -> Blockly.Python
 
 2017-11-12
 gyro感測器需要另外用mcu讀取與轉換
-改用lua作為cgi 整個上傳與反應時間大大縮短 
+改用lua作為cgi 整個上傳與反應時間大大縮短 （原本用python）
 統一cgi檔案為一個  名稱為roverLunar
 增加post-install作為執行軟體檔案更新後的後段動作 例如更改檔案屬性
+目前按下執行後5秒，終端機連通，再13秒後程式開始執行，這中間的延遲是python在7688內的反應時間
