@@ -42,4 +42,10 @@ generator.js -> valueToCode -> blockToCode ...> python/math.js -> Blockly.Python
 加入參數欄位可擴展積木 "create parameter with" 修改自 "create list with
 避免終端機訊息太多拖垮網頁瀏覽器
 增加arduino資料夾擺放32u4端的firmata程式
-增加gyro積木                                                                                                 
+增加gyro積木
+
+2017-11-12
+gyro感測器需要另外用mcu讀取與轉換
+改用lua作為cgi 整個上傳與反應時間大大縮短 
+統一cgi檔案為一個  名稱為roverLunar
+增加post-install作為執行軟體檔案更新後的後段動作 例如更改檔案屬性

@@ -102,5 +102,8 @@ for k in f.keys():
     proc = subprocess.Popen(['cp','-R','/MacroByte-master/root/www','/'],stdout=subprocess.PIPE)
     proc.wait()
     #print "{\"software_mv_folder\":\"","1","\"}"
+
+    proc = subprocess.Popen(['python','/post-install.py'],stdout=subprocess.PIPE)
+    proc.wait()
     
     print "{\"software_update\":\"1\"}"

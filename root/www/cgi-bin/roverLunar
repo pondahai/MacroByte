@@ -1,0 +1,182 @@
+#!/usr/bin/lua
+-- get_demo.lua
+require 'nixio'
+ 
+env = nixio.getenv()
+
+statusmsg = {
+ [200] = "OK",
+ [206] = "Partial Content",
+ [301] = "Moved Permanently",
+ [302] = "Found",
+ [304] = "Not Modified",
+ [400] = "Bad Request",
+ [401] = "Authorization Required",
+ [403] = "Forbidden",
+ [404] = "Not Found",
+ [405] = "Method Not Allowed",
+ [408] = "Request Time-out",
+ [411] = "Length Required",
+ [412] = "Precondition Failed",
+ [416] = "Requested range not satisfiable",
+ [500] = "Internal Server Error",
+ [503] = "Server Unavailable",
+}
+
+function exists(file)
+   local ok, err, code = os.rename(file, file)
+   if not ok then
+      if code == 13 then
+         -- Permission denied, but it exists
+         return true
+      end
+   end
+   return ok, err
+end
+
+function urldecode( str, no_plus )
+ 
+ local function __chrdec( hex )
+  return string.char( tonumber( hex, 16 ) )
+ end
+ 
+ if type(str) == "string" then
+  if not no_plus then
+   str = str:gsub( "+", " " )
+  end
+ 
+  str = str:gsub( "%%([a-fA-F0-9][a-fA-F0-9])", __chrdec )
+ end
+ 
+ return str
+end
+ 
+function urldecode_params(url, tbl)
+ 
+ local params = tbl or { }
+ 
+ if url:find("?") then
+  url = url:gsub( "^.+%?([^?]+)", "%1" )
+ end
+ 
+ for pair in url:gmatch( "[^&;]+" ) do
+ 
+  -- find key and value
+  local key = urldecode( pair:match("^([^=]+)")     )
+  local val = urldecode( pair:match("^[^=]+=(.+)$") )
+ 
+  -- store
+  if type(key) == "string" and key:len() > 0 then
+   if type(val) ~= "string" then val = "" end
+             
+   if not params[key] then
+                 
+    params[key] = val
+   elseif type(params[key]) ~= "table" then
+    params[key] = { params[key], val }
+   else               
+    table.insert( params[key], val )
+   end
+  end
+ end
+     
+ return params
+end
+
+function get_post_data(env)
+    if env == nil or env.CONTENT_LENGTH == nil or type(env.CONTENT_LENGTH) ~= "string" then      
+       return {}
+    end
+     
+    local len = tonumber(env.CONTENT_LENGTH)
+    if len == nil or len <= 0 then
+        return {}
+    end
+    return urldecode_params(io.read(len))
+end
+ 
+html1 = [[
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>GET Demo</title>
+    </head>
+    <body>
+]]
+ 
+html2 = [[
+    </body>
+</html>    
+]]
+local env = nixio.getenv()
+local post_data = get_post_data(env)
+ 
+io.write("Content-Type: text/plain\r\n\r\n")
+--io.write(html1)
+
+for k, v in pairs(post_data) do
+    --print(k .. "=" .. v .. '<br/>')
+		if k == "xml" then
+	    os.execute("cp /www/save/last /www/save/last.old")
+      file = assert(io.open('/www/save/last','w'))
+      file:write(v)
+      file:close()
+		end
+		if k == "key" then
+	    path_file_ = '/www/save/' .. v
+			path_file = string.gsub(path_file_, "n", "")
+	    if exists(path_file) then
+				file = assert(io.open(path_file,'r'))
+				print(file:read("*all"))
+				file:close()
+			end
+		end
+    if k == "pythonCode" then
+        print("python code incoming...")
+        os.execute('touch ' .. '/root' .. '/pythonCode.py')
+        file = assert(io.open('/root' .. '/pythonCode.py','w'))
+        file:write(v)
+        file:close()
+        if not exists("/sys/class/gpio/gpio3") then
+            print("gpio3 not yet setup")
+            os.execute("echo 3 > /sys/class/gpio/export")
+            os.execute("echo 'out' > /sys/class/gpio/gpio3/direction")
+        end
+        os.execute("echo 0 > /sys/class/gpio/gpio3/value")
+        os.execute("echo 1 > /sys/class/gpio/gpio3/value")
+        os.execute("pgrep -f monitor.py | xargs kill -9")
+        os.execute("pgrep -f pythonCode.py | xargs kill -9")
+        os.execute("python /www/cgi-bin/monitor.py &")
+    end
+    if k == "action" and v == "stop_stream" then
+			  os.execute('kill -9 `pgrep -f mjpg_streamer`')
+		end
+    if k == "action" and v == "start_stream" then
+	      os.execute("mjpg_streamer -i \"input_uvc.so -d /dev/video0 -r 320x240 -f 12\" -o \"output_http.so -p 8080 -w /www/webcam\" -b")
+		end
+    if k == "action" and v == "run" then
+        if not exists("/sys/class/gpio/gpio3") then
+	    print("gpio3 not yet setup")
+            os.execute("echo 3 > /sys/class/gpio/export")
+            os.execute("echo 'out' > /sys/class/gpio/gpio3/direction")
+        end
+        os.execute("echo 0 > /sys/class/gpio/gpio3/value")
+        os.execute("echo 1 > /sys/class/gpio/gpio3/value")
+        os.execute("pgrep -f monitor.py | xargs kill -9")
+        os.execute("pgrep -f pythonCode.py | xargs kill -9")
+        os.execute("python /www/cgi-bin/monitor.py &")
+    end
+    if k == "action" and v == "stop" then
+        if not exists("/sys/class/gpio/gpio3") then
+            print("gpio3 not yet setup")
+            os.execute("echo 3 > /sys/class/gpio/export")
+            os.execute("echo 'out' > /sys/class/gpio/gpio3/direction")
+        end
+        os.execute("echo 0 > /sys/class/gpio/gpio3/value")
+        os.execute("echo 1 > /sys/class/gpio/gpio3/value")
+        os.execute("pgrep -f monitor.py | xargs kill -9")
+        os.execute("pgrep -f pythonCode.py | xargs kill -9")        
+    end
+end
+--io.write(html2)

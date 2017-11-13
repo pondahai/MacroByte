@@ -606,19 +606,19 @@ Code.runJS = function() {
  */
 Code.startStream = function() {
   var workspace =  Blockly.getMainWorkspace();
-  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'start_stream', workspace);
+  BlocklyStorage.makeRequest_('/cgi-bin/roverLunar', 'action', 'start_stream', workspace);
 }
 Code.stopStream = function() {
   var workspace =  Blockly.getMainWorkspace();
-  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'stop_stream', workspace);
+  BlocklyStorage.makeRequest_('/cgi-bin/roverLunar', 'action', 'stop_stream', workspace);
 }
 Code.runProgram = function() {
   var workspace =  Blockly.getMainWorkspace();
-  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'run', workspace);
+  BlocklyStorage.makeRequest_('/cgi-bin/roverLunar', 'action', 'run', workspace);
 }
 Code.stopProgram = function() {
   var workspace =  Blockly.getMainWorkspace();
-  BlocklyStorage.makeRequest_('/cgi-bin/runPython', 'action', 'stop', workspace);
+  BlocklyStorage.makeRequest_('/cgi-bin/roverLunar', 'action', 'stop', workspace);
 }
 /**
  *   dahai 載入本地程式碼，download the last xml
@@ -661,11 +661,16 @@ function handleFileSelect(evt) {
  *   dahai 上傳程式碼，以及上傳xml
  */
 Code.uploadScript = function() {
+  var workspace =  Blockly.getMainWorkspace();
 	var code = Blockly.Python.workspaceToCode(Code.workspace);
-	Code.post('/cgi-bin/runPython', {pythonCode: code});
+	//Code.post('/cgi-bin/runPython', {pythonCode: code});
+  //Code.post('/cgi-bin/roverLunar', {pythonCode: code});
+  BlocklyStorage.makeRequest_('/cgi-bin/roverLunar', 'pythonCode', code, workspace);
+  
 	//alert(code);
   // save xml at the same time
   BlocklyStorage.link(Code.workspace);
+  //
 };
 
 /**
@@ -686,7 +691,7 @@ Code.discard = function() {
 /**
  *   dahai 上傳副程式
  */
-
+/*
 //function post(path, params, method) {
 Code.post = function(path, params, method) {
     method = method || "post"; // Set method to post by default if not specified.
@@ -716,7 +721,7 @@ Code.post = function(path, params, method) {
     document.body.appendChild(iframe);
     form.submit();
 }
-
+*/
 /**
  *
  */

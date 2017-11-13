@@ -133,7 +133,7 @@ BlocklyStorage.link = function(opt_workspace) {
   var xml = Blockly.Xml.workspaceToDom(workspace);
   var data = Blockly.Xml.domToText(xml);
 	// upload xml
-  BlocklyStorage.makeRequest_('/cgi-bin/storage', 'xml', data, workspace);
+  BlocklyStorage.makeRequest_('/cgi-bin/roverLunar', 'xml', data, workspace);
 
   // dahai
   // console.log(data);
@@ -148,7 +148,7 @@ BlocklyStorage.link = function(opt_workspace) {
  */
 BlocklyStorage.retrieveXml = function(key, opt_workspace) {
   var workspace = opt_workspace || Blockly.getMainWorkspace();
-  BlocklyStorage.makeRequest_('/cgi-bin/storage', 'key', key, workspace);
+  BlocklyStorage.makeRequest_('/cgi-bin/roverLunar', 'key', key, workspace);
 };
 
 /**
@@ -156,8 +156,9 @@ BlocklyStorage.retrieveXml = function(key, opt_workspace) {
  * @type {XMLHttpRequest}
  * @private
  */
-BlocklyStorage.httpRequest_ = null;
+BlocklyStorage.httpRequest_ = [null,null,null];
 
+BlocklyStorage.xhr_i = 0;
 /**
  * Fire a new AJAX request.
  * @param {string} url URL to fetch.
@@ -167,23 +168,91 @@ BlocklyStorage.httpRequest_ = null;
  * @private
  */
 BlocklyStorage.makeRequest_ = function(url, name, content, workspace) {
-  if (BlocklyStorage.httpRequest_) {
-    // AJAX call is in-flight.
-    BlocklyStorage.httpRequest_.abort();
+	console.log("makeRequest_:",BlocklyStorage.xhr_i,url,name,content);
+	
+	var handleRequest=function(i) {
+		return function() {
+		console.log("handleRequest:",i,BlocklyStorage.httpRequest_[i]);
+	  if (BlocklyStorage.httpRequest_[i].readyState == 4) {
+			console.log(BlocklyStorage.httpRequest_[i]);
+	    // loader
+	    document.getElementById("loader").style.display = "none";
+	    // overlay
+	    $("#overlay").hide();
+	    if (BlocklyStorage.httpRequest_[i].status != 200 ) {
+	      BlocklyStorage.alert(BlocklyStorage.HTTPREQUEST_ERROR + '\n' +
+	          'httpRequest_.status: ' + BlocklyStorage.httpRequest_[i].status);
+	    } else {
+	      var data = BlocklyStorage.httpRequest_[i].responseText.trim();
+	      if (BlocklyStorage.httpRequest_[i].name == 'xml') {
+	        window.location.hash = data;
+	        //BlocklyStorage.alert(BlocklyStorage.LINK_ALERT.replace('%1',
+	        //    window.location.href));
+	      } else if (BlocklyStorage.httpRequest_[i].name == 'key') {
+	        if (!data.length) {
+	          BlocklyStorage.alert(BlocklyStorage.HASH_ERROR.replace('%1',
+	              window.location.hash));            
+	        } else {
+	          BlocklyStorage.loadXml_(data, BlocklyStorage.httpRequest_[i].workspace);
+	        }
+					BlocklyStorage.checkVersionStringForUpdateButton();
+	      } else if (BlocklyStorage.httpRequest_[i].name == 'pythonCode') {
+	        console.log('response of \'pythonCode\':' + data + '\n');
+	      } else if (BlocklyStorage.httpRequest_[i].name == 'action') {
+	        //output(data + '\n');
+	        console.log('response of \'action\':' + data + '\n');
+	        // if resurn is version
+	        var obj = jQuery.parseJSON (data);
+	        //console.log(obj);
+	        if(typeof obj.board_version != "undefined") {
+	          //output(obj.version + '\n');
+	          document.getElementById('boardVersion').value = obj.board_version;
+						document.getElementById("version_string").innerHTML = 'v' + obj.board_version;
+	        }
+	        if(typeof obj.now_version != "undefined") {
+	          //output(obj.version + '\n');
+	          document.getElementById('currentVersion').value = obj.now_version;
+	        }
+					BlocklyStorage.checkVersionStringForUpdateButton();
+				
+	        if(typeof obj.software_update != "undefined") {
+	          if (obj.software_update == "1"){
+	          	console.log('update finish.');
+							window.setTimeout(function(){document.getElementById('check_version').click()}, 2000);
+						
+	          }
+	        }
+	      }
+	      BlocklyStorage.monitorChanges_(BlocklyStorage.httpRequest_[i].workspace);
+	    }
+	    BlocklyStorage.httpRequest_[i] = null;
+		  }
+	  }
   }
-  BlocklyStorage.httpRequest_ = new XMLHttpRequest();
-  BlocklyStorage.httpRequest_.name = name;
-  BlocklyStorage.httpRequest_.onreadystatechange =
-      BlocklyStorage.handleRequest_;
-  BlocklyStorage.httpRequest_.open('POST', url);
-  BlocklyStorage.httpRequest_.setRequestHeader('Content-Type',
-      'application/x-www-form-urlencoded');
-  BlocklyStorage.httpRequest_.send(name + '=' + encodeURIComponent(content));
-  BlocklyStorage.httpRequest_.workspace = workspace;
+	
+	
+	
+  //if (BlocklyStorage.httpRequest_[BlocklyStorage.xhr_i]) {
+  //  // AJAX call is in-flight.
+  //  BlocklyStorage.httpRequest_[BlocklyStorage.xhr_i].abort();
+  //}
+  BlocklyStorage.httpRequest_[BlocklyStorage.xhr_i] = new XMLHttpRequest();
+  BlocklyStorage.httpRequest_[BlocklyStorage.xhr_i].name = name;
+  BlocklyStorage.httpRequest_[BlocklyStorage.xhr_i].open('POST', url);
+  BlocklyStorage.httpRequest_[BlocklyStorage.xhr_i].setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+  BlocklyStorage.httpRequest_[BlocklyStorage.xhr_i].workspace = workspace;
+  BlocklyStorage.httpRequest_[BlocklyStorage.xhr_i].send(name + '=' + encodeURIComponent(content));
+  BlocklyStorage.httpRequest_[BlocklyStorage.xhr_i].onreadystatechange = handleRequest(BlocklyStorage.xhr_i);
+	
+	
   // loader
   document.getElementById("loader").style.display = "block";
   // overlay
   $("#overlay").show();
+
+	BlocklyStorage.xhr_i = BlocklyStorage.xhr_i + 1;
+	
+	
 };
 
 /**
@@ -206,31 +275,35 @@ BlocklyStorage.checkVersionStringForUpdateButton = function() {
  * Callback function for AJAX call.
  * @private
  */
-BlocklyStorage.handleRequest_ = function() {
-  if (BlocklyStorage.httpRequest_.readyState == 4) {
-		console.log(BlocklyStorage.httpRequest_);
+/*
+BlocklyStorage.handleRequest_ = function(i) {
+	console.log(i,BlocklyStorage.httpRequest_[i]);
+  if (BlocklyStorage.httpRequest_[i].readyState == 4) {
+		console.log(BlocklyStorage.httpRequest_[i]);
     // loader
     document.getElementById("loader").style.display = "none";
     // overlay
     $("#overlay").hide();
-    if (BlocklyStorage.httpRequest_.status != 200 ) {
+    if (BlocklyStorage.httpRequest_[i].status != 200 ) {
       BlocklyStorage.alert(BlocklyStorage.HTTPREQUEST_ERROR + '\n' +
-          'httpRequest_.status: ' + BlocklyStorage.httpRequest_.status);
+          'httpRequest_.status: ' + BlocklyStorage.httpRequest_[i].status);
     } else {
-      var data = BlocklyStorage.httpRequest_.responseText.trim();
-      if (BlocklyStorage.httpRequest_.name == 'xml') {
+      var data = BlocklyStorage.httpRequest_[i].responseText.trim();
+      if (BlocklyStorage.httpRequest_[i].name == 'xml') {
         window.location.hash = data;
         //BlocklyStorage.alert(BlocklyStorage.LINK_ALERT.replace('%1',
         //    window.location.href));
-      } else if (BlocklyStorage.httpRequest_.name == 'key') {
+      } else if (BlocklyStorage.httpRequest_[i].name == 'key') {
         if (!data.length) {
           BlocklyStorage.alert(BlocklyStorage.HASH_ERROR.replace('%1',
               window.location.hash));            
         } else {
-          BlocklyStorage.loadXml_(data, BlocklyStorage.httpRequest_.workspace);
+          BlocklyStorage.loadXml_(data, BlocklyStorage.httpRequest_[i].workspace);
         }
 				BlocklyStorage.checkVersionStringForUpdateButton();
-      } else if (BlocklyStorage.httpRequest_.name == 'action') {
+      } else if (BlocklyStorage.httpRequest_[i].name == 'pythonCode') {
+        console.log('response of \'pythonCode\':' + data + '\n');
+      } else if (BlocklyStorage.httpRequest_[i].name == 'action') {
         //output(data + '\n');
         console.log('response of \'action\':' + data + '\n');
         // if resurn is version
@@ -250,17 +323,17 @@ BlocklyStorage.handleRequest_ = function() {
         if(typeof obj.software_update != "undefined") {
           if (obj.software_update == "1"){
           	console.log('update finish.');
-						window.setTimeout(function(){document.getElementById('check_version').click()}, 1000);
+						window.setTimeout(function(){document.getElementById('check_version').click()}, 2000);
 						
           }
         }
       }
-      BlocklyStorage.monitorChanges_(BlocklyStorage.httpRequest_.workspace);
+      BlocklyStorage.monitorChanges_(BlocklyStorage.httpRequest_[i].workspace);
     }
-    BlocklyStorage.httpRequest_ = null;
-  }
+    BlocklyStorage.httpRequest_[i] = null;
+	}
 };
-
+*/
 /**
  * Start monitoring the workspace.  If a change is made that changes the XML,
  * clear the key from the URL.  Stop monitoring the workspace once such a
