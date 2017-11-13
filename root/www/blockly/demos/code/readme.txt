@@ -34,9 +34,9 @@ httpRequest_.name == 'key' 代表xml資料下載
 2017-10-25
 Blockly數值欄位沒有支援0x語法
 今天修改blockly原始碼，加入「數字資料允許hex字串」
-python碼 數值的產生方式
+以及python碼 數值的產生方式
 call graph如下 
-generator.js -> valueToCode -> blockToCode ...> python/math.js -> Blockly.Python['math_number'] = function(block)
+core/generator.js -> valueToCode -> blockToCode ...> python/math.js -> Blockly.Python['math_number'] = function(block)
                                                                                                   ^___ 在這裡加入HEX字串判斷
 加入I2C讀寫積木																																																	
 加入參數欄位可擴展積木 "create parameter with" 修改自 "create list with
@@ -50,3 +50,10 @@ gyro感測器需要另外用mcu讀取與轉換
 統一cgi檔案為一個  名稱為roverLunar
 增加post-install作為執行軟體檔案更新後的後段動作 例如更改檔案屬性
 目前按下執行後5秒，終端機連通，再13秒後程式開始執行，這中間的延遲是python在7688內的反應時間
+
+2017-11-13
+python加入 int float兩個函數
+修改地方分別在blockly原始碼的： 
+block/math.js 
+以及 
+generators/python/math.js

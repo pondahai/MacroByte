@@ -93,13 +93,13 @@ try:
 except:
   pass
 
-#print "processing stderr thread"
-#try:
-#  t_stderr = threading.Thread(target=stderr_process)
-#  t_stderr.daemon = True
-#  t_stderr.start()
-#except:
-#  pass
+# print "processing stderr thread"
+# try:
+#   t_stderr = threading.Thread(target=stderr_process)
+#   t_stderr.daemon = True
+#   t_stderr.start()
+# except:
+#   pass
 
 #server.send_message_to_all('python is running.\n')  
 i = 0  

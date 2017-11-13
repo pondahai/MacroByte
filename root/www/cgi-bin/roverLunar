@@ -147,6 +147,7 @@ for k, v in pairs(post_data) do
         os.execute("echo 1 > /sys/class/gpio/gpio3/value")
         os.execute("pgrep -f monitor.py | xargs kill -9")
         os.execute("pgrep -f pythonCode.py | xargs kill -9")
+        os.execute("sleep 1")
         os.execute("python /www/cgi-bin/monitor.py &")
     end
     if k == "action" and v == "stop_stream" then
@@ -157,7 +158,7 @@ for k, v in pairs(post_data) do
 		end
     if k == "action" and v == "run" then
         if not exists("/sys/class/gpio/gpio3") then
-	    print("gpio3 not yet setup")
+	          print("gpio3 not yet setup")
             os.execute("echo 3 > /sys/class/gpio/export")
             os.execute("echo 'out' > /sys/class/gpio/gpio3/direction")
         end
@@ -176,7 +177,7 @@ for k, v in pairs(post_data) do
         os.execute("echo 0 > /sys/class/gpio/gpio3/value")
         os.execute("echo 1 > /sys/class/gpio/gpio3/value")
         os.execute("pgrep -f monitor.py | xargs kill -9")
-        os.execute("pgrep -f pythonCode.py | xargs kill -9")        
+        os.execute("pgrep -f pythonCode.py | xargs kill -9")
     end
 end
 --io.write(html2)
