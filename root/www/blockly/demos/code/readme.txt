@@ -57,3 +57,5 @@ python加入 int float兩個函數
 block/math.js 
 以及 
 generators/python/math.js
+
+google blockly 有更新，在build.py 399行 HTTPConnection -> HTTPSConnection

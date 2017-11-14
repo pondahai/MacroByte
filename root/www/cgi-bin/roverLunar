@@ -147,7 +147,7 @@ for k, v in pairs(post_data) do
         os.execute("echo 1 > /sys/class/gpio/gpio3/value")
         os.execute("pgrep -f monitor.py | xargs kill -9")
         os.execute("pgrep -f pythonCode.py | xargs kill -9")
-        os.execute("sleep 1")
+        os.execute("sync")
         os.execute("python /www/cgi-bin/monitor.py &")
     end
     if k == "action" and v == "stop_stream" then
