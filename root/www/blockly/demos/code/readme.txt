@@ -59,3 +59,8 @@ block/math.js
 generators/python/math.js
 
 google blockly 有更新，在build.py 399行 HTTPConnection -> HTTPSConnection
+
+小結目前為止blockly已經客製化的項目：
+1.數值積木可以輸入0x開頭的十六進數字（例：0xff）
+2.新積木：輸入串列輸出逗點分隔字串 List->Create Parameter Lists ，功能：用來產生不定數目的函式引數（parameters）
+3.加入python專用int 與float兩函數，供字串變數轉換為數字運算用
