@@ -1113,16 +1113,6 @@ Blockly.Python['i2c_write'] = function(block) {
   code += 'board.i2c_write('+value_addr+','+elements.join(', ')+')\n';
   return code;
 };
-Blockly.Python['parameters_create_with'] = function(block) {
-  // Create a list with any number of elements of any type.
-  var elements = new Array(block.itemCount_);
-  for (var i = 0; i < block.itemCount_; i++) {
-    elements[i] = Blockly.Python.valueToCode(block, 'ADD' + i,
-        Blockly.Python.ORDER_NONE) || 'None';
-  }
-  var code = '' + elements.join(', ') + '';
-  return [code, Blockly.Python.ORDER_ATOMIC];
-};
 Blockly.Python['i2c_read'] = function(block) {
   var value_addr = Blockly.Python.valueToCode(block, 'addr', Blockly.Python.ORDER_ATOMIC);
   var value_reg = Blockly.Python.valueToCode(block, 'reg', Blockly.Python.ORDER_ATOMIC);
@@ -1188,6 +1178,26 @@ Blockly.Python['get_sonar_data'] = function(block) {
   a = Blockly.Python.provideFunction_("convert_sonar_data", ["def " + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + "(echo_pin):", "  result = board.get_sonar_data()[echo_pin]" , "  if isinstance(result[1],list):" , "    return result[1][0]" , "  else:" , "    return result[1]"]);
   return [a + "(" + value_trigger +  ")", Blockly.Python.ORDER_FUNCTION_CALL]
 };
+Blockly.Python['parameters_create_with'] = function(block) {
+  // Create a list with any number of elements of any type.
+  var elements = new Array(block.itemCount_);
+  for (var i = 0; i < block.itemCount_; i++) {
+    elements[i] = Blockly.Python.valueToCode(block, 'ADD' + i,
+        Blockly.Python.ORDER_NONE) || 'None';
+  }
+  var code = '' + elements.join(', ') + '';
+	code = code.replace(/'/gi,"");
+	code = code.replace(/"/gi,"");
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+Blockly.Python['raw_text'] = function(block) {
+  // Text value.
+  var code = Blockly.Python.quote_(block.getFieldValue('TEXT'));
+	code = code.replace(/'/gi,"");
+	code = code.replace(/"/gi,"");
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
 /*
 Blockly.Python['display_clear'] = function(block) {
   // TODO: Assemble Python into code variable.

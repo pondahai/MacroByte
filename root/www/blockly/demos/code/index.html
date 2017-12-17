@@ -975,6 +975,18 @@ Blockly.Blocks['get_sonar_data'] = {
  this.setHelpUrl("");
   }
 };
+Blockly.Blocks['raw_text'] = {
+  init: function() {
+    this.appendDummyInput()
+				.appendField(new Blockly.FieldTextInput(""), "TEXT");
+    this.setInputsInline(true);
+    this.setOutput(true, null);
+    this.setColour(120);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
 /*
 Blockly.Blocks['display_clear'] = {
   init: function() {
@@ -1589,6 +1601,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
       <block type="math_random_float"></block>
     </category>
     <category name="%{BKY_CATTEXT}" colour="%{BKY_TEXTS_HUE}">
+      <block type="raw_text"></block>
       <block type="text"></block>
       <block type="text_join"></block>
       <block type="text_append">
@@ -1929,7 +1942,7 @@ Blockly.Blocks['mt7688_pinmax'] = {
     function output(str) {
       var log = document.getElementById("log");
       var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
-			if(log.innerHTML.length > 5000){
+			if(log.innerHTML.length > 50000){
 				log.innerHTML = "";
 			}
 			//console.log(log.innerHTML.length);
