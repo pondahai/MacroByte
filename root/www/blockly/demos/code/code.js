@@ -968,6 +968,16 @@ Blockly.Python['car_pid'] = function(block) {
     return code;
   }
 };
+Blockly.Python['set_pin_mode_cb'] = function(block) {
+  var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
+  var dropdown_mode = block.getFieldValue('mode');
+  var dropdown_type = block.getFieldValue('type');
+	var value_cb_func = Blockly.Python.valueToCode(block, 'cb_func', Blockly.Python.ORDER_ATOMIC);
+	var cb_func_name = value_cb_func.replace(/\(/g,"").replace(/\)/g,"");
+  // TODO: Assemble Python into code variable.
+  var code = 'board.set_pin_mode('+value_pin+',board.'+dropdown_mode+',board.'+dropdown_type+','+cb_func_name+')\n';
+  return code;
+};
 Blockly.Python['set_pin_mode'] = function(block) {
   var value_pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
   var dropdown_mode = block.getFieldValue('mode');

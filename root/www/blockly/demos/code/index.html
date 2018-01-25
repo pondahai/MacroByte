@@ -399,6 +399,28 @@ Blockly.Blocks['car_pid'] = {
     this.setHelpUrl('');
   }
 };
+Blockly.Blocks['set_pin_mode_cb'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("make pin");
+    this.appendValueInput("pin")
+        .setCheck(null);
+        this.appendDummyInput()
+            .appendField("as a");
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldDropdown([["ANALOG","ANALOG"], ["DIGITAL","DIGITAL"]]), "type")
+        .appendField(new Blockly.FieldDropdown([["INPUT","INPUT"], ["OUTPUT","OUTPUT"], ["PWM","PWM"]]), "mode");
+    this.appendValueInput("cb_func")
+        .setCheck(null)
+				.appendField("Callback Funciton = ");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(75);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
 Blockly.Blocks['set_pin_mode'] = {
   init: function() {
     this.appendDummyInput()
@@ -1328,6 +1350,15 @@ Blockly.Blocks['mt7688_pinmax'] = {
     -->
   </category>
   <category name="GPIO" colour="#94a65c">
+    <block type="set_pin_mode_cb">
+      <value name="pin">
+        <shadow  type="math_number">
+          <field name="NUM">13</field>
+        </shadow>
+      </value>
+      <field name="mode">OUTPUT</field>
+      <field name="type">DIGITAL</field>
+    </block>
     <block type="set_pin_mode">
       <value name="pin">
         <shadow  type="math_number">
