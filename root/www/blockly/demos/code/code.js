@@ -1188,6 +1188,14 @@ Blockly.Python['get_sonar_data'] = function(block) {
   a = Blockly.Python.provideFunction_("convert_sonar_data", ["def " + Blockly.Python.FUNCTION_NAME_PLACEHOLDER_ + "(echo_pin):", "  result = board.get_sonar_data()[echo_pin]" , "  if isinstance(result[1],list):" , "    return result[1][0]" , "  else:" , "    return result[1]"]);
   return [a + "(" + value_trigger +  ")", Blockly.Python.ORDER_FUNCTION_CALL]
 };
+Blockly.Python['oled_init'] = function(block) {
+  Blockly.Python.definitions_.import_MBdisplay = "import MBdisplay";
+  // TODO: Assemble Python into code variable.
+  var code = 'MBdisplay.board = board\n';
+  code += 'MBdisplay.display_init()\n';
+  code += 'MBdisplay.display_buffer()\n';
+  return code;
+};
 Blockly.Python['parameters_create_with'] = function(block) {
   // Create a list with any number of elements of any type.
   var elements = new Array(block.itemCount_);

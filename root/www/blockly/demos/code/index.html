@@ -997,6 +997,17 @@ Blockly.Blocks['get_sonar_data'] = {
  this.setHelpUrl("");
   }
 };
+Blockly.Blocks['oled_init'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("OLED Init");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(225);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
+};
 Blockly.Blocks['raw_text'] = {
   init: function() {
     this.appendDummyInput()
@@ -1494,6 +1505,9 @@ Blockly.Blocks['mt7688_pinmax'] = {
         </shadow>
       </value>
     </block>
+  </category>
+  <category name="OLED" colour="#00005C">
+    <block type="oled_init"></block>
   </category>
   <sep></sep>
     <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
