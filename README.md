@@ -1,5 +1,5 @@
 # MacroByte 
-![pic/滑動2.JPG](pic/滑動2.JPG)
+![pic/滑動2.jpg](pic/滑動2.jpg)
 ![pic/投影片2.JPG](pic/投影片2.JPG)
 
 首先7688DUO要改名稱為「macrobyte」  
