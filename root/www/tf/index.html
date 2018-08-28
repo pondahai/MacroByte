@@ -1,0 +1,387 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Webcam Pacman</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-teal.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+  <script defer="" src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="styles.e37be8ee.css">
+</head>
+<body>
+	<div id="status">Loading mobilenet...</div>
+	
+  <div class="controller-panels" id="controller" style="display:none">
+
+    <div class="panel training-panel">
+
+      <!-- Big buttons. -->
+      <div class="panel-row big-buttons">
+        <button id="train">
+          <img width="66" height="66" src="button.e29837f8.svg">
+          <span id="train-status">TRAIN MODEL</span>
+        </button>
+        <button id="predict">
+          <img width="66" height="66" src="button.e29837f8.svg">
+          <span>PLAY</span>
+        </button>
+      </div><!-- /.panel-row -->
+
+      <div class="panel-row params-webcam-row">
+
+        <!-- Hyper params. -->
+        <div class="hyper-params">
+
+          <!-- Learning rate -->
+          <div class="dropdown">
+            <label>Learning rate</label>
+            <div class="select">
+              <select id="learningRate">
+                <option value="0.00001">0.00001</option>
+                <option selected="" value="0.0001">0.0001</option>
+                <option value="0.01">0.001</option>
+                <option value="0.03">0.003</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Batch size -->
+          <div class="dropdown">
+            <label>Batch size</label>
+            <div class="select">
+              <select id="batchSizeFraction">
+                <option value="0.05">0.05</option>
+                <option value="0.1">0.1</option>
+                <option selected="" value="0.4">0.4</option>
+                <option value="1">1</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Epochs -->
+          <div class="dropdown">
+            <label>Epochs</label>
+            <div class="select">
+              <select id="epochs">
+                <option value="10">10</option>
+                <option selected="" value="20">20</option>
+                <option value="40">40</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Hidden units -->
+          <div class="dropdown">
+            <label>Hidden units</label>
+            <div class="select">
+              <select id="dense-units">
+                <option value="10">10</option>
+                <option selected="" value="100">100</option>
+                <option value="200">200</option>
+              </select>
+            </div>
+          </div>
+
+        </div><!-- /.hyper-params -->
+
+        <div class="webcam-box-outer">
+          <div class="webcam-box-inner">
+            <video autoplay="" playsinline="" muted="" id="webcam" width="224" height="224"></video>
+          </div>
+        </div>
+
+      </div><!-- /.panel-row -->
+
+    </div><!-- /.panel -->
+
+    <div class="panel joystick-panel">
+
+      <div class="panel-row panel-row-top">
+
+        <div class="panel-cell panel-cell-left panel-cell-fill">
+          <p class="help-text">
+          Click to add the <br>
+          current camera <br>
+          view as an example <br>
+          for that control
+          </p>
+        </div><!-- ./panel-cell -->
+
+        <div class="panel-cell panel-cell-center">
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="up-thumb"></canvas>
+              </div>
+              <button class="record-button" id="up"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="up-total">0</span> examples
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+
+        <div class="panel-cell panel-cell-right panel-cell-fill">
+        </div><!-- ./panel-cell -->
+
+      </div><!-- /.panel-row -->
+      <div class="panel-row panel-row-middle">
+        <div class="panel-cell panel-cell-left">
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="left-thumb"></canvas>
+              </div>
+              <button class="record-button" id="left"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="left-total">0</span> examples
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+
+        <div class="panel-cell panel-cell-center panel-cell-fill">
+          <img height="108" width="129" src="joystick.7cdf96ba.png">
+        </div><!-- ./panel-cell -->
+
+        <div class="panel-cell panel-cell-right">
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="right-thumb"></canvas>
+              </div>
+              <button class="record-button" id="right"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="right-total">0</span> examples
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+
+      </div><!-- /.panel-row -->
+
+      <div class="panel-row panel-row-bottom">
+
+        <div class="panel-cell panel-cell-left panel-cell-fill">
+        </div><!-- ./panel-cell -->
+
+        <div class="panel-cell panel-cell-center">
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="down-thumb"></canvas>
+              </div>
+              <button class="record-button" id="down"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="down-total">0</span> examples
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+
+        <div class="panel-cell panel-cell-right panel-cell-fill">
+        </div><!-- ./panel-cell -->
+
+      </div><!-- /.panel-row -->
+
+
+    </div><!-- /.panel -->
+
+  </div><!-- /#controller -->
+	<center>
+  	<img src="http://mechacar1c3f50.local:8080/?action=stream" id="mecha-webcam" >
+			
+		<canvas id="myCanvas" style="border:1px solid #d3d3d3;" width="224" height="224">
+		</canvas>
+	</center>
+	<div id="log"></div>
+	<script src="index.js"></script>
+
+<script>
+  var options = {
+    zone: document.getElementById('zone_joystick'),
+    color: 'black'
+  };
+  var joystick;
+	var message_send='';
+  // var manager = nipplejs.create(options);
+	var ws_message_sender_timer = window.setInterval(ws_message_sender,300);
+	function ws_message_sender(){
+		if (message_send != ''){
+			ws.send(message_send);
+			message_send = '';
+		}
+	}
+  // loader
+  // document.getElementById("loader").style.display = "none";
+  
+  // manager.on('added', function (evt, nipple) {
+  //     nipple.on('start move end dir plain', function (evt) {
+  //         // DO EVERYTHING
+  //       //console.log(evt);
+  //     });
+  //     nipple.on('dir:up', function (evt) {
+  //       joystick = "KEY_UP_PRESS\n";
+  //     });
+  //     nipple.on('dir:down', function (evt) {
+  //       joystick = "KEY_DOWN_PRESS\n";
+  //     });
+  //     nipple.on('dir:left', function (evt) {
+  //       joystick = "KEY_LEFT_PRESS\n";
+  //     });
+  //     nipple.on('dir:right', function (evt) {
+  //       joystick = "KEY_RIGHT_PRESS\n";
+  //     });
+  //     nipple.on('move', function (evt,data) {
+  //       //console.log(data.distance);
+  //       if (data.distance > 10){
+  //         //ws.send(joystick);
+  //         message_send = joystick;
+  //       }else{
+  // 					message_send = '';
+  //         ws.send("\n");
+  //       }
+  //     });
+  //     nipple.on('end', function (evt,data) {
+  // 				message_send = '';
+  // 				ws.send("\n");
+  // 			});
+  // }).on('removed', function (evt, nipple) {
+  //     nipple.off('start move end dir plain');
+  // });
+	
+  var lastkey='';
+	var newkey='';
+  $(document).keydown(function (e) {
+		//console.log(e.keyCode);
+      if ($(".input:focus") && (e.keyCode === 13)) {
+        onSubmit();
+      }
+      if ($(".input:focus") && (e.keyCode === 37)) {
+	      newkey = "KEY_LEFT_PRESS\n";
+        if (lastkey != newkey) {
+	        ws.send(newkey);
+          lastkey = newkey;
+        }
+      }
+      if ($(".input:focus") && (e.keyCode === 38)) {
+	      if (lastkey != newkey) {
+  	      newkey = "KEY_UP_PRESS\n";
+  	      ws.send(newkey);
+          lastkey = newkey;
+	      }
+      }
+      if ($(".input:focus") && (e.keyCode === 39)) {
+	      if (lastkey != newkey) {
+  	      newkey = "KEY_RIGHT_PRESS\n";
+  	      ws.send(newkey);
+          lastkey = newkey;
+	      }
+      }
+      if ($(".input:focus") && (e.keyCode === 40)) {
+	      if (lastkey != newkey) {
+  	      newkey = "KEY_DOWN_PRESS\n";
+  	      ws.send(newkey);
+          lastkey = newkey;
+	      }
+      }
+   });
+   $(document).keyup(function (e) {
+     if ($(".input:focus") && (e.keyCode === 37)) {
+      newkey = "KEY_LEFT_UP\n";
+      ws.send(newkey);
+      lastkey = 0;
+     }
+     if ($(".input:focus") && (e.keyCode === 38)) {
+      newkey = "KEY_UP_UP\n";
+      ws.send(newkey);
+      lastkey = 0;
+     }
+     if ($(".input:focus") && (e.keyCode === 39)) {
+      newkey = "KEY_RIGHT_UP\n";
+      ws.send(newkey);
+      lastkey = 0;
+     }
+     if ($(".input:focus") && (e.keyCode === 40)) {
+      newkey = "KEY_DOWN_UP\n";
+      ws.send(newkey);
+      lastkey = 0;
+     }
+   });
+
+    var ws;
+    var wsStatus;
+    var wsErrorStatus;
+
+    if(ws == undefined) setInterval(wsinit, 1000);
+
+    function wsinit() {
+		if (ws != undefined) return;
+      // Connect to Web Socket
+      ws = new WebSocket("ws://"+window.location.hostname+":8008");
+			//ws = new WebSocket("ws://mechacar1c3f50.local:8008");
+      //console.log(ws);
+      // Set event handlers.
+      ws.onopen = function() {
+				output_clear();
+        output("onOpen\n");
+        wsStatus = "open";
+      };
+
+      ws.onmessage = function(e) {
+        // e.data contains received string.
+        output("onMessage: " + e.data);
+      };
+
+      ws.onclose = function() {
+        if(wsStatus != "close") output("onClose\n");
+        ws = undefined;
+        wsStatus = "close";
+      };
+
+      ws.onerror = function(e) {
+        if(wsErrorStatus != e.code) {
+          //output("onerror\n");
+          output("error: " + e.code +"\n");
+          console.log(e)
+        }
+        ws = undefined;
+        wsErrorStatus = e.code;
+      };
+
+    }
+
+    function onSubmit() {
+      var input = document.getElementById("input");
+      // You can send message to the Web Socket using ws.send.
+      newline = input.value + "\n";
+      ws.send(newline);
+      output("send: " + newline);
+      input.value = "";
+      input.focus();
+    }
+
+    function onCloseClick() {
+      ws.close();
+	    ws = undefined;
+    }
+
+    function output(str) {
+      var log = document.getElementById("log");
+      var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
+			if(log.innerHTML.length > 50000){
+				log.innerHTML = "";
+			}
+			//console.log(log.innerHTML.length);
+       log.innerHTML = log.innerHTML + "" + escaped;
+       log.scrollTop = log.scrollHeight
+    }
+		function output_clear() {
+			var log = document.getElementById("log");
+			log.innerHTML = "";
+		}
+</script>
+	
+</body>
+</html>
