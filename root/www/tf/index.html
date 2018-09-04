@@ -2,11 +2,12 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>Webcam Pacman</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-teal.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
-  <script defer="" src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
+  <!-- <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-teal.min.css"> -->
+  <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet"> -->
+  <!-- <script defer="" src="https://code.getmdl.io/1.3.0/material.min.js"></script> -->
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+	<script src="jquery-3.2.1.min.js"></script>
   <link rel="stylesheet" href="styles.e37be8ee.css">
 </head>
 <body>
@@ -87,7 +88,8 @@
 
         <div class="webcam-box-outer">
           <div class="webcam-box-inner">
-            <video autoplay="" playsinline="" muted="" id="webcam" width="224" height="224"></video>
+            <!-- <video autoplay="" playsinline="" muted="" id="webcam" width="224" height="224"></video> -->
+						<img id="webcam">
           </div>
         </div>
 
@@ -159,7 +161,9 @@
           </div>
         </div><!-- ./panel-cell -->
 
+
       </div><!-- /.panel-row -->
+
 
       <div class="panel-row panel-row-bottom">
 
@@ -186,11 +190,172 @@
       </div><!-- /.panel-row -->
 
 
+<!-- commands -->
+        <div class="panel-cell panel-cell-command1">
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="command1-thumb"></canvas>
+              </div>
+              <button class="record-button" id="command1"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="command1-total">0</span> examples for command1
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+				<div class="panel-cell panel-cell-command2">	
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="command2-thumb"></canvas>
+              </div>
+              <button class="record-button" id="command2"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="command2-total">0</span> examples for command2
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+				<div class="panel-cell panel-cell-command3">	
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="command3-thumb"></canvas>
+              </div>
+              <button class="record-button" id="command3"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="command3-total">0</span> examples for command3
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+				<div class="panel-cell panel-cell-command4">	
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="command4-thumb"></canvas>
+              </div>
+              <button class="record-button" id="command4"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="command4-total">0</span> examples for command4
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+				<div class="panel-cell panel-cell-command5">	
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="command5-thumb"></canvas>
+              </div>
+              <button class="record-button" id="command5"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="command5-total">0</span> examples for command5
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+				<div class="panel-cell panel-cell-command6">	
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="command6-thumb"></canvas>
+              </div>
+              <button class="record-button" id="command6"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="command6-total">0</span> examples for command6
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+				<div class="panel-cell panel-cell-command7">	
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="command7-thumb"></canvas>
+              </div>
+              <button class="record-button" id="command7"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="command7-total">0</span> examples for command7
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+				<div class="panel-cell panel-cell-command8">	
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="command8-thumb"></canvas>
+              </div>
+              <button class="record-button" id="command8"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="command8-total">0</span> examples for command8
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+				<div class="panel-cell panel-cell-command9">	
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="command9-thumb"></canvas>
+              </div>
+              <button class="record-button" id="command9"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="command9-total">0</span> examples for command9
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+				<div class="panel-cell panel-cell-command10">	
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="command10-thumb"></canvas>
+              </div>
+              <button class="record-button" id="command10"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="command10-total">0</span> examples for command10
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+				<div class="panel-cell panel-cell-command11">	
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="command11-thumb"></canvas>
+              </div>
+              <button class="record-button" id="command11"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="command11-total">0</span> examples for command11
+            </p>
+          </div>
+        </div><!-- ./panel-cell -->
+				<div class="panel-cell panel-cell-command12">	
+          <div class="thumb-box">
+            <div class="thumb-box-outer">
+              <div class="thumb-box-inner">
+                <canvas class="thumb" width="224" height="224" id="command12-thumb"></canvas>
+              </div>
+              <button class="record-button" id="command12"><span>Add Sample</span></button>
+            </div>
+            <p>
+              <span id="command12-total">0</span> examples for command12
+            </p>
+          </div>
+				</div><!-- ./panel-cell -->
+
+
+
     </div><!-- /.panel -->
 
+			
   </div><!-- /#controller -->
 	<center>
-  	<img src="http://mechacar1c3f50.local:8080/?action=stream" id="mecha-webcam" >
+  	<!-- <img src= id="mecha-webcam" > -->
 			
 		<canvas id="myCanvas" style="border:1px solid #d3d3d3;" width="224" height="224">
 		</canvas>

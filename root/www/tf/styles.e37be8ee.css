@@ -235,7 +235,7 @@ header b {
   width: 100%;
 }
 .dropdown .select::after {
-  content: "arrow_drop_down";
+  content: "";
   color: #999;
   font-family: 'Material Icons';
   font-weight: normal;
@@ -297,7 +297,19 @@ header b {
 [data-active="up"] .panel-row-top .thumb-box-outer,
 [data-active="down"] .panel-row-bottom .thumb-box-outer,
 [data-active="left"] .panel-cell-left .thumb-box-outer,
-[data-active="right"] .panel-cell-right .thumb-box-outer {
+[data-active="right"] .panel-cell-right .thumb-box-outer,
+[data-active="command1"] .panel-cell-command1 .thumb-box-outer,
+[data-active="command2"] .panel-cell-command2 .thumb-box-outer,
+[data-active="command3"] .panel-cell-command3 .thumb-box-outer,
+[data-active="command4"] .panel-cell-command4 .thumb-box-outer,
+[data-active="command5"] .panel-cell-command5 .thumb-box-outer,
+[data-active="command6"] .panel-cell-command6 .thumb-box-outer,
+[data-active="command7"] .panel-cell-command7 .thumb-box-outer, 
+[data-active="command8"] .panel-cell-command8 .thumb-box-outer, 
+[data-active="command9"] .panel-cell-command9 .thumb-box-outer, 
+[data-active="command10"] .panel-cell-command10 .thumb-box-outer, 
+[data-active="command11"] .panel-cell-command11 .thumb-box-outer, 
+[data-active="command12"] .panel-cell-command12 .thumb-box-outer {
   box-shadow: 0 0 4px 4px #ffaa00;
 }
 .thumb-box-inner {

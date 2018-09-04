@@ -36006,8 +36006,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CONTROLS = ['up', 'down', 'left', 'right'];
-var CONTROL_CODES = [38, 40, 37, 39];
+var CONTROLS = ['up', 'down', 'left', 'right', 'command1', 'command2', 'command3', 'command4', 'command5', 'command6', 'command7', 'command8', 'command9', 'command10', 'command11', 'command12'];
+// var CONTROL_CODES = [38, 40, 37, 39];
 
 function init() {
   document.getElementById('controller').style.display = '';
@@ -36120,6 +36120,42 @@ function predictClass(classId) {
 		pressDown.target = $(document);
 		$(document).trigger(pressDown);
 	}
+  if (CONTROLS[classId] == "command1"){
+    ws.send("command1\n");
+  }
+  if (CONTROLS[classId] == "command2"){
+    ws.send("command2\n");
+  }
+  if (CONTROLS[classId] == "command3"){
+    ws.send("command3\n");
+  }
+  if (CONTROLS[classId] == "command4"){
+    ws.send("command4\n");
+  }
+  if (CONTROLS[classId] == "command5"){
+    ws.send("command5\n");
+  }
+  if (CONTROLS[classId] == "command6"){
+    ws.send("command6\n");
+  }
+  if (CONTROLS[classId] == "command7"){
+    ws.send("command7\n");
+  }
+  if (CONTROLS[classId] == "command8"){
+    ws.send("command8\n");
+  }
+  if (CONTROLS[classId] == "command9"){
+    ws.send("command9\n");
+  }
+  if (CONTROLS[classId] == "command10"){
+    ws.send("command10\n");
+  }
+  if (CONTROLS[classId] == "command11"){
+    ws.send("command11\n");
+  }
+  if (CONTROLS[classId] == "command12"){
+    ws.send("command12\n");
+  }
   document.body.setAttribute('data-active', CONTROLS[classId]);
 }
 
@@ -36138,12 +36174,24 @@ function setExampleHandler(handler) {
   exports.addExampleHandler = addExampleHandler = handler;
 }
 var mouseDown = false;
-var totals = [0, 0, 0, 0];
+var totals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 var upButton = document.getElementById('up');
 var downButton = document.getElementById('down');
 var leftButton = document.getElementById('left');
 var rightButton = document.getElementById('right');
+var command1Button = document.getElementById('command1');
+var command2Button = document.getElementById('command2');
+var command3Button = document.getElementById('command3');
+var command4Button = document.getElementById('command4');
+var command5Button = document.getElementById('command5');
+var command6Button = document.getElementById('command6');
+var command7Button = document.getElementById('command7');
+var command8Button = document.getElementById('command8');
+var command9Button = document.getElementById('command9');
+var command10Button = document.getElementById('command10');
+var command11Button = document.getElementById('command11');
+var command12Button = document.getElementById('command12');
 
 var thumbDisplayed = {};
 
@@ -36172,6 +36220,90 @@ rightButton.addEventListener('mousedown', function () {
   return handler(3);
 });
 rightButton.addEventListener('mouseup', function () {
+  return mouseDown = false;
+});
+
+command1Button.addEventListener('mousedown', function () {
+  return handler(4);
+});
+command1Button.addEventListener('mouseup', function () {
+  return mouseDown = false;
+});
+
+command2Button.addEventListener('mousedown', function () {
+  return handler(5);
+});
+command2Button.addEventListener('mouseup', function () {
+  return mouseDown = false;
+});
+
+command3Button.addEventListener('mousedown', function () {
+  return handler(6);
+});
+command3Button.addEventListener('mouseup', function () {
+  return mouseDown = false;
+});
+
+command4Button.addEventListener('mousedown', function () {
+  return handler(7);
+});
+command4Button.addEventListener('mouseup', function () {
+  return mouseDown = false;
+});
+
+command5Button.addEventListener('mousedown', function () {
+  return handler(8);
+});
+command5Button.addEventListener('mouseup', function () {
+  return mouseDown = false;
+});
+
+command6Button.addEventListener('mousedown', function () {
+  return handler(9);
+});
+command6Button.addEventListener('mouseup', function () {
+  return mouseDown = false;
+});
+
+command7Button.addEventListener('mousedown', function () {
+  return handler(10);
+});
+command7Button.addEventListener('mouseup', function () {
+  return mouseDown = false;
+});
+
+command8Button.addEventListener('mousedown', function () {
+  return handler(11);
+});
+command8Button.addEventListener('mouseup', function () {
+  return mouseDown = false;
+});
+
+command9Button.addEventListener('mousedown', function () {
+  return handler(12);
+});
+command9Button.addEventListener('mouseup', function () {
+  return mouseDown = false;
+});
+
+command10Button.addEventListener('mousedown', function () {
+  return handler(13);
+});
+command10Button.addEventListener('mouseup', function () {
+  return mouseDown = false;
+});
+
+command11Button.addEventListener('mousedown', function () {
+  return handler(14);
+});
+command11Button.addEventListener('mouseup', function () {
+  return mouseDown = false;
+});
+
+command12Button.addEventListener('mousedown', function () {
+  return handler(15);
+});
+command12Button.addEventListener('mouseup', function () {
   return mouseDown = false;
 });
 
@@ -36245,6 +36377,9 @@ var Webcam = exports.Webcam = function () {
     (0, _classCallCheck3.default)(this, Webcam);
 
     this.webcamElement = webcamElement;
+    
+    var webcam = document.getElementById("webcam");
+    webcam.src = "http://"+window.location.hostname+":8080/?action=stream";
   }
 
   /**
@@ -36265,8 +36400,8 @@ var Webcam = exports.Webcam = function () {
 				//var img = document.getElementById('mecha-webcam');
 				
 				var img = new Image();
-				img.src = "http://mechacar1c3f50.local:8080/?action=snapshotGET";
-				
+        // img.src = "http://mechacar1c3f50.local:8080/?action=snapshotGET";
+				img.src = "http://"+window.location.hostname+":8080/?action=snapshotGET";
 				img.setAttribute('crossOrigin', 'anonymous');
 				img.crossOrigin = "anonymous";
 				var canvas = document.getElementById("myCanvas");
@@ -36716,7 +36851,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // The number of classes we want to predict. In this example, we will be
 // predicting 4 classes for up, down, left, and right.
-var NUM_CLASSES = 4;
+// var NUM_CLASSES = 4;
+var NUM_CLASSES = 16;
 
 // A webcam class that generates Tensors from the images from the webcam.
 var webcam = new _webcam.Webcam(document.getElementById('webcam'));
