@@ -120,14 +120,6 @@ unsigned int i2cReadDelayTime = 0;
 
 boolean isResetting = false;
 
-/* for gyro sensor calculation */
-double AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ; //These will be the raw data from the MPU6050.
-uint32_t timer; //it's a timer, saved as a big-ass unsigned int.  We use it to save times from the "micros()" command and subtract the present time in microseconds from the time stored in timer to calculate the time for each loop.
-double compAngleX, compAngleY, compAngleZ; //These are the angles in the complementary filter
-#define degconvert 57.2957786 //there are like 57 degrees in a radian.
-
-/* for gyro sensor */
-//boolean isGyroEnabled = false;
 
 /* utility functions */
 void wireWrite(byte data)
@@ -148,7 +140,6 @@ byte wireRead(void)
 #endif
 }
 
-#define MAX_SERVOS 13
 
 // Servos
 Servo servos[MAX_SERVOS];
@@ -261,20 +252,7 @@ void readAndReportData(byte address, int theRegister, byte numBytes, byte stopTX
   // send slave address, register and received bytes
   Firmata.sendSysex(SYSEX_I2C_REPLY, numBytes + 2, i2cRxData);
 }
-// for gyro sensor
-void reportGyroAngle()
-{
-  //String strAngleZ = String(compAngleZ,3);
-  //byte numBytes = strAngleZ.length();
-  byte numBytes = sizeof(compAngleZ);
-  i2cRxData[0] = 0x68;
-  i2cRxData[1] = 0x3b;
-//  for (int i = 0; i < numBytes; i++) {
-//    ;
-//  }
-  memcpy(i2cRxData+2,&compAngleZ,numBytes);
-  Firmata.sendSysex(SYSEX_I2C_REPLY, numBytes + 2, i2cRxData);
-}
+
 void outputPort(byte portNumber, byte portValue, byte forceSend)
 {
   // pins not configured as INPUT are cleared to zeros
@@ -600,15 +578,7 @@ void sysexCallback(byte command, byte argc, byte *argv)
             data = argv[2] + (argv[3] << 7);  // bytes to read
             //readAndReportData(slaveAddress, (int)REGISTER_NOT_SPECIFIED, data);
           }
-          // for gyro sensor
-//          if (slaveAddress == 0x68 && slaveRegister == 0x3b && data == 14){
-//            if(!isGyroEnabled) {
-//              enableGyroPins();
-//            }
-//            reportGyroAngle();
-//          }else{
-            readAndReportData(slaveAddress, (int)slaveRegister, data, stopTX);
-//          }
+          readAndReportData(slaveAddress, (int)slaveRegister, data, stopTX);
           break;
         case I2C_READ_CONTINUOUSLY:
           if ((queryIndex + 1) >= I2C_MAX_QUERIES) {
@@ -902,20 +872,6 @@ void sysexCallback(byte command, byte argc, byte *argv)
   }
 }
 
-//void enableGyroPins()
-//{
-//  if (!isI2CEnabled) {
-//    enableI2CPins();
-//  }
-//  // for gyro sensor
-////  Wire.begin();
-//  Wire.beginTransmission(0x68);
-//  Wire.write(0x6B);  // PWR_MGMT_1 register
-//  Wire.write(0);     // set to zero (wakes up the MPU-6050)
-//  Wire.endTransmission(true);
-//
-//  isGyroEnabled = true;
-//}
 void enableI2CPins()
 {
   byte i;
@@ -932,7 +888,6 @@ void enableI2CPins()
 
   // is there enough time before the first I2C request to call this here?
   Wire.begin();
-
 }
 
 /* disable the i2c pins so they can be used for other functions */
@@ -1031,17 +986,11 @@ void setup()
    Serial1.begin(57600);
    Firmata.begin(Serial1);
   // However do not do this if you are using SERIAL_MESSAGE
-//  Serial.begin(9600);
-//  while (!Serial) {
-//    ; // wait for serial port to connect. Needed for ATmega32u4-based boards and Arduino 101
-//  }
-//  Serial.println(MAX_SERVOS);
-  
+
 //  Firmata.begin(57600);
 //  while (!Serial) {
 //    ; // wait for serial port to connect. Needed for ATmega32u4-based boards and Arduino 101
 //  }
-  //
 
   systemResetCallback();  // reset to default config
 }
@@ -1064,29 +1013,6 @@ void loop()
     Firmata.processInput();
 
   // TODO - ensure that Stream buffer doesn't go over 60 bytes
-
-// calculate gyro as soon as possible 
-// if(isGyroEnabled ) {
-//  double dt = (double)(micros() - timer) / 1000; //This line does three things: 1) stops the timer, 2)converts the timer's output to seconds from microseconds, 3)casts the value as a double saved to "dt".
-//  timer = micros(); //start the timer again so that we can calculate the next dt.
-//  Wire.beginTransmission(0x68);
-//  Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
-//  Wire.endTransmission(false);
-//  Wire.requestFrom(0x68,14,true);  // request a total of 14 registers
-//  AcX=Wire.read()<<8|Wire.read();  // 0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)     
-//  AcY=Wire.read()<<8|Wire.read();  // 0x3D (ACCEL_YOUT_H) & 0x3E (ACCEL_YOUT_L)
-//  AcZ=Wire.read()<<8|Wire.read();  // 0x3F (ACCEL_ZOUT_H) & 0x40 (ACCEL_ZOUT_L)
-//  Tmp=Wire.read()<<8|Wire.read();  // 0x41 (TEMP_OUT_H) & 0x42 (TEMP_OUT_L)
-//  GyX=Wire.read()<<8|Wire.read();  // 0x43 (GYRO_XOUT_H) & 0x44 (GYRO_XOUT_L)
-//  GyY=Wire.read()<<8|Wire.read();  // 0x45 (GYRO_YOUT_H) & 0x46 (GYRO_YOUT_L)
-//  GyZ=Wire.read()<<8|Wire.read();  // 0x47 (GYRO_ZOUT_H) & 0x48 (GYRO_ZOUT_L)
-////Serial.println(dt*1000);
-//  if (GyZ != 0 && GyZ != -1) {
-//   double gyroZrate = GyZ/131072;
-//   compAngleZ =  (compAngleZ + gyroZrate * dt) ;
-//   //Serial.print(compAngleZ);Serial.print("\n");
-//  }
-// }   
 
   currentMillis = millis();
   if (currentMillis - previousMillis > samplingInterval) {
@@ -1134,7 +1060,6 @@ void loop()
       }
     }
 
-    
     if( keepAliveInterval ) {
        currentMillis = millis();
        if (currentMillis - previousKeepAliveMillis > keepAliveInterval*1000) {
@@ -1161,6 +1086,5 @@ void printData(char * id,  long data)
   Firmata.sendString(id) ;
   Firmata.sendString(myArray);
 }
-
 
 
